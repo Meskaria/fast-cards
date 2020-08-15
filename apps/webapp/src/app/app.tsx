@@ -1,3 +1,4 @@
+import 'antd/dist/antd.css';
 import React from 'react';
 import styled, { ThemeProvider } from '@xstyled/styled-components';
 import GlobalStyles from './globalStyles';

@@ -33,6 +33,7 @@
     "@reduxjs/toolkit": "1.4.0",
     "@types/react-redux": "7.1.9",
     "@xstyled/styled-components": "^1.18.0",
+    "antd": "^4.5.4",
     "document-register-element": "1.13.1",
     "next": "9.3.3",
     "react": "16.13.1",
