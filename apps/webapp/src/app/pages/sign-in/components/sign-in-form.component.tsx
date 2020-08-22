@@ -18,7 +18,6 @@ export const SignInForm: React.FC<Props> = () => {
             pattern: new RegExp(
               /^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$/
             ),
-            required: true,
             message: 'Invalid email format',
           },
         ]}
@@ -37,13 +36,11 @@ export const SignInForm: React.FC<Props> = () => {
           {
             min: 8,
             type: 'string',
-            required: true,
             message: 'Needs to have at least 8 characters',
           },
           {
             max: 16,
             type: 'string',
-            required: true,
             message: 'Password too long',
           },
         ]}

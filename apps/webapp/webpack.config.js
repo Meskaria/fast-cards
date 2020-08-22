@@ -15,7 +15,7 @@ const addLessConfig = (rules) => {
                 '@info-color': '#ba80a3',
                 '@error-color': '#ff4757',
                 '@disabled-color': '#788995',
-                '@font-family': 'Roboto, sans-serif',
+                '@font-family': "'Open Sans', sans-serif",
                 '@border-radius-base': '3px',
                 '@heading-color': '#0d1a26',
                 '@text-color': '#0d1a26',

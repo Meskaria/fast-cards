@@ -19,20 +19,39 @@ export const Card = styled.div`
 `;
 
 export const FormContainer = styled.div`
-  width: 40%;
   height: 100%;
+  flex: 0 0 50%;
   padding: 7;
+  text-align: center;
+  color: text.lighter;
 
-  .google-login {
-    width: 100% !important;
+  & > .ant-typography {
+    margin-top: 7;
   }
 `;
 export const MarketingContainer = styled.div`
-  width: 60%;
+  flex: 1;
   height: 100%;
   background-position: center;
   background-size: cover;
   background-image: url(${ScottWeb});
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+
+  &:before {
+    content: '';
+    display: block;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background: rgb(9, 9, 121);
+    background: linear-gradient(
+      180deg,
+      rgba(9, 9, 121, 0) 20%,
+      rgba(0, 0, 0, 1) 100%
+    );
+  }
 `;
 export const Header = styled.header`
   text-align: center;

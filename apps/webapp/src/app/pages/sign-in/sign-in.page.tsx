@@ -9,7 +9,7 @@ import {
 } from './sign-in.styled';
 import { SignInForm } from './components/sign-in-form.component';
 import { Link } from 'react-router-dom';
-import { Button, Divider } from 'antd';
+import { Typography, Divider } from 'antd';
 
 interface Props {}
 
@@ -22,11 +22,16 @@ export const SignInPage: React.FC<Props> = () => {
       <Card>
         <FormContainer>
           <Header>
-            <h2>Fast Cards</h2>
-            <p>Create an account</p>
+            <Typography.Title level={3}>Fast Cards</Typography.Title>
+            <Typography.Paragraph>Create an account</Typography.Paragraph>
           </Header>
+          <Divider />
+
+          <SignInForm />
+          <Divider />
           <GoogleLogin
             className={'google-login'}
+            theme={'dark'}
             // TODO pass from env variables - It's public key.
             clientId="224058172199-iphpccc4fbs72pefeh2lmqalm70e98mi.apps.googleusercontent.com"
             buttonText="Sign in with Google"
@@ -34,11 +39,13 @@ export const SignInPage: React.FC<Props> = () => {
             onFailure={responseGoogle}
             cookiePolicy={'single_host_origin'}
           />
-          <Divider />
-          <SignInForm />
-          Don't have an account? <Link to={'/sign-up'}>Register</Link>
+          <Typography.Paragraph type={'secondary'}>
+            Don't have an account? <Link to={'/sign-up'}>Register</Link>
+          </Typography.Paragraph>
         </FormContainer>
-        <MarketingContainer />
+        <MarketingContainer>
+          {/* [copy] TODO add some marketing text*/}
+        </MarketingContainer>
       </Card>
     </Page>
   );
