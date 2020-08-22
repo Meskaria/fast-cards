@@ -23,13 +23,17 @@
     "update": "nx migrate latest",
     "workspace-schematic": "nx workspace-schematic",
     "dep-graph": "nx dep-graph",
-    "help": "nx help"
+    "help": "nx help",
+    "db": "docker run -p 5432:5432 --env POSTGRES_PASSWORD=fast-cards --name postgres -d postgres",
+    "prisma:save": "npx prisma migrate save --name init --experimental",
+    "prisma:migrate": "npx prisma migrate up --experimental"
   },
   "private": true,
   "dependencies": {
     "@nestjs/common": "^7.0.0",
     "@nestjs/core": "^7.0.0",
     "@nestjs/platform-express": "^7.0.0",
+    "@prisma/client": "^2.5.1",
     "@reduxjs/toolkit": "1.4.0",
     "@types/react-redux": "7.1.9",
     "@xstyled/styled-components": "^1.18.0",
@@ -63,6 +67,7 @@
     "@nrwl/storybook": "^10.0.8",
     "@nrwl/web": "10.0.8",
     "@nrwl/workspace": "10.0.8",
+    "@prisma/cli": "^2.5.1",
     "@storybook/addon-knobs": "5.3.9",
     "@storybook/react": "5.3.9",
     "@testing-library/react": "10.4.1",

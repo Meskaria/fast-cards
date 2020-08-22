@@ -2247,6 +2247,18 @@
     consola "^2.3.0"
     node-fetch "^2.3.0"
 
+"@prisma/cli@^2.5.1":
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/@prisma/cli/-/cli-2.5.1.tgz#fef4da2ed1b7f032b3a9bcce97d0a119b148ceb1"
+  integrity sha512-cu7YiskmiXZ6FXNf/8gfkzB10AjoHiCIHUgBOPNnS6lXJPU1Krh6TQOEXH6tNTB19XeUXO7KetTcqKGW48IkMQ==
+
+"@prisma/client@^2.5.1":
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/@prisma/client/-/client-2.5.1.tgz#90285afad8f309ee0bf8e063543ae65546cb0725"
+  integrity sha512-vIyh6kyNNC7daePZRkrsxTF/xa8uA0bFpR4E9agyknzylGYFJqnjZCMTwtkXz64Vnlc55dMTCONNe/AFJ0UusQ==
+  dependencies:
+    pkg-up "^3.1.0"
+
 "@reach/router@^1.2.1":
   version "1.3.4"
   resolved "https://registry.yarnpkg.com/@reach/router/-/router-1.3.4.tgz#d2574b19370a70c80480ed91f3da840136d10f8c"
@@ -12559,7 +12571,7 @@ pkg-up@2.0.0:
   dependencies:
     find-up "^2.1.0"
 
-pkg-up@^3.0.1:
+pkg-up@^3.0.1, pkg-up@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/pkg-up/-/pkg-up-3.1.0.tgz#100ec235cc150e4fd42519412596a28512a0def5"
   integrity sha512-nDywThFk1i4BQK4twPQ6TA4RT8bDY96yeuCVBWL3ePARCiEKDRSrNGbFIgUJpLp+XeIR65v8ra7WuJOFUBtkMA==
