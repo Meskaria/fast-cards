@@ -36,5 +36,5 @@ export const MarketingContainer = styled.div`
 `;
 export const Header = styled.header`
   text-align: center;
-  margin-bottom: 8;
+  margin-bottom: 6;
 `;

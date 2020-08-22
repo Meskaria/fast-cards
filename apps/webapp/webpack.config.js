@@ -10,9 +10,9 @@ const addLessConfig = (rules) => {
             options: {
               ...use.options,
               modifyVars: {
-                '@primary-color': '#05f',
+                '@primary-color': '#ba80a3',
                 '@success-color': '#2ed573',
-                '@info-color': '#05f',
+                '@info-color': '#ba80a3',
                 '@error-color': '#ff4757',
                 '@disabled-color': '#788995',
                 '@font-family': 'Roboto, sans-serif',
@@ -42,7 +42,7 @@ const addLessConfig = (rules) => {
                 '@input-height-base': '50px',
                 '@input-height-lg': '40px',
                 '@input-height-sm': '40px',
-                '@input-hover-border-color': '#05f',
+                '@input-hover-border-color': '#ba80a3',
                 '@form-vertical-label-padding': '0',
                 '@form-item-margin-bottom': '12px',
                 '@label-color': '#6b7790',
