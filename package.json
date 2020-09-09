@@ -42,6 +42,7 @@
     "next": "9.3.3",
     "react": "16.13.1",
     "react-dom": "16.13.1",
+    "react-google-login": "^5.1.21",
     "react-is": "16.13.1",
     "react-redux": "7.2.0",
     "react-router-dom": "5.2.0",
