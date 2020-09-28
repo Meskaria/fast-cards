@@ -1,3 +1,4 @@
 # Prisma Migrate lockfile v1
 
-20200822164213-init
+20200927142546-initial-structure
+20200927185435-add-is-deleted-to-user-model

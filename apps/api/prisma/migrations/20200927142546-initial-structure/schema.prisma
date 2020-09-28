@@ -3,7 +3,7 @@
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = "***"
   password = env("DATABASE_PASS")
   user     = "postgres"
 }
@@ -24,10 +24,10 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   email     String   @unique
+  name      String?
+  surname   String?
+  country   String?
   password  String
-  name      String
-  surname   String
-  isDeleted Boolean   @default(false)
   access    AccessRight
   languages UserOnLanguageOnProficiency[]
   profile   Profile?
