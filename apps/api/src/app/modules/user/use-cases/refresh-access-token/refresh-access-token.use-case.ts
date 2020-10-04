@@ -9,14 +9,18 @@ import { UserRepository } from 'apps/api/src/app/modules/user/repos/user.reposit
 import { AuthService } from 'apps/api/src/app/modules/user/services/auth/auth.service';
 import { Injectable } from '@nestjs/common';
 
-type Response = Either<RefreshAccessTokenErrors.RefreshTokenNotFound |
-  AppError.UnexpectedError,
-  Result<JWTToken>>
+type Response = Either<
+  RefreshAccessTokenErrors.RefreshTokenNotFound | AppError.UnexpectedError,
+  Result<JWTToken>
+>;
 
 @Injectable()
-export class RefreshAccessTokenUseCase implements UseCase<RefreshAccessTokenDto, Promise<Response>> {
-  constructor(private userRepo: UserRepository, private authService: AuthService) {
-  }
+export class RefreshAccessTokenUseCase
+  implements UseCase<RefreshAccessTokenDto, Promise<Response>> {
+  constructor(
+    private userRepo: UserRepository,
+    private authService: AuthService
+  ) {}
 
   public async execute(req: RefreshAccessTokenDto): Promise<Response> {
     const { refreshToken } = req;
@@ -26,11 +30,12 @@ export class RefreshAccessTokenUseCase implements UseCase<RefreshAccessTokenDto,
     try {
       // Get the username for the user that owns the refresh token
       try {
-        username = await this.authService.getUserEmailFromRefreshToken(refreshToken);
+        username = await this.authService.getUserEmailFromRefreshToken(
+          refreshToken
+        );
       } catch (err) {
         return left(new RefreshAccessTokenErrors.RefreshTokenNotFound());
       }
-
 
       try {
         // get the user by username
@@ -53,7 +58,6 @@ export class RefreshAccessTokenUseCase implements UseCase<RefreshAccessTokenDto,
 
       // return the new access token
       return right(Result.ok<JWTToken>(accessToken));
-
     } catch (err) {
       return left(new AppError.UnexpectedError(err));
     }

@@ -2,7 +2,10 @@ import { Provider } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import IORedis, { Redis } from 'ioredis';
 
-import { REDIS_PUBLISHER_CLIENT, REDIS_SUBSCRIBER_CLIENT } from './redis.constants';
+import {
+  REDIS_PUBLISHER_CLIENT,
+  REDIS_SUBSCRIBER_CLIENT,
+} from './redis.constants';
 
 export const redisProviders: Provider[] = [
   {
@@ -16,11 +19,12 @@ export const redisProviders: Provider[] = [
     inject: [ConfigService],
   },
   {
-    useFactory: (configService: ConfigService): Redis => new IORedis({
-      host: configService.get('REDIS_HOST'),
-      port: configService.get('REDIS_PORT'),
-      password: configService.get('REDIS_PASSWORD'),
-    }),
+    useFactory: (configService: ConfigService): Redis =>
+      new IORedis({
+        host: configService.get('REDIS_HOST'),
+        port: configService.get('REDIS_PORT'),
+        password: configService.get('REDIS_PASSWORD'),
+      }),
     provide: REDIS_PUBLISHER_CLIENT,
     inject: [ConfigService],
   },

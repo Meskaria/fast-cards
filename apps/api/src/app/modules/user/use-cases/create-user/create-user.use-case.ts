@@ -12,23 +12,26 @@ import { CreateUserErrors } from './create-user.errors';
 import { UserRepository } from '../../repos/user.repository';
 
 export type Response = Either<
-  CreateUserErrors.EmailAlreadyExistsError |
-  AppError.UnexpectedError,
+  CreateUserErrors.EmailAlreadyExistsError | AppError.UnexpectedError,
   Result<User>
-  >
+>;
 
 @Injectable()
-export class CreateUserUseCase implements UseCase<CreateUserDto, Promise<Response>> {
+export class CreateUserUseCase
+  implements UseCase<CreateUserDto, Promise<Response>> {
   constructor(private userRepo: UserRepository) {}
 
-  async execute(request?: CreateUserDto): Promise<Response>{
+  async execute(request?: CreateUserDto): Promise<Response> {
     const emailOrError = UserEmail.create(request.email);
     const passwordOrError = UserPassword.create({ value: request.password });
     const nameOrError = UserName.create({ name: request.name });
     const surnameOrError = UserSurname.create({ surname: request.surname });
 
     const dtoResult = Result.combine([
-      emailOrError, passwordOrError, nameOrError, surnameOrError
+      emailOrError,
+      passwordOrError,
+      nameOrError,
+      surnameOrError,
     ]);
 
     if (dtoResult.isFailure) {
@@ -45,17 +48,21 @@ export class CreateUserUseCase implements UseCase<CreateUserDto, Promise<Respons
 
       if (userAlreadyExists) {
         return left(
-          new CreateUserErrors.EmailAlreadyExistsError(email.value),
-        )  as Response;
+          new CreateUserErrors.EmailAlreadyExistsError(email.value)
+        ) as Response;
       }
 
       const userOrError: Result<User> = User.create({
-        email, password, name, surname, access: request.access
+        email,
+        password,
+        name,
+        surname,
+        access: request.access,
       });
 
       if (userOrError.isFailure) {
         return left(
-          Result.fail<User>(userOrError.error.toString()),
+          Result.fail<User>(userOrError.error.toString())
         ) as Response;
       }
 
@@ -63,7 +70,6 @@ export class CreateUserUseCase implements UseCase<CreateUserDto, Promise<Respons
 
       const result = await this.userRepo.save(user);
       return right(Result.ok<User>(result));
-
     } catch (err) {
       return left(new AppError.UnexpectedError(err)) as Response;
     }

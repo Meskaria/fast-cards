@@ -1,6 +1,10 @@
 import * as jwt from 'jsonwebtoken';
 import { uid } from 'rand-token';
-import { JWTClaims, JWTToken, RefreshToken } from 'apps/api/src/app/modules/user/domain/jwt';
+import {
+  JWTClaims,
+  JWTToken,
+  RefreshToken,
+} from 'apps/api/src/app/modules/user/domain/jwt';
 import { User } from 'apps/api/src/app/modules/user/domain/user';
 import { Injectable } from '@nestjs/common';
 import { RedisService } from 'apps/api/src/app/modules/redis/redis.service';
@@ -8,23 +12,29 @@ import { ConfigService } from '@nestjs/config';
 
 /**
  * @class JWTClient
- * @desc This class is responsible for persisting jwts to redis
+ * @desc This class is responsible for persisting JWTs to redis
  * and for signing tokens. It should also be responsible for determining their
  * validity.
  */
 @Injectable()
 export class AuthService {
-  constructor(private readonly configService: ConfigService, private readonly redisService: RedisService) {
-  }
+  constructor(
+    private readonly configService: ConfigService,
+    private readonly redisService: RedisService
+  ) {}
 
   public jwtHashName: string = 'activeJwtClients';
 
-  public async refreshTokenExists(refreshToken: RefreshToken): Promise<boolean> {
+  public async refreshTokenExists(
+    refreshToken: RefreshToken
+  ): Promise<boolean> {
     const keys = await this.redisService.getAllKeys(`*${refreshToken}*`);
     return keys.length !== 0;
   }
 
-  public async getUserEmailFromRefreshToken(refreshToken: RefreshToken): Promise<string> {
+  public async getUserEmailFromRefreshToken(
+    refreshToken: RefreshToken
+  ): Promise<string> {
     const keys = await this.redisService.getAllKeys(`*${refreshToken}*`);
     const exists = keys.length !== 0;
 
@@ -32,12 +42,18 @@ export class AuthService {
 
     const key = keys[0];
 
-    return key.substring(key.indexOf(this.jwtHashName) + this.jwtHashName.length + 1);
+    return key.substring(
+      key.indexOf(this.jwtHashName) + this.jwtHashName.length + 1
+    );
   }
 
   public async saveAuthenticatedUser(user: User): Promise<void> {
     if (user.isLoggedIn()) {
-      await this.addToken(user.email.value, user.refreshToken, user.accessToken);
+      await this.addToken(
+        user.email.value,
+        user.refreshToken,
+        user.accessToken
+      );
     }
   }
 
@@ -81,7 +97,11 @@ export class AuthService {
    * @param token
    */
 
-  public addToken(email: string, refreshToken: RefreshToken, token: JWTToken): Promise<any> {
+  public addToken(
+    email: string,
+    refreshToken: RefreshToken,
+    token: JWTToken
+  ): Promise<any> {
     return this.redisService.set(this.constructKey(email, refreshToken), token);
   }
 
@@ -93,9 +113,7 @@ export class AuthService {
 
   public async clearAllTokens(): Promise<any> {
     const allKeys = await this.redisService.getAllKeys(`*${this.jwtHashName}*`);
-    return Promise.all(
-      allKeys.map((key) => this.redisService.del(key)),
-    );
+    return Promise.all(allKeys.map((key) => this.redisService.del(key)));
   }
 
   /**
@@ -126,7 +144,9 @@ export class AuthService {
    */
 
   public async getTokens(email: string): Promise<string[]> {
-    const keyValues = await this.redisService.getAllKeyValue(`*${this.jwtHashName}.${email}`);
+    const keyValues = await this.redisService.getAllKeyValue(
+      `*${this.jwtHashName}.${email}`
+    );
     return keyValues.map((kv) => kv.value);
   }
 
@@ -162,11 +182,11 @@ export class AuthService {
    */
 
   public async clearAllSessions(email: string): Promise<any> {
-    const keyValues = await this.redisService.getAllKeyValue(`*${this.jwtHashName}.${email}`);
-    const keys = keyValues.map((kv) => kv.key);
-    return Promise.all(
-      keys.map((key) => this.redisService.del(key)),
+    const keyValues = await this.redisService.getAllKeyValue(
+      `*${this.jwtHashName}.${email}`
     );
+    const keys = keyValues.map((kv) => kv.key);
+    return Promise.all(keys.map((key) => this.redisService.del(key)));
   }
 
   /**
@@ -177,7 +197,10 @@ export class AuthService {
    * @param refreshToken
    */
 
-  public async sessionExists(email: string, refreshToken: string): Promise<boolean> {
+  public async sessionExists(
+    email: string,
+    refreshToken: string
+  ): Promise<boolean> {
     const token = await this.getToken(email, refreshToken);
     return !!token;
   }

@@ -22,6 +22,6 @@ export class UserSerializer implements UserDto {
   password: string;
 
   constructor(user: UserDto) {
-    Object.assign(this, user)
+    Object.assign(this, user);
   }
 }

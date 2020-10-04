@@ -24,9 +24,8 @@ import { GetUserByUserEmailUseCase } from 'apps/api/src/app/modules/user/use-cas
     LoginUserUseCase,
     DeleteUserUseCase,
     CreateUserUseCase,
-    AuthService
+    AuthService,
   ],
   imports: [RedisModule],
 })
-export class UserModule {
-}
+export class UserModule {}

@@ -1,11 +1,17 @@
 import {
-  Body, ClassSerializerInterceptor,
+  Body,
+  ClassSerializerInterceptor,
   ConflictException,
-  Controller, Delete,
-  InternalServerErrorException, NotFoundException, Param,
+  Controller,
+  Delete,
+  InternalServerErrorException,
+  NotFoundException,
+  Param,
   Post,
   UseInterceptors,
-  BadRequestException, UseGuards, Get,
+  BadRequestException,
+  UseGuards,
+  Get,
 } from '@nestjs/common';
 import { CreateUserUseCase } from '../use-cases/create-user/create-user.use-case';
 import { CreateUserDto } from '../use-cases/create-user/create-user.dto';
@@ -36,9 +42,8 @@ export class UserController {
     private deleteUserUseCase: DeleteUserUseCase,
     private loginUserUseCase: LoginUserUseCase,
     private logoutUserUseCase: LogoutUseCase,
-    private refreshAccessTokenUseCase: RefreshAccessTokenUseCase,
-  ) {
-  }
+    private refreshAccessTokenUseCase: RefreshAccessTokenUseCase
+  ) {}
 
   @Post()
   public async create(@Body() body: CreateUserDto) {
@@ -119,7 +124,7 @@ export class UserController {
       return {
         refreshToken: dto.refreshToken,
         accessToken: accessToken,
-      }
+      };
     }
   }
 
@@ -137,7 +142,5 @@ export class UserController {
 
   @Get('/me')
   @UseGuards(AuthGuard('jwt'))
-  async getMe(){
-
-  }
+  async getMe() {}
 }

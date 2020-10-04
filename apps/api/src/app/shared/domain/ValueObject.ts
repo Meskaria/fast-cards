@@ -1,25 +1,24 @@
-
 interface ValueObjectProps {
   [index: string]: any;
 }
 
 /**
  * @desc ValueObjects are objects that we determine their
- * equality through their structrual property.
+ * equality through their structural property.
  */
 
 export abstract class ValueObject<T extends ValueObjectProps> {
   public props: T;
 
-  constructor (props: T) {
+  protected constructor(props: T) {
     let baseProps: any = {
-      ...props, 
-    }
+      ...props,
+    };
 
     this.props = baseProps;
   }
 
-  public equals (vo?: ValueObject<T>) : boolean {
+  public equals(vo?: ValueObject<T>): boolean {
     if (vo === null || vo === undefined) {
       return false;
     }

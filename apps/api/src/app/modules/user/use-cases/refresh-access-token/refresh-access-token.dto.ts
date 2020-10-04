@@ -1,5 +1,4 @@
-
-import { RefreshToken } from "../../domain/jwt";
+import { RefreshToken } from '../../domain/jwt';
 
 export interface RefreshAccessTokenDto {
   refreshToken: RefreshToken;

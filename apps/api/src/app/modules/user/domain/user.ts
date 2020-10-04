@@ -1,17 +1,20 @@
-import { UserEmail } from "./user-email";
-import { UserName } from "./user-name";
-import { UserId } from "./user-id";
-import { UserPassword } from "./user-password";
-import { UniqueEntityID } from "../../../shared/domain/UniqueEntityID";
-import { Result } from "../../../shared/core/Result";
-import { Guard } from "../../../shared/core/Guard";
-import { AggregateRoot } from "../../../shared/domain/AggregateRoot";
+import { UserEmail } from './user-email';
+import { UserName } from './user-name';
+import { UserId } from './user-id';
+import { UserPassword } from './user-password';
+import { UniqueEntityID } from '../../../shared/domain/UniqueEntityID';
+import { Result } from '../../../shared/core/Result';
+import { Guard } from '../../../shared/core/Guard';
+import { AggregateRoot } from '../../../shared/domain/AggregateRoot';
 import { UserSurname } from './user-surname';
-import { JWTToken, RefreshToken } from 'apps/api/src/app/modules/user/domain/jwt';
+import {
+  JWTToken,
+  RefreshToken,
+} from 'apps/api/src/app/modules/user/domain/jwt';
 
 export enum USER_ACCESS {
-  MENTOR = "MENTOR",
-  STUDENT = "STUDENT"
+  MENTOR = 'MENTOR',
+  STUDENT = 'STUDENT',
 }
 
 interface UserProps {
@@ -28,50 +31,48 @@ interface UserProps {
 }
 
 export class User extends AggregateRoot<UserProps> {
-
-  get userId (): UserId {
-    return UserId.create(this._id)
-      .getValue();
+  get userId(): UserId {
+    return UserId.create(this._id).getValue();
   }
 
-  get email (): UserEmail {
+  get email(): UserEmail {
     return this.props.email;
   }
 
-  get name (): UserName {
+  get name(): UserName {
     return this.props.name;
   }
 
-  get surname (): UserSurname {
+  get surname(): UserSurname {
     return this.props.surname;
   }
 
-  get password (): UserPassword {
+  get password(): UserPassword {
     return this.props.password;
   }
 
-  get isDeleted (): boolean {
+  get isDeleted(): boolean {
     return this.props.isDeleted;
   }
 
-  get access (): USER_ACCESS {
+  get access(): USER_ACCESS {
     return this.props.access;
   }
 
-  get accessToken (): string {
+  get accessToken(): string {
     return this.props.accessToken;
   }
 
-  get isEmailVerified (): boolean {
+  get isEmailVerified(): boolean {
     return this.props.isEmailVerified;
   }
 
-  get lastLogin (): Date {
+  get lastLogin(): Date {
     return this.props.lastLogin;
   }
 
-  get refreshToken (): RefreshToken {
-    return this.props.refreshToken
+  get refreshToken(): RefreshToken {
+    return this.props.refreshToken;
   }
 
   public delete() {
@@ -79,36 +80,38 @@ export class User extends AggregateRoot<UserProps> {
       this.props.isDeleted = true;
     }
   }
-  public isLoggedIn (): boolean {
-    return !!this.props.accessToken && !!this.props.refreshToken
+  public isLoggedIn(): boolean {
+    return !!this.props.accessToken && !!this.props.refreshToken;
   }
 
-  public setAccessToken (token: JWTToken, refreshToken: RefreshToken): void {
+  public setAccessToken(token: JWTToken, refreshToken: RefreshToken): void {
     this.props.accessToken = token;
     this.props.refreshToken = refreshToken;
     this.props.lastLogin = new Date();
   }
 
-
-  private constructor (props: UserProps, id?: UniqueEntityID) {
-    super(props, id)
+  private constructor(props: UserProps, id?: UniqueEntityID) {
+    super(props, id);
   }
 
-  public static create (props: UserProps, id?: UniqueEntityID): Result<User> {
+  public static create(props: UserProps, id?: UniqueEntityID): Result<User> {
     const guardResult = Guard.againstNullOrUndefinedBulk([
       { argument: props.name, argumentName: 'name' },
       { argument: props.password, argumentName: 'password' },
-      { argument: props.email, argumentName: 'email' }
+      { argument: props.email, argumentName: 'email' },
     ]);
 
     if (!guardResult.succeeded) {
-      return Result.fail<User>(guardResult.message)
+      return Result.fail<User>(guardResult.message);
     }
 
-    const user = new User({
-      ...props,
-      isDeleted: props.isDeleted ? props.isDeleted : false,
-    }, id);
+    const user = new User(
+      {
+        ...props,
+        isDeleted: props.isDeleted ? props.isDeleted : false,
+      },
+      id
+    );
 
     return Result.ok<User>(user);
   }

@@ -1,4 +1,1 @@
-
-export interface Mapper<Domain, Raw> {
-
-}
+export interface Mapper<Domain, Raw> {}

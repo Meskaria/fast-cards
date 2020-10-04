@@ -13,18 +13,19 @@ import { RedisModule } from 'apps/api/src/app/modules/redis/redis.module';
     UserModule,
     TerminusModule,
     PrismaModule,
-    RedisModule
+    RedisModule,
   ],
   controllers: [],
-  providers: [{
-    provide: APP_PIPE,
-    useFactory: () =>
-      new ValidationPipe({
-        transform: true,
-        whitelist: true,
-        forbidNonWhitelisted: true,
-      }),
-  }],
+  providers: [
+    {
+      provide: APP_PIPE,
+      useFactory: () =>
+        new ValidationPipe({
+          transform: true,
+          whitelist: true,
+          forbidNonWhitelisted: true,
+        }),
+    },
+  ],
 })
-export class AppModule {
-}
+export class AppModule {}

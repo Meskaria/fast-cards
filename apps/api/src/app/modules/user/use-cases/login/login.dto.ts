@@ -1,5 +1,4 @@
-
-import { JWTToken, RefreshToken } from "../../domain/jwt";
+import { JWTToken, RefreshToken } from '../../domain/jwt';
 
 export interface LoginDto {
   email: string;

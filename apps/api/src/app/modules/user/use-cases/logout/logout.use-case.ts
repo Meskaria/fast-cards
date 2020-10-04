@@ -8,21 +8,20 @@ import { UserRepository } from 'apps/api/src/app/modules/user/repos/user.reposit
 import { AuthService } from 'apps/api/src/app/modules/user/services/auth/auth.service';
 import { Injectable } from '@nestjs/common';
 
-type Response = Either<AppError.UnexpectedError,
-  Result<void>>
+type Response = Either<AppError.UnexpectedError, Result<void>>;
 
 @Injectable()
 export class LogoutUseCase implements UseCase<LogoutDto, Promise<Response>> {
-  constructor(private userRepo: UserRepository,
-              private authService: AuthService) {
-  }
+  constructor(
+    private userRepo: UserRepository,
+    private authService: AuthService
+  ) {}
 
   public async execute(request: LogoutDto): Promise<Response> {
     let user: User;
     const { userId } = request;
 
     try {
-
       try {
         user = await this.userRepo.getUserByUserId(userId);
       } catch (err) {
