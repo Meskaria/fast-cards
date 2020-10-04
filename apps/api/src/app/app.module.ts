@@ -4,11 +4,19 @@ import { UserModule } from './modules/user/user.module';
 import { TerminusModule } from '@nestjs/terminus';
 import { PrismaModule } from './shared/infra/database/prisma.module';
 import { APP_PIPE } from '@nestjs/core';
+import { ConfigModule } from '@nestjs/config';
+import { RedisModule } from 'apps/api/src/app/modules/redis/redis.module';
 
 @Module({
-  imports: [UserModule, TerminusModule, PrismaModule],
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
+    UserModule,
+    TerminusModule,
+    PrismaModule,
+    RedisModule
+  ],
   controllers: [],
-  providers:[{
+  providers: [{
     provide: APP_PIPE,
     useFactory: () =>
       new ValidationPipe({
@@ -16,6 +24,7 @@ import { APP_PIPE } from '@nestjs/core';
         whitelist: true,
         forbidNonWhitelisted: true,
       }),
-  },]
+  }],
 })
-export class AppModule {}
+export class AppModule {
+}
