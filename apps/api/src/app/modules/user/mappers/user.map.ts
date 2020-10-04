@@ -12,7 +12,7 @@ import { UserDto } from '../serializers/user.serializer';
 
 @Injectable()
 export class UserMap implements Mapper<User, UserModel> {
-  public static async toDto (user: User): Promise<UserDto> {
+  public static async toDTO (user: User): Promise<UserDto> {
     return {
       id: user.id.toValue() as string,
       name: user.name.value,

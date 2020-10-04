@@ -7,6 +7,7 @@ import { Result } from "../../../shared/core/Result";
 import { Guard } from "../../../shared/core/Guard";
 import { AggregateRoot } from "../../../shared/domain/AggregateRoot";
 import { UserSurname } from './user-surname';
+import { JWTToken, RefreshToken } from 'apps/api/src/app/modules/user/domain/jwt';
 
 export enum USER_ACCESS {
   MENTOR = "MENTOR",
@@ -20,6 +21,10 @@ interface UserProps {
   password: UserPassword;
   access: USER_ACCESS;
   isDeleted?: boolean;
+  accessToken?: JWTToken;
+  refreshToken?: RefreshToken;
+  lastLogin?: Date;
+  isEmailVerified?: boolean;
 }
 
 export class User extends AggregateRoot<UserProps> {
@@ -52,6 +57,38 @@ export class User extends AggregateRoot<UserProps> {
   get access (): USER_ACCESS {
     return this.props.access;
   }
+
+  get accessToken (): string {
+    return this.props.accessToken;
+  }
+
+  get isEmailVerified (): boolean {
+    return this.props.isEmailVerified;
+  }
+
+  get lastLogin (): Date {
+    return this.props.lastLogin;
+  }
+
+  get refreshToken (): RefreshToken {
+    return this.props.refreshToken
+  }
+
+  public delete() {
+    if (!this.props.isDeleted) {
+      this.props.isDeleted = true;
+    }
+  }
+  public isLoggedIn (): boolean {
+    return !!this.props.accessToken && !!this.props.refreshToken
+  }
+
+  public setAccessToken (token: JWTToken, refreshToken: RefreshToken): void {
+    this.props.accessToken = token;
+    this.props.refreshToken = refreshToken;
+    this.props.lastLogin = new Date();
+  }
+
 
   private constructor (props: UserProps, id?: UniqueEntityID) {
     super(props, id)

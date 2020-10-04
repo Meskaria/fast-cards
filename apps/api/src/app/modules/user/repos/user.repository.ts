@@ -7,7 +7,7 @@ import { UserMap } from '../mappers/user.map';
 
 export interface IUserRepo {
   exists (userEmail: UserEmail): Promise<boolean>;
-  getUserByUserId (userId: number): Promise<User>;
+  getUserByUserId (userId: string): Promise<User>;
   getUserByEmail (userEmail: UserEmail | string): Promise<User>;
   save (user: User): Promise<User>;
 }
@@ -26,10 +26,10 @@ export class UserRepository implements IUserRepo {
     return !!user
   }
 
-  async getUserByUserId(userId: number): Promise<User> {
+  async getUserByUserId(userId: string): Promise<User> {
     const user = await this.prisma.user.findOne({
       where: {
-        id: userId
+        id: Number(userId)
       }
     })
     if (!user) throw new Error("User not found.")
