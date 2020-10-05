@@ -2,7 +2,8 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { GetUserByUserEmailUseCase } from 'apps/api/src/app/modules/user/use-cases/get-user-by-user-email/get-user-by-user-email.use-case';
-import { GetUserByUserNameErrors } from 'apps/api/src/app/modules/user/use-cases/get-user-by-user-email/get-user-by-user-email.errors';
+import { GetUserByUserEmailErrors } from 'apps/api/src/app/modules/user/use-cases/get-user-by-user-email/get-user-by-user-email.errors';
+import { AuthService } from 'apps/api/src/app/modules/user/services/auth/auth.service';
 
 interface JWTPayload {
   email: string;
@@ -14,7 +15,8 @@ interface JWTPayload {
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
-    private readonly getUserByUserEmailUseCase: GetUserByUserEmailUseCase
+    private readonly getUserByUserEmailUseCase: GetUserByUserEmailUseCase,
+    private readonly authService: AuthService
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -31,10 +33,15 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       const error = result.value;
 
       switch (error.constructor) {
-        case GetUserByUserNameErrors.UserNotFoundError:
+        case GetUserByUserEmailErrors.UserNotFoundError:
           throw new UnauthorizedException(error.errorValue().message);
       }
     } else {
+      const tokens = await this.authService.getTokens(payload.email);
+
+      if (tokens.length === 0) {
+        throw new UnauthorizedException();
+      }
       done(null, result.value.getValue());
     }
   }

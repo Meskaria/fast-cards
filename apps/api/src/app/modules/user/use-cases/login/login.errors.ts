@@ -2,10 +2,10 @@ import { UseCaseError } from '../../../../shared/core/UseCaseError';
 import { Result } from '../../../../shared/core/Result';
 
 export namespace LoginUseCaseErrors {
-  export class UserNameDoesntExistError extends Result<UseCaseError> {
+  export class UserEmailDoesntExistError extends Result<UseCaseError> {
     constructor() {
       super(false, {
-        message: `Username or password incorrect.`,
+        message: `User email or password incorrect.`,
       } as UseCaseError);
     }
   }
@@ -13,7 +13,14 @@ export namespace LoginUseCaseErrors {
   export class PasswordDoesntMatchError extends Result<UseCaseError> {
     constructor() {
       super(false, {
-        message: `Password doesnt match error.`,
+        message: `Password doesn't match error.`,
+      } as UseCaseError);
+    }
+  }
+  export class UserDeletedError extends Result<UseCaseError> {
+    constructor() {
+      super(false, {
+        message: `User was deleted.`,
       } as UseCaseError);
     }
   }

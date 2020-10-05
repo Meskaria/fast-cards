@@ -27,16 +27,16 @@ import { LoginUserUseCase } from 'apps/api/src/app/modules/user/use-cases/login/
 import { RefreshAccessTokenDto } from 'apps/api/src/app/modules/user/use-cases/refresh-access-token/refresh-access-token.dto';
 import { RefreshAccessTokenErrors } from 'apps/api/src/app/modules/user/use-cases/refresh-access-token/refresh-access-token.errors';
 import { JWTToken } from 'apps/api/src/app/modules/user/domain/jwt';
-import { LogoutDto } from 'apps/api/src/app/modules/user/use-cases/logout/logout.dto';
 import { LogoutUseCase } from 'apps/api/src/app/modules/user/use-cases/logout/logout.use-case';
 import { AuthGuard } from '@nestjs/passport';
 import { RefreshAccessTokenUseCase } from 'apps/api/src/app/modules/user/use-cases/refresh-access-token/refresh-access-token.use-case';
+import { UserData } from 'apps/api/src/app/modules/user/services/auth/user-info.decorator';
+import { User } from 'apps/api/src/app/modules/user/domain/user';
+import { TokensSerializer } from 'apps/api/src/app/modules/user/serializers/tokens.serializer';
 
 @Controller('user')
 @UseInterceptors(ClassSerializerInterceptor)
 export class UserController {
-  [x: string]: any;
-
   constructor(
     private createUserUseCase: CreateUserUseCase,
     private deleteUserUseCase: DeleteUserUseCase,
@@ -90,16 +90,17 @@ export class UserController {
       const error = result.value;
 
       switch (error.constructor) {
-        case LoginUseCaseErrors.UserNameDoesntExistError:
+        case LoginUseCaseErrors.UserEmailDoesntExistError:
           throw new NotFoundException(error.errorValue().message);
         case LoginUseCaseErrors.PasswordDoesntMatchError:
           throw new BadRequestException(error.errorValue().message);
+        case LoginUseCaseErrors.UserDeletedError:
+          throw new NotFoundException(error.errorValue().message);
         default:
           throw new InternalServerErrorException(error.errorValue().message);
       }
     } else {
-      // TODO write serializer for that
-      return result.value.getValue();
+      return new TokensSerializer(result.value.getValue());
     }
   }
 
@@ -111,7 +112,7 @@ export class UserController {
       const error = result.value;
 
       switch (error.constructor) {
-        case RefreshAccessTokenErrors.RefreshTokenNotFound:
+        case RefreshAccessTokenErrors.RefreshTokenNotFound: // user logged out
           throw new NotFoundException(error.errorValue().message);
         case RefreshAccessTokenErrors.UserNotFoundOrDeletedError:
           throw new NotFoundException(error.errorValue().message);
@@ -120,27 +121,33 @@ export class UserController {
       }
     } else {
       const accessToken = result.value.getValue() as JWTToken;
-      // TODO write serializer for that
-      return {
+
+      return new TokensSerializer({
         refreshToken: dto.refreshToken,
         accessToken: accessToken,
-      };
+      });
     }
   }
 
   @Post('/logout')
-  async logout(@Body() { userId }: LogoutDto) {
-    const result = await this.logoutUserUseCase.execute({ userId });
+  @UseGuards(AuthGuard('jwt'))
+  async logout(@UserData() user: User) {
+    const result = await this.logoutUserUseCase.execute({
+      userId: user.id.toString(),
+    });
 
     if (result.isLeft()) {
       const error = result.value;
       throw new InternalServerErrorException(error.errorValue().message);
     }
 
-    return result.value.getValue();
+    return;
   }
 
   @Get('/me')
   @UseGuards(AuthGuard('jwt'))
-  async getMe() {}
+  async getMe(@UserData() user: User) {
+    const userDto = await UserMap.toDTO(user);
+    return new UserSerializer(userDto);
+  }
 }

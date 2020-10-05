@@ -39,6 +39,10 @@ export class UserMap implements Mapper<User, UserModel> {
         password: userPasswordOrError.getValue(),
         email: userEmailOrError.getValue(),
         access: raw.access as USER_ACCESS,
+        accessToken: raw.accessToken,
+        refreshToken: raw.refreshToken,
+        isEmailVerified: raw.isEmailVerified,
+        lastLogin: raw.lastLogin,
       },
       new UniqueEntityID(raw.id)
     );
@@ -48,7 +52,9 @@ export class UserMap implements Mapper<User, UserModel> {
     return userOrError.isSuccess ? userOrError.getValue() : null;
   }
 
-  public static async toPersistence(user: User): Promise<any> {
+  public static async toPersistence(
+    user: User
+  ): Promise<Omit<UserModel, 'createdAt' | 'updatedAt'>> {
     let password: string = null;
     if (!!user.password === true) {
       if (user.password.isAlreadyHashed()) {
@@ -59,13 +65,17 @@ export class UserMap implements Mapper<User, UserModel> {
     }
 
     return {
-      id: user.userId.id.toString(),
+      id: (user.userId.id.toValue() as unknown) as number,
       email: user.email.value,
       name: user.name.value,
       surname: user.surname.value,
       password: password,
       isDeleted: user.isDeleted,
       access: user.access,
+      accessToken: user.accessToken,
+      refreshToken: user.refreshToken,
+      lastLogin: user.lastLogin,
+      isEmailVerified: user.isEmailVerified,
     };
   }
 }

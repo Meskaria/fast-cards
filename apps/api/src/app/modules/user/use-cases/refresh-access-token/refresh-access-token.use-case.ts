@@ -25,12 +25,11 @@ export class RefreshAccessTokenUseCase
   public async execute(req: RefreshAccessTokenDto): Promise<Response> {
     const { refreshToken } = req;
     let user: User;
-    let username: string;
+    let email: string;
 
     try {
-      // Get the username for the user that owns the refresh token
       try {
-        username = await this.authService.getUserEmailFromRefreshToken(
+        email = await this.authService.getUserEmailFromRefreshToken(
           refreshToken
         );
       } catch (err) {
@@ -38,8 +37,7 @@ export class RefreshAccessTokenUseCase
       }
 
       try {
-        // get the user by username
-        user = await this.userRepo.getUserByEmail(username);
+        user = await this.userRepo.getUserByEmail(email);
       } catch (err) {
         return left(new RefreshAccessTokenErrors.UserNotFoundOrDeletedError());
       }
@@ -50,13 +48,11 @@ export class RefreshAccessTokenUseCase
         userId: user.userId.id.toString(),
       });
 
-      // sign a new jwt for that user
       user.setAccessToken(accessToken, refreshToken);
 
-      // save it
       await this.authService.saveAuthenticatedUser(user);
+      await this.userRepo.save(user);
 
-      // return the new access token
       return right(Result.ok<JWTToken>(accessToken));
     } catch (err) {
       return left(new AppError.UnexpectedError(err));

@@ -16,7 +16,8 @@ import { UserRepository } from 'apps/api/src/app/modules/user/repos/user.reposit
 
 type Response = Either<
   | LoginUseCaseErrors.PasswordDoesntMatchError
-  | LoginUseCaseErrors.UserNameDoesntExistError
+  | LoginUseCaseErrors.UserEmailDoesntExistError
+  | LoginUseCaseErrors.UserDeletedError
   | AppError.UnexpectedError,
   Result<LoginDTOResponse>
 >;
@@ -49,7 +50,11 @@ export class LoginUserUseCase implements UseCase<LoginDto, Promise<Response>> {
       const userFound = !!user;
 
       if (!userFound) {
-        return left(new LoginUseCaseErrors.UserNameDoesntExistError());
+        return left(new LoginUseCaseErrors.UserEmailDoesntExistError());
+      }
+
+      if (user.isDeleted) {
+        return left(new LoginUseCaseErrors.UserDeletedError());
       }
 
       const passwordValid = await user.password.comparePassword(password.value);
@@ -69,6 +74,7 @@ export class LoginUserUseCase implements UseCase<LoginDto, Promise<Response>> {
       user.setAccessToken(accessToken, refreshToken);
 
       await this.authService.saveAuthenticatedUser(user);
+      await this.userRepository.save(user);
 
       return right(
         Result.ok<LoginDTOResponse>({
