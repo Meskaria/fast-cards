@@ -5,6 +5,7 @@ import { Either, left, Result, right } from '../../../../shared/core/Result';
 import { AppError } from '../../../../shared/core/AppError';
 import { DeleteUserErrors } from './delete-user.errors';
 import { UserRepository } from '../../repos/user.repository';
+import { AuthService } from 'apps/api/src/app/modules/user/services/auth/auth.service';
 
 export type Response = Either<
   DeleteUserErrors.UserNotFoundError | AppError.UnexpectedError,
@@ -14,7 +15,10 @@ export type Response = Either<
 @Injectable()
 export class DeleteUserUseCase
   implements UseCase<DeleteUserDto, Promise<Response>> {
-  constructor(private userRepo: UserRepository) {}
+  constructor(
+    private userRepo: UserRepository,
+    private authService: AuthService
+  ) {}
 
   async execute(request: DeleteUserDto): Promise<Response> {
     try {
@@ -26,6 +30,7 @@ export class DeleteUserUseCase
       }
 
       user.delete();
+      await this.authService.clearAllSessions(user.email.value);
 
       await this.userRepo.save(user);
 

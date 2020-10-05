@@ -78,6 +78,7 @@ export class User extends AggregateRoot<UserProps> {
   public delete() {
     if (!this.props.isDeleted) {
       this.props.isDeleted = true;
+      this.clearAccessToken();
     }
   }
   public isLoggedIn(): boolean {
@@ -88,6 +89,11 @@ export class User extends AggregateRoot<UserProps> {
     this.props.accessToken = token;
     this.props.refreshToken = refreshToken;
     this.props.lastLogin = new Date();
+  }
+
+  public clearAccessToken(): void {
+    this.props.accessToken = null;
+    this.props.refreshToken = null;
   }
 
   private constructor(props: UserProps, id?: UniqueEntityID) {

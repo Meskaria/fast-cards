@@ -1,7 +1,13 @@
 import { JWTToken, RefreshToken } from '../../domain/jwt';
+import { IsEmail, IsNotEmpty, MinLength } from 'class-validator';
 
-export interface LoginDto {
+export class LoginDto {
+  @IsEmail()
+  @IsNotEmpty()
   email: string;
+
+  @IsNotEmpty()
+  @MinLength(8)
   password: string;
 }
 

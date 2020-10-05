@@ -65,9 +65,12 @@ export class UserController {
     }
   }
 
-  @Delete(':id')
-  public async delete(@Param() params: DeleteUserDto) {
-    const result = await this.deleteUserUseCase.execute(params);
+  @Delete()
+  @UseGuards(AuthGuard('jwt'))
+  public async delete(@UserData() user: User) {
+    const result = await this.deleteUserUseCase.execute({
+      userId: user.id.toString(),
+    });
 
     if (result.isLeft()) {
       const error = result.value;
