@@ -11,12 +11,13 @@ export abstract class ValueObject<T extends ValueObjectProps> {
   public props: T;
 
   protected constructor(props: T) {
-    let baseProps: any = {
+    this.props = {
       ...props,
     };
-
-    this.props = baseProps;
   }
+
+  abstract get value();
+  public abstract toAnemic();
 
   public equals(vo?: ValueObject<T>): boolean {
     if (vo === null || vo === undefined) {
