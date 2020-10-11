@@ -1,0 +1,75 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  password = env("DATABASE_PASS")
+  user     = "postgres"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Profile {
+  id      String      @default(uuid()) @id
+  bio     Json?
+  user    User        @relation(fields: [userId], references: [id])
+  userId  String      @unique
+}
+
+model User {
+  id                String      @default(uuid()) @id
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  email             String      @unique
+  password          String
+  name              String
+  surname           String
+  isDeleted         Boolean     @default(false)
+  accessToken       String?
+  refreshToken      String?
+  lastLogin         DateTime?
+  isEmailVerified   Boolean     @default(false)
+  access            AccessRight
+  languages         UserOnLanguageOnProficiency[]
+  profile           Profile?
+
+  @@index([email])
+}
+
+enum AccessRight {
+  STUDENT
+  MENTOR
+}
+model UserOnLanguageOnProficiency {
+  id              String      @default(uuid()) @id
+  language        Language    @relation(fields: [languageId], references: [id])
+  languageId      String
+  proficiency     Proficiency @relation(fields: [proficiencyId], references: [id])
+  proficiencyId   String
+  user            User        @relation(fields: [userId], references: [id])
+  userId          String
+}
+
+model Proficiency {
+  id      String              @default(uuid()) @id
+  name    ProficiencyLevel
+
+  @@index([name])
+}
+
+enum ProficiencyLevel {
+  SLUG_BEGINNER
+  SLUG_INTERMEDIATE
+  SLUG_PROFICIENT
+  SLUG_EXPERT
+}
+
+model Language {
+  id      String      @default(uuid()) @id
+  code    String
+
+  @@index([code])
+}

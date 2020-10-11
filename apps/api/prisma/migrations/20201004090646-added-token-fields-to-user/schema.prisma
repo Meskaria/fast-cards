@@ -1,0 +1,75 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url = "***"
+  password = env("DATABASE_PASS")
+  user     = "postgres"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Profile {
+  id      Int     @default(autoincrement()) @id
+  bio     Json?
+  user    User    @relation(fields: [userId], references: [id])
+  userId  Int     @unique
+}
+
+model User {
+  id                Int      @default(autoincrement()) @id
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  email             String   @unique
+  password          String
+  name              String
+  surname           String
+  isDeleted         Boolean   @default(false)
+  accessToken       String?
+  refreshToken      String?
+  lastLogin         DateTime?
+  isEmailVerified   Boolean   @default(false)
+  access            AccessRight
+  languages         UserOnLanguageOnProficiency[]
+  profile           Profile?
+
+  @@index([email])
+}
+
+enum AccessRight {
+  STUDENT
+  MENTOR
+}
+model UserOnLanguageOnProficiency {
+  id              Int         @default(autoincrement()) @id
+  language        Language    @relation(fields: [languageId], references: [id])
+  languageId      Int
+  proficiency     Proficiency @relation(fields: [proficiencyId], references: [id])
+  proficiencyId   Int
+  user            User        @relation(fields: [userId], references: [id])
+  userId          Int
+}
+
+model Proficiency {
+  id      Int @default(autoincrement()) @id
+  name    ProficiencyLevel
+
+  @@index([name])
+}
+
+enum ProficiencyLevel {
+  BEGINNER
+  INTERMEDIATE
+  PROFICIENT
+  EXPERT
+}
+
+model Language {
+  id      Int @default(autoincrement()) @id
+  code    String
+
+  @@index([code])
+}
