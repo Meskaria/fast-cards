@@ -3,7 +3,7 @@
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = "***"
   password = env("DATABASE_PASS")
   user     = "postgres"
 }
@@ -61,10 +61,10 @@ model Proficiency {
 }
 
 enum ProficiencyLevel {
-  SLUG_BEGINNER
-  SLUG_INTERMEDIATE
-  SLUG_PROFICIENT
-  SLUG_EXPERT
+  BEGINNER
+  INTERMEDIATE
+  PROFICIENT
+  EXPERT
 }
 
 model Language {

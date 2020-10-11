@@ -3,7 +3,7 @@
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = "***"
   password = env("DATABASE_PASS")
   user     = "postgres"
 }
@@ -13,25 +13,25 @@ generator client {
 }
 
 model Profile {
-  id      String      @default(uuid()) @id
+  id      Int     @default(autoincrement()) @id
   bio     Json?
-  user    User        @relation(fields: [userId], references: [id])
-  userId  String      @unique
+  user    User    @relation(fields: [userId], references: [id])
+  userId  Int     @unique
 }
 
 model User {
-  id                String      @default(uuid()) @id
-  createdAt         DateTime    @default(now())
-  updatedAt         DateTime    @updatedAt
-  email             String      @unique
+  id                Int      @default(autoincrement()) @id
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  email             String   @unique
   password          String
   name              String
   surname           String
-  isDeleted         Boolean     @default(false)
+  isDeleted         Boolean   @default(false)
   accessToken       String?
   refreshToken      String?
   lastLogin         DateTime?
-  isEmailVerified   Boolean     @default(false)
+  isEmailVerified   Boolean   @default(false)
   access            AccessRight
   languages         UserOnLanguageOnProficiency[]
   profile           Profile?
@@ -44,31 +44,31 @@ enum AccessRight {
   MENTOR
 }
 model UserOnLanguageOnProficiency {
-  id              String      @default(uuid()) @id
+  id              Int         @default(autoincrement()) @id
   language        Language    @relation(fields: [languageId], references: [id])
-  languageId      String
+  languageId      Int
   proficiency     Proficiency @relation(fields: [proficiencyId], references: [id])
-  proficiencyId   String
+  proficiencyId   Int
   user            User        @relation(fields: [userId], references: [id])
-  userId          String
+  userId          Int
 }
 
 model Proficiency {
-  id      String              @default(uuid()) @id
+  id      Int @default(autoincrement()) @id
   name    ProficiencyLevel
 
   @@index([name])
 }
 
 enum ProficiencyLevel {
-  SLUG_BEGINNER
-  SLUG_INTERMEDIATE
-  SLUG_PROFICIENT
-  SLUG_EXPERT
+  BEGINNER
+  INTERMEDIATE
+  PROFICIENT
+  EXPERT
 }
 
 model Language {
-  id      String      @default(uuid()) @id
+  id      Int @default(autoincrement()) @id
   code    String
 
   @@index([code])
