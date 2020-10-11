@@ -61,10 +61,10 @@ model Proficiency {
 }
 
 enum ProficiencyLevel {
-  BEGINNER
-  INTERMEDIATE
-  PROFICIENT
-  EXPERT
+  SLUG_BEGINNER
+  SLUG_INTERMEDIATE
+  SLUG_PROFICIENT
+  SLUG_EXPERT
 }
 
 model Language {

@@ -4,3 +4,4 @@
 20200927185435-add-is-deleted-to-user-model
 20201004090646-added-token-fields-to-user
 20201006200931-change-from-sequence-to-uuid
+20201011085810-change-english-string-to-slugs
