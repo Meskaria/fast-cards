@@ -6,3 +6,4 @@
 20201006200931-change-from-sequence-to-uuid
 20201011085810-change-english-string-to-slugs
 20201011104407-create-mentor-student-and-related-schemas
+20201012213816-change-field-name-in-time-slot-model
