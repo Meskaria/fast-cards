@@ -54,7 +54,7 @@ export class UserRepository extends Repository implements IUserRepo {
     const rawUser = await UserMap.toResistance(user);
     const userModel = await this.prisma.user.upsert({
       where: {
-        email: rawUser.email, // or should it be id?
+        id: rawUser.id,
       },
       create: rawUser,
       update: rawUser,

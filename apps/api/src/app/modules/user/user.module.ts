@@ -11,7 +11,6 @@ import { LogoutUseCase } from 'apps/api/src/app/modules/user/app/use-cases/logou
 import { RefreshAccessTokenUseCase } from 'apps/api/src/app/modules/user/app/use-cases/refresh-access-token/refresh-access-token.use-case';
 import { JwtStrategy } from 'apps/api/src/app/modules/user/infra/services/auth/strategies/jwt.strategy';
 import { GetUserByUserEmailUseCase } from 'apps/api/src/app/modules/user/app/use-cases/get-user-by-user-email/get-user-by-user-email.use-case';
-import { UserCreatedEventHandler } from 'apps/api/src/app/modules/user/app/events/handlers/user-created.event.handler';
 import { CqrsModule } from '@nestjs/cqrs';
 
 @Module({
@@ -27,7 +26,6 @@ import { CqrsModule } from '@nestjs/cqrs';
     DeleteUserUseCase,
     CreateUserUseCase,
     AuthService,
-    UserCreatedEventHandler,
   ],
   imports: [RedisModule, CqrsModule],
 })
