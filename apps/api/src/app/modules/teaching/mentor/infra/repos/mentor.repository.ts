@@ -47,11 +47,18 @@ export class MentorRepository extends Repository implements IMentorRepo {
         id: rawMentor.id,
         user: {
           connect: {
-            id: rawMentor.userId
-          }
-        }
+            id: rawMentor.userId,
+          },
+        },
       },
-      update: rawMentor,
+      update: {
+        id: rawMentor.id,
+        user: {
+          connect: {
+            id: rawMentor.userId,
+          },
+        },
+      },
     });
 
     return MentorMap.fromResistance(mentorModel);

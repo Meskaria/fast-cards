@@ -12,8 +12,15 @@ export abstract class AggregateRoot<T> extends AggregateRootNest {
   }
 
   public apply<E extends IEvent>(event: E, isFromHistory?: boolean) {
-    super.apply(event, isFromHistory);
     this.logDomainEventAdded(event);
+    super.apply(event, isFromHistory);
+    console.count('apply');
+  }
+
+  public commit() {
+    this.logDomainEventsCommitted();
+    super.commit();
+    console.count('commit');
   }
 
   private logDomainEventAdded(domainEvent: IEvent): void {
@@ -24,6 +31,22 @@ export abstract class AggregateRoot<T> extends AggregateRootNest {
       thisClass.constructor.name,
       '==>',
       domainEventClass.constructor.name
+    );
+  }
+  private logDomainEventsCommitted(): void {
+    const thisClass = Reflect.getPrototypeOf(this);
+    const uncommitted = super.getUncommittedEvents();
+
+    const domainEventClass = uncommitted
+      .map(
+        (domainEvent) => Reflect.getPrototypeOf(domainEvent).constructor.name
+      )
+      .join(',');
+    console.info(
+      `[Domain Event Committed]:`,
+      thisClass.constructor.name,
+      '==>',
+      domainEventClass
     );
   }
 }

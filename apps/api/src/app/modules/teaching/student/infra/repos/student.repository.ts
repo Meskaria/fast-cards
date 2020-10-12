@@ -51,7 +51,14 @@ export class StudentRepository extends Repository implements IStudentRepo {
           },
         },
       },
-      update: rawStudent,
+      update: {
+        id: rawStudent.id,
+        user: {
+          connect: {
+            id: rawStudent.userId,
+          },
+        },
+      },
     });
 
     return StudentMap.fromResistance(studentModel);
