@@ -2,22 +2,6 @@
   "version": "0.3.14-fixed",
   "steps": [
     {
-      "tag": "UpdateEnum",
-      "enum": "ProficiencyLevel",
-      "createdValues": [
-        "SLUG_BEGINNER",
-        "SLUG_INTERMEDIATE",
-        "SLUG_PROFICIENT",
-        "SLUG_EXPERT"
-      ],
-      "deletedValues": [
-        "BEGINNER",
-        "INTERMEDIATE",
-        "PROFICIENT",
-        "EXPERT"
-      ]
-    },
-    {
       "tag": "CreateModel",
       "model": "Mentor"
     },
