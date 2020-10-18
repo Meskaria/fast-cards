@@ -27,6 +27,10 @@ export class MentorRepository extends Repository implements IMentorRepo {
     return MentorMap.fromResistance(mentor);
   }
 
+  async getMentorByUserId() {
+
+  }
+
   async exists(userId: string): Promise<boolean> {
     const user = await this.prisma.mentor.findOne({
       where: {

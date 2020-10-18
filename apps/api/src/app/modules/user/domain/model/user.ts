@@ -30,11 +30,21 @@ interface UserProps {
   refreshToken?: RefreshToken;
   lastLogin?: Date;
   isEmailVerified?: boolean;
+  mentorId?: string;
+  studentId?: string;
 }
 
 export class User extends AggregateRoot<UserProps> {
   get id(): UserId {
     return UserId.create(this._id).getValue();
+  }
+
+  get mentorId(): string | undefined {
+    return this.props.mentorId;
+  }
+
+  get studentId(): string | undefined {
+    return this.props.studentId;
   }
 
   get email(): UserEmail {
@@ -75,22 +85,6 @@ export class User extends AggregateRoot<UserProps> {
 
   get refreshToken(): RefreshToken {
     return this.props.refreshToken;
-  }
-
-  async toAnemic() {
-    return {
-      id: this.id.value.toString(),
-      name: this.name.toAnemic(),
-      password: await this.password.toAnemic(),
-      surname: this.surname.toAnemic(),
-      email: this.email.toAnemic(),
-      access: this.access,
-      isDeleted: this.isDeleted,
-      accessToken: this.accessToken,
-      refreshToken: this.refreshToken,
-      lastLogin: this.lastLogin,
-      isEmailVerified: this.isEmailVerified,
-    };
   }
 
   public delete() {

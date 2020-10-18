@@ -36,7 +36,7 @@ export class UserRepository extends Repository implements IUserRepo {
     });
     if (!user) throw new Error('User not found.');
 
-    return UserMap.fromResistance(user);
+    return UserMap.fromPersistence(user);
   }
 
   async getUserByEmail(userEmail: UserEmail | string): Promise<User> {
@@ -44,11 +44,21 @@ export class UserRepository extends Repository implements IUserRepo {
       where: {
         email: userEmail instanceof UserEmail ? userEmail.value : userEmail,
       },
+      include: {
+        mentor: {
+          select: {id: true},
+        },
+        student: {
+          select: {id: true},
+        }
+      }
     });
     if (!user) throw new Error('User not found.');
 
-    return UserMap.fromResistance(user);
+    return UserMap.fromPersistence(user);
   }
+
+
 
   async save(user: User): Promise<User> {
     const rawUser = await UserMap.toResistance(user);
@@ -60,6 +70,6 @@ export class UserRepository extends Repository implements IUserRepo {
       update: rawUser,
     });
 
-    return UserMap.fromResistance(userModel);
+    return UserMap.fromPersistence(userModel);
   }
 }

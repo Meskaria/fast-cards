@@ -66,10 +66,11 @@ model Offer {
   id              String      @default(uuid()) @id
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
-  mentorId        String      @unique
+  mentorId        String
   mentor          Mentor      @relation(fields: [mentorId], references: [id])
   timeSlotsCount  Int
   price           Int
+  isDeleted       Boolean     @default(false)
 }
 
 model User {

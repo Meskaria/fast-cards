@@ -41,9 +41,7 @@ export class DeleteUserUseCase
 
       await this.userRepo.save(user);
 
-      const savedUser = this.publisher.mergeObjectContext(user);
-
-      savedUser.commit();
+      this.publisher.mergeObjectContext(user).commit();
 
       return right(Result.ok<void>());
     } catch (err) {
