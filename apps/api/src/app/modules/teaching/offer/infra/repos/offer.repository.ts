@@ -41,12 +41,7 @@ export class OfferRepository extends Repository implements IOfferRepo {
         },
       },
       update: {
-        ...rawOffer,
-        mentor: {
-          connect: {
-            id: mentorId,
-          },
-        },
+        isDeleted: rawOffer.isDeleted,
       },
     });
 
