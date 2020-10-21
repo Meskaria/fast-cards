@@ -1,0 +1,31 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "CreateField",
+      "model": "TimeSlot",
+      "field": "scheduledLessonId",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "TimeSlot",
+      "field": "lessonId"
+    },
+    {
+      "tag": "UpdateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "TimeSlot",
+          "field": "scheduledLesson"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "newValue": "[scheduledLessonId]"
+    }
+  ]
+}

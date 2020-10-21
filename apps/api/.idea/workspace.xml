@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="0ca71197-aaba-4b01-9697-668c15e2b9d3" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/app/modules/teaching/student/app/events/handlers/user-created.event.handler.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/modules/teaching/student/app/events/handlers/user-deleted.event.handler.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/modules/teaching/student/app/events/implements/student-created.event.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/modules/teaching/student/app/use-cases/create-student/create-student.errors.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/modules/teaching/student/app/use-cases/create-student/create-student.use-case.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/modules/teaching/student/app/use-cases/create-student/create-student.use-case.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/modules/teaching/student/domain/model/student-id.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/modules/teaching/student/domain/model/student.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/prisma/migrations/20201011104407-create-mentor-student-and-related-schemas/steps.json" beforeDir="false" afterPath="$PROJECT_DIR$/prisma/migrations/20201011104407-create-mentor-student-and-related-schemas/steps.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/modules/teaching/teaching.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/modules/teaching/teaching.module.ts" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="ProjectId" id="1inFd80ipZafkTBBaA4N2ivoHC5" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showMembers" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RunManager">
+    <configuration name="meskaria-api-db" type="docker-deploy" factoryName="docker-image" server-name="Docker">
+      <deployment type="docker-image">
+        <settings>
+          <option name="imageTag" value="postgres" />
+          <option name="command" value="" />
+          <option name="containerName" value="meskaria-api-db" />
+          <option name="entrypoint" value="" />
+          <option name="envVars">
+            <list>
+              <DockerEnvVarImpl>
+                <option name="name" value="POSTGRES_PASSWORD" />
+                <option name="value" value="supersecret" />
+              </DockerEnvVarImpl>
+            </list>
+          </option>
+          <option name="portBindings">
+            <list>
+              <DockerPortBindingImpl>
+                <option name="containerPort" value="5432" />
+                <option name="hostPort" value="5432" />
+              </DockerPortBindingImpl>
+            </list>
+          </option>
+          <option name="commandLineOptions" value="" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0ca71197-aaba-4b01-9697-668c15e2b9d3" name="Default Changelist" comment="" />
+      <created>1602535534592</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1602535534592</updated>
+      <workItem from="1602535535650" duration="85000" />
+      <workItem from="1602535629806" duration="121000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="402" y="1278" width="1084" height="710" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1602535699702">
+      <screen x="0" y="1080" width="1920" height="1080" />
+    </state>
+    <state x="402" y="1278" width="1084" height="710" key="#com.intellij.execution.impl.EditConfigurationsDialog/56.0.1864.1080/0.1080.1920.1080@0.1080.1920.1080" timestamp="1602535699702" />
+    <state x="446" y="198" width="1084" height="710" key="#com.intellij.execution.impl.EditConfigurationsDialog/56.0.1864.1080/0.1080.1920.1080@56.0.1864.1080" timestamp="1602535611565" />
+    <state x="771" y="298" width="424" height="491" key="FileChooserDialogImpl" timestamp="1602535580768">
+      <screen x="56" y="0" width="1864" height="1080" />
+    </state>
+    <state x="771" y="298" width="424" height="491" key="FileChooserDialogImpl/56.0.1864.1080/0.1080.1920.1080@56.0.1864.1080" timestamp="1602535580768" />
+    <state x="845" y="1541" width="187" height="190" key="com.intellij.docker.deployment.ui.DockerPortBindingsField.v173.dialogSize" timestamp="1602535676782">
+      <screen x="0" y="1080" width="1920" height="1080" />
+    </state>
+    <state x="845" y="1541" width="187" height="190" key="com.intellij.docker.deployment.ui.DockerPortBindingsField.v173.dialogSize/56.0.1864.1080/0.1080.1920.1080@0.1080.1920.1080" timestamp="1602535676782" />
+  </component>
+</project>

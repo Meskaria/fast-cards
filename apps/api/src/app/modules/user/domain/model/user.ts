@@ -135,9 +135,7 @@ export class User extends AggregateRoot<UserProps> {
     }
     const user = new User(props, id);
 
-    user.apply(
-      new UserCreatedEvent(user.id.value.toString(), user.email.value)
-    );
+    user.apply(new UserCreatedEvent(user.id.value.toString(), user.access));
     return Result.ok<User>(user);
   }
 }

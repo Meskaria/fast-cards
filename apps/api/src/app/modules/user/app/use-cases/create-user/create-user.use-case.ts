@@ -32,6 +32,8 @@ export class CreateUserUseCase
   ) {}
 
   async execute(request?: CreateUserDto): Promise<Response> {
+    console.count('CREATE USER USE CASE');
+
     const emailOrError = UserEmail.create(request.email);
     const passwordOrError = UserPassword.create({ value: request.password });
     const nameOrError = UserName.create({ name: request.name });

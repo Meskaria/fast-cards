@@ -74,7 +74,7 @@ export class LoginUserUseCase implements UseCase<LoginDto, Promise<Response>> {
       const accessToken: JWTToken = this.authService.signJWT({
         email: user.email.value,
         isEmailVerified: user.isEmailVerified,
-        userId: user.id.id.toString(),
+        userId: user.id.value.toString(),
       });
 
       const refreshToken: RefreshToken = this.authService.createRefreshToken();
