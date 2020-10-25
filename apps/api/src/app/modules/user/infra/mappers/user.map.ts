@@ -8,9 +8,11 @@ import { UserSurname } from 'apps/api/src/app/modules/user/domain/model/user-sur
 import { UserName } from 'apps/api/src/app/modules/user/domain/model/user-name';
 import { UserPassword } from 'apps/api/src/app/modules/user/domain/model/user-password';
 import { UserEmail } from 'apps/api/src/app/modules/user/domain/model/user-email';
-import { User as UserEntity } from '@prisma/client';
+import { User as UserEntity, UserGetPayload } from '@prisma/client';
 import { Mapper } from 'apps/api/src/app/shared/infra/Mapper';
 import { UserDto } from 'apps/api/src/app/modules/user/infra/http/serializers/user.serializer';
+
+type UserWithStudentAndMentor = UserGetPayload<{ include?: { student: true; mentor: true }; }>;
 
 @Injectable()
 export class UserMap implements Mapper<User, UserEntity> {
@@ -25,7 +27,9 @@ export class UserMap implements Mapper<User, UserEntity> {
       email: user.email.value,
     };
   }
-  public static fromResistance(raw: UserEntity): User {
+  public static fromPersistence(
+    raw: UserWithStudentAndMentor | UserEntity
+  ): User {
     const userNameOrError = UserName.create({ name: raw.name });
     const userSurnameOrError = UserSurname.create({ surname: raw.surname });
     const userPasswordOrError = UserPassword.create({
@@ -46,12 +50,15 @@ export class UserMap implements Mapper<User, UserEntity> {
         refreshToken: raw.refreshToken,
         isEmailVerified: raw.isEmailVerified,
         lastLogin: raw.lastLogin,
+        studentId: (raw as UserWithStudentAndMentor)?.student?.id,
+        mentorId: (raw as UserWithStudentAndMentor)?.mentor?.id,
       },
       new UniqueEntityID(raw.id)
     );
   }
 
-  public static async toResistance(
+
+  public static async toPersistence(
     user: User
   ): Promise<Omit<UserEntity, 'createdAt' | 'updatedAt'>> {
     let password: string = null;
@@ -78,3 +85,4 @@ export class UserMap implements Mapper<User, UserEntity> {
     };
   }
 }
+

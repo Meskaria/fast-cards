@@ -7,3 +7,5 @@
 20201011085810-change-english-string-to-slugs
 20201011104407-create-mentor-student-and-related-schemas
 20201012213816-change-field-name-in-time-slot-model
+20201018171928-remove-unique-from-offer-mentor-id
+20201018181003-add-is-deleted-to-offer
