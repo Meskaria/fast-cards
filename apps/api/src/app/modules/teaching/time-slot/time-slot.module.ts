@@ -1,15 +1,13 @@
 import { Module } from '@nestjs/common';
 import { TimeSlotRepository } from './infra/repos/time-slot.repository';
 import { CqrsModule } from '@nestjs/cqrs';
-import { CreateTimeSlotUseCase } from 'apps/api/src/app/modules/teaching/time-slot/app/use-cases/create-time-slot/create-time-slot.use-case';
-import { UserCreatedTimeSlotEventHandler } from 'apps/api/src/app/modules/teaching/time-slot/app/events/handlers/user-created-time-slot.event.handler';
+import { TimeSlotController } from 'apps/api/src/app/modules/teaching/time-slot/infra/http/time-slot.controller';
+import { TimeSlotService } from 'apps/api/src/app/modules/teaching/time-slot/infra/service/time-slot.service';
+import useCases from 'apps/api/src/app/modules/teaching/time-slot/app/use-cases';
 
 @Module({
-  providers: [
-    CreateTimeSlotUseCase,
-    UserCreatedTimeSlotEventHandler,
-    TimeSlotRepository,
-  ],
+  controllers: [TimeSlotController],
+  providers: [...useCases, TimeSlotRepository, TimeSlotService],
   imports: [CqrsModule],
 })
 export class TimeSlotModule {}

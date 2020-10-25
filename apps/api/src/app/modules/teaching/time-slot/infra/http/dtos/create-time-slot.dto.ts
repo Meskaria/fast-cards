@@ -1,15 +1,26 @@
-import { IsDate, IsNotEmpty, IsUUID } from 'class-validator';
+import { IsDate, IsNotEmpty, ValidateNested } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
+import { IsDateAssignableToSlot } from 'apps/api/src/app/modules/teaching/time-slot/infra/http/validator/is-date-assignable-to-slot';
 
 export class CreateTimeSlotDto {
-  @IsUUID()
-  @IsNotEmpty()
-  mentorId: string;
+  @ApiProperty()
+  @Type(() => SlotDto)
+  @ValidateNested({ each: true })
+  slots: SlotDto[];
+}
 
-  @IsDate()
+export class SlotDto {
   @IsNotEmpty()
-  start: Date;
+  @IsDate()
+  @ApiProperty()
+  @Type(() => Date)
+  @IsDateAssignableToSlot()
+  since: Date;
 
-  @IsDate()
   @IsNotEmpty()
-  end: Date;
+  @Type(() => Date)
+  @IsDate()
+  @IsDateAssignableToSlot()
+  till: Date;
 }

@@ -7,36 +7,44 @@ import { TimeSlotDto } from '../http/serializers/time-slot.serializer';
 
 @Injectable()
 export class TimeSlotMap implements Mapper<TimeSlot, TimeSlotEntity> {
-  public static async toDTO(timeSlot: TimeSlot): Promise<TimeSlotDto> {
+  public static toDTO(timeSlot: TimeSlot): TimeSlotDto {
     return {
       id: timeSlot.id.value.toString(),
       mentorId: timeSlot.mentorId,
-      start: timeSlot.start,
-      end: timeSlot.end,
+      start: timeSlot.since,
+      end: timeSlot.till,
       lessonId: timeSlot.scheduledLessonId,
     };
   }
-  public static fromResistance(raw: TimeSlotEntity): TimeSlot {
+  public static toDTOBulk(timeSlots: TimeSlot[]): TimeSlotDto[] {
+    return timeSlots.map(TimeSlotMap.toDTO);
+  }
+
+  public static fromPersistence(raw: TimeSlotEntity): TimeSlot {
     return new TimeSlot(
       {
         mentorId: raw.mentorId,
-        start: raw.start,
-        end: raw.end,
+        since: raw.start.toString(),
+        till: raw.end.toString(),
         scheduledLessonId: raw.scheduledLessonId,
       },
       new UniqueEntityID(raw.id)
     );
   }
 
-  public static async toResistance(
+  public static toPersistence(
     timeSlot: TimeSlot
-  ): Promise<Omit<TimeSlotEntity, 'createdAt' | 'updatedAt'>> {
+  ): Omit<TimeSlotEntity, 'createdAt' | 'updatedAt'> {
     return {
       id: timeSlot.id.value.toString(),
       mentorId: timeSlot.mentorId,
-      start: timeSlot.start,
-      end: timeSlot.end,
-      lessonId: timeSlot.scheduledLessonId,
+      start: (timeSlot.since as unknown) as Date,
+      end: (timeSlot.till as unknown) as Date,
+      scheduledLessonId: timeSlot.scheduledLessonId,
     };
+  }
+
+  public static toPersistenceBulk(timeSlots: TimeSlot[]) {
+    return timeSlots.map(TimeSlotMap.toPersistence);
   }
 }

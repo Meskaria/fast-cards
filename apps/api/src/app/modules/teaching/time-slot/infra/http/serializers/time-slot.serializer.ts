@@ -1,3 +1,6 @@
+import { ApiResponseProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
+
 export interface TimeSlotDto {
   id: string;
   mentorId: string;
@@ -15,5 +18,15 @@ export class TimeSlotSerializer implements TimeSlotDto {
 
   constructor(TimeSlot: TimeSlotDto) {
     Object.assign(this, TimeSlot);
+  }
+}
+
+export class TimeSlotCollectionSerializer {
+  @ApiResponseProperty({ type: [TimeSlotSerializer] })
+  @Type(() => TimeSlotSerializer)
+  data?: TimeSlotSerializer[];
+
+  constructor(timeSlots: TimeSlotSerializer[]) {
+    this.data = timeSlots;
   }
 }

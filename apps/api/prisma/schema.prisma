@@ -10,6 +10,7 @@ datasource db {
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["transactionApi"]
 }
 
 model Profile {
@@ -47,8 +48,8 @@ model TimeSlot {
   mentorId           String
   start              DateTime
   end                DateTime
-  scheduledLesson    ScheduledLesson      @relation(fields: [scheduledLessonId], references: [id])
-  scheduledLessonId           String
+  scheduledLesson    ScheduledLesson?      @relation(fields: [scheduledLessonId], references: [id])
+  scheduledLessonId           String?
 }
 
 model ScheduledLesson {

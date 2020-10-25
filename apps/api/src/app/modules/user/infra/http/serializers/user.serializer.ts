@@ -12,6 +12,8 @@ export interface UserDto {
   refreshToken?: string;
   accessToken?: string;
   lastLogin?: string;
+  studentId?: string;
+  mentorId?: string;
 }
 export class UserSerializer implements UserDto {
   id: string;
@@ -20,6 +22,8 @@ export class UserSerializer implements UserDto {
   access: USER_ACCESS;
   isDeleted: boolean;
   email: string;
+  studentId?: string;
+  mentorId?: string;
 
   @Exclude()
   lastLogin?: string;

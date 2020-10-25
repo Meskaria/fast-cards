@@ -3,11 +3,13 @@ import { Result } from 'apps/api/src/app/shared/core/Result';
 import { AggregateRoot } from 'apps/api/src/app/shared/domain/AggregateRoot';
 import { TimeSlotId } from './time-slot-id';
 import TimeSlotCreatedEvent from '../../app/events/implements/time-slot-created.event';
+import UserDeletedEvent from 'apps/api/src/app/modules/user/app/events/implements/user-deleted.event';
+import TimeSlotDeletedEvent from 'apps/api/src/app/modules/teaching/time-slot/app/events/implements/time-slot-deleted.event';
 
 interface TimeSlotProps {
   mentorId: string;
-  start: Date;
-  end: Date;
+  since: string;
+  till: string;
   scheduledLessonId: string;
 }
 
@@ -20,18 +22,21 @@ export class TimeSlot extends AggregateRoot<TimeSlotProps> {
     return this.props.mentorId;
   }
 
-  get start(): Date {
-    return this.props.start;
+  get since(): string {
+    return this.props.since;
   }
 
-  get end(): Date {
-    return this.props.end;
+  get till(): string {
+    return this.props.till;
   }
 
   get scheduledLessonId(): string {
     return this.props.scheduledLessonId;
   }
 
+  public delete() {
+    this.apply(new TimeSlotDeletedEvent(this.id.value.toString()));
+  }
   constructor(props: TimeSlotProps, id: UniqueEntityID) {
     super(props, id);
   }
@@ -41,8 +46,7 @@ export class TimeSlot extends AggregateRoot<TimeSlotProps> {
     id: UniqueEntityID
   ): Result<TimeSlot> {
     const timeSlot = new TimeSlot(props, id);
-
-    TimeSlot.apply(new TimeSlotCreatedEvent(timeSlot.id.value.toString()));
+    timeSlot.apply(new TimeSlotCreatedEvent(timeSlot.id.value.toString()));
     return Result.ok<TimeSlot>(timeSlot);
   }
 }

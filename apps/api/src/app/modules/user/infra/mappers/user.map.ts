@@ -25,6 +25,8 @@ export class UserMap implements Mapper<User, UserEntity> {
       access: user.access,
       isDeleted: user.isDeleted,
       email: user.email.value,
+      mentorId: user.mentorId,
+      studentId: user.studentId,
     };
   }
   public static fromPersistence(
@@ -85,4 +87,3 @@ export class UserMap implements Mapper<User, UserEntity> {
     };
   }
 }
-
