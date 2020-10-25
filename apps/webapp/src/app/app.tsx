@@ -1,15 +1,13 @@
-import 'antd/dist/antd.less';
 import React from 'react';
-import styled, { ThemeProvider } from '@xstyled/styled-components';
-
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import ThemeProvider from 'libs/ui/src/theming/ThemeProvider';
 import GlobalStyles from './globalStyles';
-import theme from '../theme';
 
 import Routing from './routing';
 
 export const App = () => {
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider>
       <GlobalStyles />
       <Routing />
     </ThemeProvider>

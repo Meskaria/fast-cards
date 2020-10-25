@@ -1,31 +1,37 @@
 import React from 'react';
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Input, FormControl, InputLabel, Button } from '@material-ui/core';
+import { FormContainer } from '../sign-in.styled';
 
 interface Props {}
 export const SignInForm: React.FC<Props> = () => {
   return (
-    <Form name={'sign-in-form'} layout={'vertical'} hideRequiredMark>
-      <Form.Item
-        label="Email address"
-        name="email"
-        rules={[
-          {
-            type: 'string',
-            required: true,
-            message: 'Email address is required',
-          },
-          {
-            pattern: new RegExp(
-              /^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$/
-            ),
-            message: 'Invalid email format',
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
+    <FormContainer name={'sign-in-form'}>
+      <FormControl>
+        <InputLabel>
+          Email address
+          <Input
+            name="email"
+            required
+            // rules={[
+            //   {
+            //     type: 'string',
+            //     required: true,
+            //     message: 'Email address is required',
+            //   },
+            //   {
+            //     pattern: new RegExp(
+            //       /^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$/
+            //     ),
+            //     message: 'Invalid email format',
+            //   },
+            // ]}
+          />
+        </InputLabel>
 
-      <Form.Item
+      </FormControl>
+
+
+      <Input
         label="Password"
         name="password"
         rules={[
@@ -45,13 +51,12 @@ export const SignInForm: React.FC<Props> = () => {
           },
         ]}
       >
-        <Input.Password />
-      </Form.Item>
-      <Form.Item>
-        <Button block type="primary" htmlType="submit">
+      </Input>
+      <FormControl>
+        <Button>
           Submit
         </Button>
-      </Form.Item>
-    </Form>
+      </FormControl>
+    </form>
   );
 };
