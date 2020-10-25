@@ -13,11 +13,11 @@ export class MentorMap implements Mapper<Mentor, MentorEntity> {
       user: mentor.userId,
     };
   }
-  public static fromResistance(raw: MentorEntity): Mentor {
+  public static fromPersistence(raw: MentorEntity): Mentor {
     return new Mentor({userId: raw.userId}, new UniqueEntityID(raw.id));
   }
 
-  public static async toResistance(
+  public static async toPersistence(
     mentor: Mentor
   ): Promise<Omit<MentorEntity, 'createdAt' | 'updatedAt'>> {
     return {

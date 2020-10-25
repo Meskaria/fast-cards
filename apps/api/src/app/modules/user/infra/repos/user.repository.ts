@@ -61,7 +61,7 @@ export class UserRepository extends Repository implements IUserRepo {
 
 
   async save(user: User): Promise<User> {
-    const rawUser = await UserMap.toResistance(user);
+    const rawUser = await UserMap.toPersistence(user);
     const userModel = await this.prisma.user.upsert({
       where: {
         id: rawUser.id,

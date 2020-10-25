@@ -28,12 +28,6 @@ export class CreateOfferUseCase
   ) {}
 
   async execute(offerData: CreateOfferWithMentorIdDto): Promise<Response> {
-    const dtoResult = Result.combine([]);
-
-    if (dtoResult.isFailure) {
-      return left(Result.fail<void>(dtoResult.error)) as Response;
-    }
-
     try {
       const nextOfferId = this.offerRepo.nextId();
       const offerOrError: Result<Offer> = Offer.create(
@@ -50,11 +44,9 @@ export class CreateOfferUseCase
       const offer: Offer = offerOrError.getValue();
       await this.offerRepo.save(offer);
 
-      const savedOffer = this.publisher.mergeObjectContext(offer);
+      this.publisher.mergeObjectContext(offer).commit();
 
-      savedOffer.commit();
-
-      return right(Result.ok<Offer>(savedOffer));
+      return right(Result.ok<Offer>(offer));
     } catch (err) {
       return left(new AppError.UnexpectedError(err)) as Response;
     }

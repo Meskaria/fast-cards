@@ -24,7 +24,7 @@ export class StudentRepository extends Repository implements IStudentRepo {
     });
     if (!student) throw new Error('Student not found.');
 
-    return StudentMap.fromResistance(student);
+    return StudentMap.fromPersistence(student);
   }
 
   async exists(userId: string): Promise<boolean> {
@@ -38,7 +38,7 @@ export class StudentRepository extends Repository implements IStudentRepo {
   }
 
   async save(student: Student): Promise<Student> {
-    const rawStudent = await StudentMap.toResistance(student);
+    const rawStudent = await StudentMap.toPersistence(student);
     const studentModel = await this.prisma.student.upsert({
       where: {
         id: rawStudent.id,
@@ -61,6 +61,6 @@ export class StudentRepository extends Repository implements IStudentRepo {
       },
     });
 
-    return StudentMap.fromResistance(studentModel);
+    return StudentMap.fromPersistence(studentModel);
   }
 }

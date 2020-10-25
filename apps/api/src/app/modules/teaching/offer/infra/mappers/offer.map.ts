@@ -29,7 +29,7 @@ export class OfferMap implements Mapper<Offer, OfferEntity> {
     );
   }
 
-  public static async toResistance(
+  public static async toPersistence(
     offer: Offer
   ): Promise<Omit<OfferEntity, 'createdAt' | 'updatedAt'>> {
     return {

@@ -7,6 +7,7 @@ import { OfferMap } from 'apps/api/src/app/modules/teaching/offer/infra/mappers/
 export interface IOfferRepo {
   getOfferByOfferId(offerId: string): Promise<Offer>;
   save(offer: Offer): Promise<Offer>;
+  getAllOffersByMentorId(mentorId: string): Promise<Offer[]>;
 }
 
 @Injectable()
@@ -15,19 +16,29 @@ export class OfferRepository extends Repository implements IOfferRepo {
     super();
   }
 
+  async getAllOffersByMentorId(mentorId: string): Promise<Offer[]> {
+    const offers = await this.prisma.offer.findMany({
+      where: {
+        mentorId,
+      },
+    });
+    if (!offers) throw new Error('Offer not found.');
+
+    return offers.map(offer => OfferMap.fromPersistence(offer));
+  }
+
   async getOfferByOfferId(offerId: string): Promise<Offer> {
     const offer = await this.prisma.offer.findOne({
       where: {
         id: offerId,
       },
     });
-    if (!offer) throw new Error('Offer not found.');
 
     return OfferMap.fromPersistence(offer);
   }
 
   async save(offer: Offer): Promise<Offer> {
-    const {mentorId, ...rawOffer} = await OfferMap.toResistance(offer);
+    const {mentorId, ...rawOffer} = await OfferMap.toPersistence(offer);
     const offerModel = await this.prisma.offer.upsert({
       where: {
         id: rawOffer.id,

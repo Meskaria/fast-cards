@@ -58,7 +58,7 @@ export class UserMap implements Mapper<User, UserEntity> {
   }
 
 
-  public static async toResistance(
+  public static async toPersistence(
     user: User
   ): Promise<Omit<UserEntity, 'createdAt' | 'updatedAt'>> {
     let password: string = null;

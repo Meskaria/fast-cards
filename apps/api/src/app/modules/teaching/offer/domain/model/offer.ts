@@ -4,6 +4,7 @@ import { AggregateRoot } from 'apps/api/src/app/shared/domain/AggregateRoot';
 import { OfferId } from 'apps/api/src/app/modules/teaching/offer/domain/model/offer-id';
 import OfferCreatedEvent from 'apps/api/src/app/modules/teaching/offer/app/events/implements/offer-created.event';
 import OfferDeletedEvent from 'apps/api/src/app/modules/teaching/offer/app/events/implements/offer-deleted.event';
+import { Guard } from 'apps/api/src/app/shared/core/Guard';
 
 interface OfferProps {
   mentorId: string;
@@ -37,10 +38,30 @@ export class Offer extends AggregateRoot<OfferProps> {
     super(props, id);
   }
 
-  public static create(
-    props: OfferProps,
-    id: UniqueEntityID
-  ): Result<Offer> {
+  public static create(props: OfferProps, id: UniqueEntityID): Result<Offer> {
+    const requiredGuardResult = Guard.againstNullOrUndefinedBulk([
+      { argument: props.mentorId, argumentName: 'mentorId' },
+      { argument: props.timeSlotsCount, argumentName: 'timeSlotsCount' },
+      { argument: props.price, argumentName: 'price' },
+    ]);
+
+    const timeSlotsInRangeGuardResult = Guard.inRange(
+      props.timeSlotsCount,
+      1,
+      8,
+      'timeSlotsCount'
+    );
+    const priceGuardResult = Guard.greaterThan(1, props.price);
+
+    const combinedGuardResults = Guard.combine([
+      requiredGuardResult,
+      timeSlotsInRangeGuardResult,
+      priceGuardResult,
+    ]);
+
+    if (!combinedGuardResults.succeeded) {
+      return Result.fail<Offer>(combinedGuardResults.message);
+    }
     const offer = new Offer(props, id);
 
     offer.apply(new OfferCreatedEvent(offer.id.value.toString()));
@@ -50,9 +71,7 @@ export class Offer extends AggregateRoot<OfferProps> {
   public delete() {
     if (!this.props.isDeleted) {
       this.props.isDeleted = true;
-      this.apply(
-        new OfferDeletedEvent(this.id.value.toString())
-      );
+      this.apply(new OfferDeletedEvent(this.id.value.toString()));
     }
   }
 }

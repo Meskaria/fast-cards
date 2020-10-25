@@ -13,11 +13,11 @@ export class StudentMap implements Mapper<Student, StudentEntity> {
       user: student.userId,
     };
   }
-  public static fromResistance(raw: StudentEntity): Student {
+  public static fromPersistence(raw: StudentEntity): Student {
     return new Student({ userId: raw.userId }, new UniqueEntityID(raw.id));
   }
 
-  public static async toResistance(
+  public static async toPersistence(
     student: Student
   ): Promise<Omit<StudentEntity, 'createdAt' | 'updatedAt'>> {
     return {

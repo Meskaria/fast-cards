@@ -24,11 +24,7 @@ export class MentorRepository extends Repository implements IMentorRepo {
     });
     if (!mentor) throw new Error('Mentor not found.');
 
-    return MentorMap.fromResistance(mentor);
-  }
-
-  async getMentorByUserId() {
-
+    return MentorMap.fromPersistence(mentor);
   }
 
   async exists(userId: string): Promise<boolean> {
@@ -42,7 +38,7 @@ export class MentorRepository extends Repository implements IMentorRepo {
   }
 
   async save(mentor: Mentor): Promise<Mentor> {
-    const rawMentor = await MentorMap.toResistance(mentor);
+    const rawMentor = await MentorMap.toPersistence(mentor);
     const mentorModel = await this.prisma.mentor.upsert({
       where: {
         id: rawMentor.id,
@@ -65,6 +61,6 @@ export class MentorRepository extends Repository implements IMentorRepo {
       },
     });
 
-    return MentorMap.fromResistance(mentorModel);
+    return MentorMap.fromPersistence(mentorModel);
   }
 }
