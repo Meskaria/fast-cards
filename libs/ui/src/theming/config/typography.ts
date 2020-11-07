@@ -20,11 +20,11 @@ export const typography = {
     fontSize: '1rem',
   },
   subtitle1: {
-    fontSize: '1rem',
+    fontSize: '0.85rem',
   },
   subtitle2: {
     fontFamily: 'Open Sans',
-    fontSize: '1rem',
+    fontSize: '0.75rem',
     lineHeight: 1.5,
   },
   body1: {
