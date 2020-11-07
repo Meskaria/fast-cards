@@ -1,5 +1,5 @@
 import { IEvent } from '@nestjs/cqrs';
 
-export default class MentorCreatedEvent implements IEvent {
+export default class TimeSlotDeletedEvent implements IEvent {
   constructor(public readonly id: string) {}
 }

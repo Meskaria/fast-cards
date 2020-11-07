@@ -9,6 +9,7 @@
 /node_modules
 
 # IDEs and editors
+*/**/.idea
 /.idea
 .project
 .classpath
@@ -37,3 +38,4 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+

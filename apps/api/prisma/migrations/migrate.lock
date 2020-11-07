@@ -9,3 +9,5 @@
 20201012213816-change-field-name-in-time-slot-model
 20201018171928-remove-unique-from-offer-mentor-id
 20201018181003-add-is-deleted-to-offer
+20201018133334-scheduled-lesson-in-time-slot-marked-as-optional
+20201024122007-scheduled-lesson-marked-as-optional
