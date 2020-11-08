@@ -26,7 +26,8 @@
     "help": "nx help",
     "db": "docker run -p 5432:5432 --env POSTGRES_PASSWORD=fast-cards --name postgres -d postgres",
     "prisma:save": "npx prisma migrate save --name init --experimental",
-    "prisma:migrate": "npx prisma migrate up --experimental"
+    "prisma:migrate": "npx prisma migrate up --experimental",
+    "postinstall": "npx husky install"
   },
   "husky": {
     "hooks": {

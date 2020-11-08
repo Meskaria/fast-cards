@@ -54,7 +54,7 @@ import {
 @ApiTags('User')
 @Controller('user')
 @UseInterceptors(ClassSerializerInterceptor)
-@ApiInternalServerErrorResponse({ description: 'UnknownError' })
+@ApiInternalServerErrorResponse({ description: 'Unknown error' })
 export class UserController {
   constructor(
     private createUserUseCase: CreateUserUseCase,
