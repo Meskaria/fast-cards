@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   Card,
   Page,
@@ -9,13 +9,15 @@ import {
 import { SignUpForm } from './components/sign-up-form.component';
 import { Link } from 'react-router-dom';
 import { Divider, Typography } from '@material-ui/core';
+import { ThemeContext} from '@meskaria/ui';
 
 export const SignUpPage: React.FC = () => {
+  const { theme } = useContext(ThemeContext);
   return (
-    <Page>
-      <Card>
-        <FormContainer>
-          <Header>
+    <Page palette={theme.palette}>
+      <Card theme={theme}>
+        <FormContainer spacing={theme.spacing}>
+          <Header spacing={theme.spacing}>
             <Typography component="h1" variant="h2">
               Tech couch
             </Typography>
@@ -24,10 +26,8 @@ export const SignUpPage: React.FC = () => {
             </Typography>
           </Header>
           <Divider />
-
           <SignUpForm />
           <Divider />
-
           <Typography component="p" variant="subtitle1" color="textSecondary">
             You already have an account? <Link to={'/sign-in'}>Log in</Link>
           </Typography>

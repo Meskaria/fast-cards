@@ -5,11 +5,11 @@ import {themeNames} from '../../theming/theme-utils'
 
 export const ThemeSwitcher: React.FC = () => (
   <ThemeContext.Consumer>
-    {({theme, toggleTheme}) => (
+    {({theme: {palette}, toggleTheme}) => (
       <FormControlLabel
         control={
           <Switch
-            checked={theme === themeNames.light}
+            checked={palette.mode === themeNames.light}
             onChange={() => toggleTheme()}
             color="primary"
           />

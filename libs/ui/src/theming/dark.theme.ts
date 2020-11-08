@@ -1,9 +1,10 @@
 import { createMuiTheme } from '@material-ui/core';
 import { typography } from './config/typography';
 import { measurements } from './config/measurements';
+import { PaletteOptions } from '@material-ui/core/styles/createPalette';
 
 const palette = {
-    type: 'dark',
+    mode: 'dark',
     primary: {
       main: '#3f51b5',
     },
@@ -11,7 +12,8 @@ const palette = {
       main: '#fe7b37',
     },
     background: {
-      default: '#f7f6f4',
+      default: '#4e586c',
+      light: '#717171',
     },
     error: {
       main: '#e05252',
@@ -34,7 +36,7 @@ const palette = {
       disabled: '#92999c',
       hint: '#2c3243',
     },
-};
+} as PaletteOptions;
 
 export const darkTheme = createMuiTheme({
   palette,

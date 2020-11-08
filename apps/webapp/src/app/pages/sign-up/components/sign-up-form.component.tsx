@@ -15,7 +15,7 @@ export const SignUpForm: React.FC = () => {
         repeatPassword: '',
       }}
       validationSchema={SignUpSchema}
-      onSubmit={() => console.log('here')}
+      onSubmit={() => console.log('on submit')}
     >
       {({ errors, touched, isSubmitting }) => (
       <StyledForm>

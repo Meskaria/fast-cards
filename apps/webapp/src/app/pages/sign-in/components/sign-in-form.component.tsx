@@ -12,7 +12,7 @@ export const SignInForm: React.FC = () => {
         password: '',
       }}
       validationSchema={SignInSchema}
-      onSubmit={() => console.log('here')}
+      onSubmit={() => console.log('on submit')}
     >
       {({ errors, touched, isSubmitting }) => (
       <StyledForm>

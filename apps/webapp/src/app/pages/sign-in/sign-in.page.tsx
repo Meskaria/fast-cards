@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { GoogleLogin } from 'react-google-login';
 import {
   Card,
@@ -10,17 +10,19 @@ import {
 import { SignInForm } from './components/sign-in-form.component';
 import { Link } from 'react-router-dom';
 import { Divider, Typography } from '@material-ui/core';
+import { ThemeContext } from '@meskaria/ui';
 
 export const SignInPage: React.FC = () => {
+  const { theme } = useContext(ThemeContext);
   const responseGoogle = (data) => {
     console.log(data, 'data');
   };
 
   return (
-    <Page>
-      <Card>
-        <FormContainer>
-          <Header>
+    <Page palette={theme.palette}>
+      <Card theme={theme}>
+        <FormContainer spacing={theme.spacing}>
+          <Header spacing={theme.spacing}>
             <Typography component="h1" variant="h2">Tech couch</Typography>
             <Typography component="p" color="textSecondary">Log in</Typography>
           </Header>

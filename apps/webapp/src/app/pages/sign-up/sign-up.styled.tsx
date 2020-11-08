@@ -1,27 +1,30 @@
 import styled from '@xstyled/styled-components';
 import { Form } from 'formik';
 import ScottWeb from '../../../assets/brian-lundquist-CxBLPzglHtw-unsplash.jpg';
+import { PaletteOptions } from '@material-ui/core/styles/createPalette';
+import { ThemeOptions } from '@material-ui/core';
+import { SpacingOptions } from '@material-ui/core/styles/createSpacing';
 
-export const Page = styled.div`
+export const Page = styled.div<PaletteOptions>`
   width: 100vw;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #fdfdfd;
+  background: ${({palette}) => palette.background.default};
 `;
 
-export const Card = styled.div`
+export const Card = styled.div<ThemeOptions>`
   width: 800px;
   height: 640px;
-  background-color: white;
-  box-shadow: 3px 4px 12px 0px #ccc;
+  background-color: ${({theme: {palette}}) => palette.background.light};
+  box-shadow: ${({theme: {shadows}}) => shadows[1]};
   display: flex;
 `;
 
-export const Header = styled.header`
+export const Header = styled.header<SpacingOptions>`
   text-align: center;
-  margin-bottom: 6px;
+  margin-bottom: ${({spacing}) => spacing()};
 `;
 
 export const StyledForm = styled(Form)`
@@ -29,11 +32,11 @@ export const StyledForm = styled(Form)`
   flex-direction: column;
 `;
 
-export const FormContainer = styled.div`
+export const FormContainer = styled.div<SpacingOptions>`
    display: flex;
    flex-direction: column;
    justify-content: space-around;
-   padding: 50px;
+   padding: ${({spacing}) => spacing(9)}};
    flex: 1;
 `;
 

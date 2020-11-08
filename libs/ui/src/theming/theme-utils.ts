@@ -1,10 +1,10 @@
 import { Theme } from '@material-ui/core';
-import { lightTheme } from './light.theme';
-import { darkTheme } from './dark.theme';
+import { lightTheme as light } from './light.theme';
+import { darkTheme as dark} from './dark.theme';
 
 const themeMap: { [key: string]: Theme } = {
-  lightTheme,
-  darkTheme,
+  light,
+  dark,
 };
 
 export function getThemeByName(theme: string): Theme {
@@ -12,6 +12,6 @@ export function getThemeByName(theme: string): Theme {
 }
 
 export const themeNames = {
-  light: 'lightTheme',
-  dark: 'darkTheme',
+  light: 'light',
+  dark: 'dark',
 };
