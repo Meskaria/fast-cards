@@ -11,29 +11,50 @@ import {
   BadRequestException,
   UseGuards,
   Get,
+  HttpStatus,
 } from '@nestjs/common';
-import { CreateUserUseCase } from 'apps/api/src/modules/user/use-cases/create-user/create-user.use-case';
-import { CreateUserDto } from 'apps/api/src/modules/user/dtos/create-user.dto';
-import { CreateUserErrors } from 'apps/api/src/modules/user/use-cases/create-user/create-user.errors';
+import {
+  ApiBadRequestResponse,
+  ApiBearerAuth,
+  ApiConflictResponse,
+  ApiInternalServerErrorResponse,
+  ApiNotFoundResponse,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
+
 import { UserMap } from 'apps/api/src/modules/user/mappers/user.map';
-import { UserSerializer } from 'apps/api/src/modules/user/serializers/user.serializer';
-import { DeleteUserUseCase } from 'apps/api/src/modules/user/use-cases/delete-user/delete-user.use-case';
-import { DeleteUserErrors } from 'apps/api/src/modules/user/use-cases/delete-user/delete-user.errors';
-import { LoginUseCaseErrors } from 'apps/api/src/modules/user/use-cases/login/login.errors';
-import { LoginDto } from 'apps/api/src/modules/user/dtos/login.dto';
-import { LoginUserUseCase } from 'apps/api/src/modules/user/use-cases/login/login.use-case';
-import { RefreshAccessTokenDto } from 'apps/api/src/modules/user/use-cases/refresh-access-token/refresh-access-token.dto';
-import { RefreshAccessTokenErrors } from 'apps/api/src/modules/user/use-cases/refresh-access-token/refresh-access-token.errors';
 import { JWTToken } from 'apps/api/src/modules/user/domain/jwt';
-import { LogoutUseCase } from 'apps/api/src/modules/user/use-cases/logout/logout.use-case';
 import { AuthGuard } from '@nestjs/passport';
-import { RefreshAccessTokenUseCase } from 'apps/api/src/modules/user/use-cases/refresh-access-token/refresh-access-token.use-case';
 import { UserData } from 'apps/api/src/modules/user/services/auth/user-info.decorator';
 import { User } from 'apps/api/src/modules/user/domain/model/user';
-import { TokensSerializer } from 'apps/api/src/modules/user/serializers/tokens.serializer';
+import {
+  CreateUserDto,
+  RefreshAccessTokenDto,
+  LoginDto,
+} from 'apps/api/src/modules/user/dtos';
+import {
+  TokensSerializer,
+  UserSerializer,
+} from 'apps/api/src/modules/user/serializers';
 
+import {
+  CreateUserErrors,
+  CreateUserUseCase,
+  DeleteUserErrors,
+  DeleteUserUseCase,
+  LoginUserUseCase,
+  LoginUseCaseErrors,
+  LogoutUseCase,
+  RefreshAccessTokenErrors,
+  RefreshAccessTokenUseCase,
+} from 'apps/api/src/modules/user/use-cases';
+
+@ApiTags('User')
 @Controller('user')
 @UseInterceptors(ClassSerializerInterceptor)
+@ApiInternalServerErrorResponse({ description: 'UnknownError' })
 export class UserController {
   constructor(
     private createUserUseCase: CreateUserUseCase,
@@ -44,6 +65,10 @@ export class UserController {
   ) {}
 
   @Post()
+  @ApiOperation({ summary: 'Sign up with a new account' })
+  @ApiConflictResponse({ description: 'Email already exists' })
+  @ApiBadRequestResponse({ description: 'Incorrect request data' })
+  @ApiResponse({ status: HttpStatus.CREATED, type: UserSerializer })
   public async create(@Body() body: CreateUserDto) {
     const result = await this.createUserUseCase.execute(body);
 
@@ -63,27 +88,11 @@ export class UserController {
     }
   }
 
-  @Delete()
-  @UseGuards(AuthGuard('jwt'))
-  public async delete(@UserData() user: User) {
-    const result = await this.deleteUserUseCase.execute({
-      userId: user.id.value.toString(),
-    });
-
-    if (result.isLeft()) {
-      const error = result.value;
-
-      switch (error.constructor) {
-        case DeleteUserErrors.UserNotFoundError:
-          throw new NotFoundException(error.errorValue().message);
-        default:
-          throw new InternalServerErrorException(error.errorValue().message);
-      }
-    }
-    return;
-  }
-
   @Post('/login')
+  @ApiOperation({ summary: 'Login with account data' })
+  @ApiNotFoundResponse({ description: 'Account with a given id was not found' })
+  @ApiResponse({ status: HttpStatus.OK, type: TokensSerializer })
+  @ApiBadRequestResponse({ description: 'Incorrect request data' })
   async login(@Body() dto: LoginDto) {
     const result = await this.loginUserUseCase.execute(dto);
 
@@ -91,12 +100,11 @@ export class UserController {
       const error = result.value;
 
       switch (error.constructor) {
+        case LoginUseCaseErrors.UserDeletedError:
         case LoginUseCaseErrors.UserEmailDoesntExistError:
           throw new NotFoundException(error.errorValue().message);
         case LoginUseCaseErrors.PasswordDoesntMatchError:
           throw new BadRequestException(error.errorValue().message);
-        case LoginUseCaseErrors.UserDeletedError:
-          throw new NotFoundException(error.errorValue().message);
         default:
           throw new InternalServerErrorException(error.errorValue().message);
       }
@@ -106,6 +114,12 @@ export class UserController {
   }
 
   @Post('/refresh-token')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Refresh access token' })
+  @ApiNotFoundResponse({
+    description: 'User was not found, refresh token not found',
+  })
+  @ApiResponse({ status: HttpStatus.OK, type: TokensSerializer })
   async refreshToken(@Body() dto: RefreshAccessTokenDto) {
     const result = await this.refreshAccessTokenUseCase.execute(dto);
 
@@ -113,9 +127,8 @@ export class UserController {
       const error = result.value;
 
       switch (error.constructor) {
-        case RefreshAccessTokenErrors.RefreshTokenNotFound: // user logged out
-          throw new NotFoundException(error.errorValue().message);
         case RefreshAccessTokenErrors.UserNotFoundOrDeletedError:
+        case RefreshAccessTokenErrors.RefreshTokenNotFound: // user logged out
           throw new NotFoundException(error.errorValue().message);
         default:
           throw new InternalServerErrorException(error.errorValue().message);
@@ -132,6 +145,8 @@ export class UserController {
 
   @Post('/logout')
   @UseGuards(AuthGuard('jwt'))
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Logout from system' })
   async logout(@UserData() user: User) {
     const result = await this.logoutUserUseCase.execute({
       userId: user.id.value.toString(),
@@ -147,9 +162,36 @@ export class UserController {
 
   @Get('/me')
   @UseGuards(AuthGuard('jwt'))
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Get data about user' })
+  @ApiResponse({ type: UserSerializer })
   async getMe(@UserData() user: User) {
     // TODO better handle that part. serializer should take care of all
     const userDto = await UserMap.toDTO(user);
     return new UserSerializer(userDto);
+  }
+
+  @Delete()
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'))
+  @ApiOperation({ summary: 'Remove account' })
+  @ApiNotFoundResponse({ description: 'Account with a given id was not found' })
+  @ApiResponse({ status: HttpStatus.OK, description: 'Account deleted' })
+  public async delete(@UserData() user: User) {
+    const result = await this.deleteUserUseCase.execute({
+      userId: user.id.value.toString(),
+    });
+
+    if (result.isLeft()) {
+      const error = result.value;
+
+      switch (error.constructor) {
+        case DeleteUserErrors.UserNotFoundError:
+          throw new NotFoundException(error.errorValue().message);
+        default:
+          throw new InternalServerErrorException(error.errorValue().message);
+      }
+    }
+    return;
   }
 }

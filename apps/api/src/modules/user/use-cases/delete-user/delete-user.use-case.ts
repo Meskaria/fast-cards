@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { UseCase } from 'apps/api/src/shared/core/UseCase';
-import { DeleteUserDto } from 'apps/api/src/modules/user/dtos/delete-user.dto';
+import { DeleteUserDto } from 'apps/api/src/modules/user/use-cases/delete-user/delete-user.dto';
 import { Either, left, Result, right } from 'apps/api/src/shared/core/Result';
 import { AppError } from 'apps/api/src/shared/core/AppError';
 import { DeleteUserErrors } from 'apps/api/src/modules/user/use-cases/delete-user/delete-user.errors';

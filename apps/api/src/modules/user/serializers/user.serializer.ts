@@ -1,5 +1,6 @@
 import { Exclude } from 'class-transformer';
 import { USER_ACCESS } from 'apps/api/src/modules/user/domain/model/user';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export interface UserDto {
   id: string;
@@ -16,13 +17,28 @@ export interface UserDto {
   mentorId?: string;
 }
 export class UserSerializer implements UserDto {
+  @ApiProperty()
   id: string;
+
+  @ApiProperty()
   name: string;
+
+  @ApiProperty()
   surname: string;
+
+  @ApiProperty({ enum: USER_ACCESS })
   access: USER_ACCESS;
+
+  @ApiProperty()
   isDeleted: boolean;
+
+  @ApiProperty()
   email: string;
+
+  @ApiPropertyOptional()
   studentId?: string;
+
+  @ApiPropertyOptional()
   mentorId?: string;
 
   @Exclude()
