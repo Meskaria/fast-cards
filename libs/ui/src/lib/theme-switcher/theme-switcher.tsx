@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormControlLabel, Switch } from '@material-ui/core';
-import { ThemeContext } from '../../theming/ThemeContext';
-import {themeNames} from '../../theming/themeUtils'
+import { ThemeContext } from '../../theming/theme-context';
+import {themeNames} from '../../theming/theme-utils'
 
 export const ThemeSwitcher: React.FC = () => (
   <ThemeContext.Consumer>

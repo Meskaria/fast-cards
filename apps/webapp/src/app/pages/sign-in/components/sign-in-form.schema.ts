@@ -5,7 +5,7 @@ export const SignInSchema = Yup.object().shape({
     .email('Invalid email')
     .required('Required'),
   password: Yup.string()
-    .min(8, 'Too Short!')
-    .max(16, 'Too Long!')
+    .min(8, 'Password should be minimum 8 characters')
+    .max(16, 'Password should be maximum 16 characters')
     .required('Required'),
 });

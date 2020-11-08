@@ -5,7 +5,6 @@ import { Input, ButtonWithLoader } from '@meskaria/ui';
 import { SignInSchema } from './sign-in-form.schema';
 
 export const SignInForm: React.FC = () => {
-  console.log('HERE');
   return (
     <Formik
       initialValues={{

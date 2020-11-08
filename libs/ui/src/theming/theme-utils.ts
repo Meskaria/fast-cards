@@ -1,6 +1,6 @@
 import { Theme } from '@material-ui/core';
-import { lightTheme } from './lightTheme';
-import { darkTheme } from './darkTheme';
+import { lightTheme } from './light.theme';
+import { darkTheme } from './dark.theme';
 
 const themeMap: { [key: string]: Theme } = {
   lightTheme,

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { MuiThemeProvider } from "@material-ui/core";
-import { getThemeByName, themeNames } from './themeUtils';
-import {ThemeContext} from './ThemeContext';
+import { getThemeByName, themeNames } from './theme-utils';
+import {ThemeContext} from './theme-context';
 
-const ThemeProvider: React.FC = (props) => {
+export const ThemeProvider: React.FC = (props) => {
   const {light, dark} = themeNames;
   // Get form the api instead ???
   const initialThemeName = localStorage.getItem("appTheme") || light;
@@ -24,4 +24,3 @@ const ThemeProvider: React.FC = (props) => {
   );
 };
 
-export default ThemeProvider;

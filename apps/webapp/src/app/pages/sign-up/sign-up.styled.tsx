@@ -1,7 +1,7 @@
 import styled from '@xstyled/styled-components';
 import { Form } from 'formik';
 import ScottWeb from '../../../assets/brian-lundquist-CxBLPzglHtw-unsplash.jpg';
-// TODO this should probably be merged in some kind of commons, but is it worth it? will be used in only 2 places?
+
 export const Page = styled.div`
   width: 100vw;
   height: 100vh;

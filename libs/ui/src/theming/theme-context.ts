@@ -1,5 +1,5 @@
 import React from 'react';
-import {themeNames} from './themeUtils'
+import {themeNames} from './theme-utils'
 
 export const ThemeContext = React.createContext({
   theme: themeNames.light,
