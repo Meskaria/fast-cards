@@ -28,6 +28,12 @@
     "prisma:save": "npx prisma migrate save --name init --experimental",
     "prisma:migrate": "npx prisma migrate up --experimental"
   },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "pretty-quick --staged --pattern 'src/**/*.{js,jsx,ts,tsx,json,css,scss,md,html}'"
+    }
+  },
   "private": true,
   "dependencies": {
     "@emotion/core": "^10.0.35",
@@ -54,6 +60,8 @@
     "bcrypt": "^5.0.0",
     "class-transformer": "^0.3.1",
     "class-validator": "^0.12.2",
+    "antd": "^4.5.4",
+    "antd": "^4.5.4",
     "document-register-element": "1.14.6",
     "faker": "^5.1.0",
     "formik": "^2.2.2",
@@ -85,6 +93,8 @@
     "@babel/preset-env": "7.11.5",
     "@babel/preset-react": "7.10.4",
     "@babel/preset-typescript": "7.10.4",
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
     "@nestjs/schematics": "^7.1.2",
     "@nestjs/testing": "^7.4.4",
     "@nrwl/cypress": "10.3.0",
@@ -96,7 +106,7 @@
     "@nrwl/react": "10.3.0",
     "@nrwl/storybook": "^10.3.0",
     "@nrwl/web": "10.3.0",
-    "@nrwl/workspace": "10.3.0",
+    "@nrwl/workspace": "10.3.2",
     "@prisma/cli": "^2.8.0",
     "@storybook/addon-knobs": "5.3.9",
     "@storybook/react": "5.3.9",
@@ -123,9 +133,11 @@
     "eslint-plugin-jsx-a11y": "6.3.1",
     "eslint-plugin-react": "7.21.3",
     "eslint-plugin-react-hooks": "4.1.2",
+    "husky": "^4.3.0",
     "ioredis": "^4.17.3",
     "jest": "25.2.3",
     "prettier": "2.1.2",
+    "pretty-quick": "^3.1.0",
     "ts-jest": "25.2.1",
     "ts-node": "~7.0.0",
     "tslint": "~6.0.0",
