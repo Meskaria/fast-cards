@@ -10,6 +10,7 @@ import {
   Delete,
   BadRequestException,
   Get,
+  Param,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { CreateTimeSlotsUseCase } from 'apps/api/src/modules/teaching/time-slot/use-cases/create-time-slots/create-time-slots.use-case';
@@ -22,10 +23,26 @@ import { CreateTimeSlotsErrors } from 'apps/api/src/modules/teaching/time-slot/u
 import { DeleteTimeSlotsErrors } from 'apps/api/src/modules/teaching/time-slot/use-cases/delete-time-slots/delete-time-slots.errors';
 import { GetTimeSlotsByRangeUseCase } from 'apps/api/src/modules/teaching/time-slot/use-cases/get-time-slots-by-range/get-time-slots-by-range.use-case';
 import { GetTimeSlotsUseCase } from 'apps/api/src/modules/teaching/time-slot/use-cases/get-time-slots/get-time-slots.use-case';
+import {
+  ApiBadRequestResponse,
+  ApiBearerAuth,
+  ApiConflictResponse,
+  ApiInternalServerErrorResponse,
+  ApiOperation,
+  ApiParam,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
+import { DeleteTimeSlotDto } from 'apps/api/src/modules/teaching/time-slot/dtos/delete-time-slot.dto';
+import { GetTimeSlotsByMentorIdDto } from 'apps/api/src/modules/teaching/time-slot/dtos/get-time-slots-by-mentor-id.dto';
 
-@Controller('/user/time-slots')
+@ApiBearerAuth()
+@ApiTags('Time slots')
+@Controller('/time-slots')
 @UseInterceptors(ClassSerializerInterceptor)
 @UseGuards(AuthGuard('jwt'))
+@ApiBadRequestResponse({ description: 'Incorrect request' })
+@ApiInternalServerErrorResponse()
 export class TimeSlotController {
   constructor(
     private readonly createTimeSlotsUseCase: CreateTimeSlotsUseCase,
@@ -35,6 +52,9 @@ export class TimeSlotController {
   ) {}
 
   @Post()
+  @ApiOperation({ summary: 'Create available time slots' })
+  @ApiConflictResponse({ description: 'Time slots already exist' })
+  @ApiResponse({ type: TimeSlotCollectionSerializer })
   public async create(@Body() body: CreateTimeSlotDto, @UserData() user) {
     const result = await this.createTimeSlotsUseCase.execute({
       ...body,
@@ -58,7 +78,8 @@ export class TimeSlotController {
   }
 
   @Delete()
-  public async delete(@Body() body: CreateTimeSlotDto, @UserData() user) {
+  @ApiOperation({ summary: 'Delete time slots' })
+  public async delete(@Body() body: DeleteTimeSlotDto, @UserData() user) {
     const result = await this.deleteTimeSlotsUseCase.execute({
       ...body,
       mentorId: user.mentorId,
@@ -79,13 +100,18 @@ export class TimeSlotController {
   }
 
   @Get('range')
+  @ApiOperation({
+    summary: 'Get available time slots in a given range by mentorId',
+  })
+  @ApiParam({ name: 'mentorId', type: 'string' })
+  @ApiResponse({ type: TimeSlotCollectionSerializer })
   public async timeSlotsByRange(
     @Body() body: CreateTimeSlotDto,
-    @UserData() user
+    @Param() { mentorId }: GetTimeSlotsByMentorIdDto
   ) {
     const timeSlotsOrError = await this.getTimeSlotsByRange.execute({
       ...body,
-      mentorId: user.mentorId,
+      mentorId,
     });
 
     if (timeSlotsOrError.isLeft()) {
@@ -102,9 +128,14 @@ export class TimeSlotController {
     }
   }
 
-  @Get()
-  public async timeSlots(@Body() body: CreateTimeSlotDto, @UserData() user) {
-    const timeSlotsOrError = await this.getTimeSlots.execute(user.mentorId);
+  @Get(':mentorId')
+  @ApiOperation({ summary: 'Get time slots by mentorId' })
+  @ApiParam({ name: 'mentorId', type: 'string' })
+  @ApiResponse({ type: TimeSlotCollectionSerializer })
+  public async timeSlotsByMentorId(
+    @Param() { mentorId }: GetTimeSlotsByMentorIdDto
+  ) {
+    const timeSlotsOrError = await this.getTimeSlots.execute({ mentorId });
 
     if (timeSlotsOrError.isLeft()) {
       const error = timeSlotsOrError.value;

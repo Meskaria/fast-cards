@@ -55,7 +55,7 @@ export class OfferController {
   ) {}
 
   @Get()
-  @ApiOperation({ description: 'List all offers for a given mentorId' })
+  @ApiOperation({ summary: 'List all offers for a given mentorId' })
   @ApiParam({ type: 'string', name: 'mentorId' })
   @ApiNotFoundResponse({ description: 'No offers found for a given mentorId' })
   @ApiResponse({ status: HttpStatus.OK, type: [OfferSerializer] })
@@ -79,7 +79,7 @@ export class OfferController {
   }
 
   @Post()
-  @ApiOperation({ description: 'Create an offer for a logged in mentor' })
+  @ApiOperation({ summary: 'Create an offer for a logged in mentor' })
   @ApiConflictResponse({ description: ' Offer already exists' })
   @ApiResponse({ status: HttpStatus.OK, type: OfferSerializer })
   public async create(
@@ -103,7 +103,7 @@ export class OfferController {
   }
 
   @Delete()
-  @ApiOperation({ description: 'Create an offer for a logged in mentor' })
+  @ApiOperation({ summary: 'Create an offer for a logged in mentor' })
   @ApiParam({ type: 'string', name: 'mentorId' })
   @ApiConflictResponse({ description: 'Offer not found' })
   @ApiResponse({ status: HttpStatus.OK, type: OfferSerializer })

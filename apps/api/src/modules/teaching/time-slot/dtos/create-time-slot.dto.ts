@@ -3,24 +3,25 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsDateAssignableToSlot } from 'apps/api/src/modules/teaching/time-slot/validator/is-date-assignable-to-slot';
 
-export class CreateTimeSlotDto {
-  @ApiProperty()
-  @Type(() => SlotDto)
-  @ValidateNested({ each: true })
-  slots: SlotDto[];
-}
-
 export class SlotDto {
+  @ApiProperty()
   @IsNotEmpty()
   @IsDate()
-  @ApiProperty()
   @Type(() => Date)
   @IsDateAssignableToSlot()
   since: Date;
 
+  @ApiProperty()
   @IsNotEmpty()
   @Type(() => Date)
   @IsDate()
   @IsDateAssignableToSlot()
   till: Date;
+}
+
+export class CreateTimeSlotDto {
+  @ApiProperty({ type: SlotDto })
+  @Type(() => SlotDto)
+  @ValidateNested({ each: true })
+  slots: SlotDto[];
 }
