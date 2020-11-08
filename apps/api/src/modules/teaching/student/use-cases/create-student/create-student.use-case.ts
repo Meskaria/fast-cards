@@ -4,7 +4,7 @@ import { Either, left, Result, right } from 'apps/api/src/shared/core/Result';
 import { AppError } from 'apps/api/src/shared/core/AppError';
 import { UniqueEntityID } from 'apps/api/src/shared/domain/UniqueEntityID';
 import { EventPublisher } from '@nestjs/cqrs';
-import { CreateStudentDto } from 'apps/api/src/modules/teaching/student/dtos/create-student.dto';
+import { CreateStudentDto } from 'apps/api/src/modules/teaching/student/use-cases/create-student/create-student.dto';
 import { StudentRepository } from 'apps/api/src/modules/teaching/student/repos/student.repository';
 import { Student } from 'apps/api/src/modules/teaching/student/domain/model/student';
 import { CreateStudentErrors } from 'apps/api/src/modules/teaching/student/use-cases/create-student/create-student.errors';

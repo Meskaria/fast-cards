@@ -4,7 +4,7 @@ import { Either, left, Result, right } from 'apps/api/src/shared/core/Result';
 import { AppError } from 'apps/api/src/shared/core/AppError';
 import { UniqueEntityID } from 'apps/api/src/shared/domain/UniqueEntityID';
 import { EventPublisher } from '@nestjs/cqrs';
-import { CreateMentorDto } from 'apps/api/src/modules/teaching/mentor/dtos/create-mentor.dto';
+import { CreateMentorDto } from 'apps/api/src/modules/teaching/mentor/use-cases/create-mentor/create-mentor.dto';
 import { MentorRepository } from 'apps/api/src/modules/teaching/mentor/repos/mentor.repository';
 import { Mentor } from 'apps/api/src/modules/teaching/mentor/domain/model/mentor';
 import { CreateMentorErrors } from 'apps/api/src/modules/teaching/mentor/use-cases/create-mentor/create-mentor.errors';
