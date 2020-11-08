@@ -1,6 +1,6 @@
 import { IsUUID } from 'class-validator';
 
-export class GetAllOfferDto {
+export class DeleteOfferDto {
   @IsUUID()
-  mentorId: string;
+  offerId: string;
 }

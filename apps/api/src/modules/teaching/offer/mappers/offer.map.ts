@@ -10,7 +10,7 @@ export class OfferMap implements Mapper<Offer, OfferEntity> {
   public static async toDTO(offer: Offer): Promise<OfferSerializerDto> {
     return {
       id: offer.id.value.toString(),
-      mentor: offer.mentorId,
+      mentorId: offer.mentorId,
       timeSlotsCount: offer.timeSlotsCount,
       price: offer.price,
       isDeleted: offer.isDeleted,

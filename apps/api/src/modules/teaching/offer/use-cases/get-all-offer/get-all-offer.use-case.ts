@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { UseCase } from 'apps/api/src/shared/core/UseCase';
 import { Either, left, Result, right } from 'apps/api/src/shared/core/Result';
 import { AppError } from 'apps/api/src/shared/core/AppError';
-import { GetAllOfferDto } from 'apps/api/src/modules/teaching/offer/dtos/get-all-offer.dto';
+import { GetAllOfferDto } from 'apps/api/src/modules/teaching/offer/use-cases/get-all-offer/get-all-offer.dto';
 import { OfferRepository } from 'apps/api/src/modules/teaching/offer/repos/offer.repository';
 import { Offer } from 'apps/api/src/modules/teaching/offer/domain/model/offer';
 import { GetAllOfferErrors } from 'apps/api/src/modules/teaching/offer/use-cases/get-all-offer/get-all-offer.errors';

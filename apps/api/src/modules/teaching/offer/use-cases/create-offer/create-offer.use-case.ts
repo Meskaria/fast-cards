@@ -4,10 +4,10 @@ import { Either, left, Result, right } from 'apps/api/src/shared/core/Result';
 import { AppError } from 'apps/api/src/shared/core/AppError';
 import { UniqueEntityID } from 'apps/api/src/shared/domain/UniqueEntityID';
 import { EventPublisher } from '@nestjs/cqrs';
-import { CreateOfferWithMentorIdDto } from 'apps/api/src/modules/teaching/offer/dtos/create-offer.dto';
 import { OfferRepository } from 'apps/api/src/modules/teaching/offer/repos/offer.repository';
 import { Offer } from 'apps/api/src/modules/teaching/offer/domain/model/offer';
 import { CreateOfferErrors } from 'apps/api/src/modules/teaching/offer/use-cases/create-offer/create-offer.errors';
+import { CreateOfferWithMentorIdDto } from 'apps/api/src/modules/teaching/offer/use-cases/create-offer/create-offer.dto';
 
 export type Response = Either<
   CreateOfferErrors.OfferAlreadyExistsError | AppError.UnexpectedError,

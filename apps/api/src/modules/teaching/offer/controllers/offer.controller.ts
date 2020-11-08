@@ -11,21 +11,39 @@ import {
   Delete,
   NotFoundException,
   Param,
+  HttpStatus,
 } from '@nestjs/common';
+import {
+  ApiBearerAuth,
+  ApiConflictResponse,
+  ApiNotFoundResponse,
+  ApiOperation,
+  ApiParam,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
+
 import { UserData } from 'apps/api/src/modules/user/services/auth/user-info.decorator';
 import { User } from 'apps/api/src/modules/user/domain/model/user';
-import { CreateOfferUseCase } from 'apps/api/src/modules/teaching/offer/use-cases/create-offer/create-offer.use-case';
-import { CreateOfferDto } from 'apps/api/src/modules/teaching/offer/dtos/create-offer.dto';
+import {
+  CreateOfferUseCase,
+  CreateOfferErrors,
+  GetAllOfferUseCase,
+  GetAllOfferErrors,
+  DeleteOfferUseCase,
+  DeleteOfferErrors,
+} from 'apps/api/src/modules/teaching/offer/use-cases';
+import {
+  CreateOfferDto,
+  GetAllOfferDto,
+  DeleteOfferDto,
+} from 'apps/api/src/modules/teaching/offer/dtos';
 import { OfferMap } from 'apps/api/src/modules/teaching/offer/mappers/offer.map';
 import { OfferSerializer } from 'apps/api/src/modules/teaching/offer/serializers/offer.serializer';
-import { DeleteOfferDto } from 'apps/api/src/modules/teaching/offer/dtos/delete-offer.dto';
-import { DeleteOfferUseCase } from 'apps/api/src/modules/teaching/offer/use-cases/delete-offer/delete-offer.use-case';
-import { GetAllOfferUseCase } from 'apps/api/src/modules/teaching/offer/use-cases/get-all-offer/get-all-offer.use-case';
-import { DeleteOfferErrors } from 'apps/api/src/modules/teaching/offer/use-cases/delete-offer/delete-offer.errors';
-import { GetAllOfferErrors } from 'apps/api/src/modules/teaching/offer/use-cases/get-all-offer/get-all-offer.errors';
-import { CreateOfferErrors } from 'apps/api/src/modules/teaching/offer/use-cases/create-offer/create-offer.errors';
 
+@ApiTags('Offer')
+@ApiBearerAuth()
 @Controller('offer')
 @UseInterceptors(ClassSerializerInterceptor)
 @UseGuards(AuthGuard('jwt'))
@@ -37,7 +55,11 @@ export class OfferController {
   ) {}
 
   @Get()
-  public async getAll(@Param('mentorId') mentorId: string) {
+  @ApiOperation({ description: 'List all offers for a given mentorId' })
+  @ApiParam({ type: 'string', name: 'mentorId' })
+  @ApiNotFoundResponse({ description: 'No offers found for a given mentorId' })
+  @ApiResponse({ status: HttpStatus.OK, type: [OfferSerializer] })
+  public async getAll(@Param() { mentorId }: GetAllOfferDto) {
     const result = await this.getAllOfferUseCase.execute({ mentorId });
     if (result.isLeft()) {
       const error = result.value;
@@ -57,6 +79,9 @@ export class OfferController {
   }
 
   @Post()
+  @ApiOperation({ description: 'Create an offer for a logged in mentor' })
+  @ApiConflictResponse({ description: ' Offer already exists' })
+  @ApiResponse({ status: HttpStatus.OK, type: OfferSerializer })
   public async create(
     @Body() body: CreateOfferDto,
     @UserData() { mentorId }: User
@@ -73,14 +98,17 @@ export class OfferController {
     } else {
       const offer = result.value.getValue();
       const offerDto = await OfferMap.toDTO(offer);
-      console.log('DTO', offerDto);
       return new OfferSerializer(offerDto);
     }
   }
 
   @Delete()
-  public async deleteOne(@Body() { id }: DeleteOfferDto) {
-    const result = await this.deleteOfferUseCase.execute({ id });
+  @ApiOperation({ description: 'Create an offer for a logged in mentor' })
+  @ApiParam({ type: 'string', name: 'mentorId' })
+  @ApiConflictResponse({ description: 'Offer not found' })
+  @ApiResponse({ status: HttpStatus.OK, type: OfferSerializer })
+  public async deleteOne(@Param() { offerId }: DeleteOfferDto) {
+    const result = await this.deleteOfferUseCase.execute({ offerId });
 
     if (result.isLeft()) {
       const error = result.value;
