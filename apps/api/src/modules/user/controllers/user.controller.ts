@@ -65,7 +65,10 @@ export class UserController {
   ) {}
 
   @Post()
-  @ApiOperation({ summary: 'Sign up with a new account' })
+  @ApiOperation({
+    summary: 'Sign up with a new account',
+    operationId: 'signUp',
+  })
   @ApiConflictResponse({ description: 'Email already exists' })
   @ApiBadRequestResponse({ description: 'Incorrect request data' })
   @ApiResponse({ status: HttpStatus.CREATED, type: UserSerializer })
@@ -89,7 +92,7 @@ export class UserController {
   }
 
   @Post('/login')
-  @ApiOperation({ summary: 'Login with account data' })
+  @ApiOperation({ summary: 'Login with account data', operationId: 'login' })
   @ApiNotFoundResponse({ description: 'Account with a given id was not found' })
   @ApiResponse({ status: HttpStatus.OK, type: TokensSerializer })
   @ApiBadRequestResponse({ description: 'Incorrect request data' })
@@ -115,7 +118,7 @@ export class UserController {
 
   @Post('/refresh-token')
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Refresh access token' })
+  @ApiOperation({ summary: 'Refresh access token', operationId: 'refresh' })
   @ApiNotFoundResponse({
     description: 'User was not found, refresh token not found',
   })
@@ -146,7 +149,7 @@ export class UserController {
   @Post('/logout')
   @UseGuards(AuthGuard('jwt'))
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Logout from system' })
+  @ApiOperation({ summary: 'Logout from system', operationId: 'logout' })
   async logout(@UserData() user: User) {
     const result = await this.logoutUserUseCase.execute({
       userId: user.id.value.toString(),
@@ -163,7 +166,7 @@ export class UserController {
   @Get('/me')
   @UseGuards(AuthGuard('jwt'))
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Get data about user' })
+  @ApiOperation({ summary: 'Get data about user', operationId: 'me' })
   @ApiResponse({ status: HttpStatus.OK, type: UserSerializer })
   async getMe(@UserData() user: User) {
     // TODO better handle that part. serializer should take care of all
@@ -174,7 +177,10 @@ export class UserController {
   @Delete()
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
-  @ApiOperation({ summary: 'Remove account' })
+  @ApiOperation({
+    summary: 'Remove account',
+    operationId: 'delete',
+  })
   @ApiNotFoundResponse({ description: 'Account with a given id was not found' })
   @ApiResponse({ status: HttpStatus.OK, description: 'Account deleted' })
   public async delete(@UserData() user: User) {

@@ -60,8 +60,6 @@
     "bcrypt": "^5.0.0",
     "class-transformer": "^0.3.1",
     "class-validator": "^0.12.2",
-    "antd": "^4.5.4",
-    "antd": "^4.5.4",
     "document-register-element": "1.14.6",
     "faker": "^5.1.0",
     "formik": "^2.2.2",
@@ -85,6 +83,7 @@
     "rxjs": "~6.6.3",
     "styled-components": "5.2.0",
     "styled-normalize": "^8.0.7",
+    "swagger-typescript-api": "^2.0.0",
     "swagger-ui-express": "^4.1.4",
     "yup": "^0.29.3"
   },

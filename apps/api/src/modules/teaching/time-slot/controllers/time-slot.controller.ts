@@ -37,7 +37,7 @@ import { DeleteTimeSlotDto } from 'apps/api/src/modules/teaching/time-slot/dtos/
 import { GetTimeSlotsByMentorIdDto } from 'apps/api/src/modules/teaching/time-slot/dtos/get-time-slots-by-mentor-id.dto';
 
 @ApiBearerAuth()
-@ApiTags('Time slots')
+@ApiTags('TimeSlots')
 @Controller('/time-slots')
 @UseInterceptors(ClassSerializerInterceptor)
 @UseGuards(AuthGuard('jwt'))
@@ -52,7 +52,10 @@ export class TimeSlotController {
   ) {}
 
   @Post()
-  @ApiOperation({ summary: 'Create available time slots' })
+  @ApiOperation({
+    summary: 'Create available time slots',
+    operationId: 'create',
+  })
   @ApiConflictResponse({ description: 'Time slots already exist' })
   @ApiResponse({ type: TimeSlotCollectionSerializer })
   public async create(@Body() body: CreateTimeSlotDto, @UserData() user) {
@@ -78,7 +81,7 @@ export class TimeSlotController {
   }
 
   @Delete()
-  @ApiOperation({ summary: 'Delete time slots' })
+  @ApiOperation({ summary: 'Delete time slots', operationId: 'delete' })
   public async delete(@Body() body: DeleteTimeSlotDto, @UserData() user) {
     const result = await this.deleteTimeSlotsUseCase.execute({
       ...body,
@@ -102,6 +105,7 @@ export class TimeSlotController {
   @Get('range')
   @ApiOperation({
     summary: 'Get available time slots in a given range by mentorId',
+    operationId: 'getManyByRange',
   })
   @ApiParam({ name: 'mentorId', type: 'string' })
   @ApiResponse({ type: TimeSlotCollectionSerializer })
@@ -129,7 +133,10 @@ export class TimeSlotController {
   }
 
   @Get(':mentorId')
-  @ApiOperation({ summary: 'Get time slots by mentorId' })
+  @ApiOperation({
+    summary: 'Get time slots by mentorId',
+    operationId: 'getMany',
+  })
   @ApiParam({ name: 'mentorId', type: 'string' })
   @ApiResponse({ type: TimeSlotCollectionSerializer })
   public async timeSlotsByMentorId(

@@ -1,8 +1,3 @@
-/**
- * This is not a production server yet!
- * This is only a minimal backend to get started.
- */
-
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 
@@ -20,12 +15,19 @@ async function bootstrap() {
       .setTitle('Meskaria API')
       .setDescription('Meskaria API documentation')
       .setVersion('0.1')
+      .addServer('http://localhost:3333/api')
+      .addTag('User')
+      .addTag('TimeSlots')
+      .addTag('Offer')
+      .setBasePath('http://localhost:3333/api')
       .addBearerAuth({ name: 'Authorization', in: 'header', type: 'apiKey' })
       .build();
 
-    const document = SwaggerModule.createDocument(app, options);
+    const document = SwaggerModule.createDocument(app, options, {
+      ignoreGlobalPrefix: true,
+    });
 
-    SwaggerModule.setup(`${globalPrefix}/explore`, app, document);
+    SwaggerModule.setup(`/explore`, app, document);
   }
 
   const port = process.env.PORT || 3333;
