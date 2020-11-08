@@ -164,7 +164,7 @@ export class UserController {
   @UseGuards(AuthGuard('jwt'))
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get data about user' })
-  @ApiResponse({ type: UserSerializer })
+  @ApiResponse({ status: HttpStatus.OK, type: UserSerializer })
   async getMe(@UserData() user: User) {
     // TODO better handle that part. serializer should take care of all
     const userDto = await UserMap.toDTO(user);
