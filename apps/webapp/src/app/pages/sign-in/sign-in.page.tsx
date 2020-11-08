@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { GoogleLogin } from 'react-google-login';
 import {
   Card,
@@ -9,21 +9,22 @@ import {
 } from './sign-in.styled';
 import { SignInForm } from './components/sign-in-form.component';
 import { Link } from 'react-router-dom';
-import { Typography, Divider } from 'antd';
+import { Divider, Typography } from '@material-ui/core';
+import { ThemeContext } from '@meskaria/ui';
 
-interface Props {}
-
-export const SignInPage: React.FC<Props> = () => {
+export const SignInPage: React.FC = () => {
+  const { theme } = useContext(ThemeContext);
   const responseGoogle = (data) => {
     console.log(data, 'data');
   };
+
   return (
-    <Page>
-      <Card>
-        <FormContainer>
-          <Header>
-            <Typography.Title level={3}>Fast Cards</Typography.Title>
-            <Typography.Paragraph>Create an account</Typography.Paragraph>
+    <Page palette={theme.palette}>
+      <Card theme={theme}>
+        <FormContainer spacing={theme.spacing}>
+          <Header spacing={theme.spacing}>
+            <Typography component="h1" variant="h2">Tech couch</Typography>
+            <Typography component="p" color="textSecondary">Log in</Typography>
           </Header>
           <Divider />
 
@@ -39,12 +40,12 @@ export const SignInPage: React.FC<Props> = () => {
             onFailure={responseGoogle}
             cookiePolicy={'single_host_origin'}
           />
-          <Typography.Paragraph type={'secondary'}>
+          <Typography component="p" variant="subtitle1" color="textSecondary">
             Don't have an account? <Link to={'/sign-up'}>Register</Link>
-          </Typography.Paragraph>
+          </Typography>
         </FormContainer>
         <MarketingContainer>
-          {/* [copy] TODO add some marketing text*/}
+           [copy] TODO add some marketing text
         </MarketingContainer>
       </Card>
     </Page>

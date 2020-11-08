@@ -1,57 +1,45 @@
 import React from 'react';
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Formik, Field } from 'formik';
+import { StyledForm } from '../sign-in.styled';
+import { Input, ButtonWithLoader } from '@meskaria/ui';
+import { SignInSchema } from './sign-in-form.schema';
 
-interface Props {}
-export const SignInForm: React.FC<Props> = () => {
+export const SignInForm: React.FC = () => {
   return (
-    <Form name={'sign-in-form'} layout={'vertical'} hideRequiredMark>
-      <Form.Item
-        label="Email address"
-        name="email"
-        rules={[
-          {
-            type: 'string',
-            required: true,
-            message: 'Email address is required',
-          },
-          {
-            pattern: new RegExp(
-              /^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$/
-            ),
-            message: 'Invalid email format',
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
-
-      <Form.Item
-        label="Password"
-        name="password"
-        rules={[
-          {
-            required: true,
-            message: 'Cannot be empty',
-          },
-          {
-            min: 8,
-            type: 'string',
-            message: 'Needs to have at least 8 characters',
-          },
-          {
-            max: 16,
-            type: 'string',
-            message: 'Password too long',
-          },
-        ]}
-      >
-        <Input.Password />
-      </Form.Item>
-      <Form.Item>
-        <Button block type="primary" htmlType="submit">
-          Submit
-        </Button>
-      </Form.Item>
-    </Form>
+    <Formik
+      initialValues={{
+        email: '',
+        password: '',
+      }}
+      validationSchema={SignInSchema}
+      onSubmit={() => console.log('on submit')}
+    >
+      {({ errors, touched, isSubmitting }) => (
+      <StyledForm>
+        <Field
+          component={Input}
+          id="email"
+          name="email"
+          label="Email"
+          variant="outlined"
+          size="small"
+          error={errors.email && touched.email}
+          helperText={errors.email}
+        />
+        <Field
+          component={Input}
+          id="password"
+          name="password"
+          label="Password"
+          variant="outlined"
+          size="small"
+          type="password"
+          error={errors.password && touched.password}
+          helperText={errors.password}
+        />
+        <ButtonWithLoader label="Submit" pending={isSubmitting}/>
+      </StyledForm>
+      )}
+    </Formik>
   );
 };

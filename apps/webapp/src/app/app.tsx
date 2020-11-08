@@ -1,15 +1,12 @@
-import 'antd/dist/antd.less';
 import React from 'react';
-import styled, { ThemeProvider } from '@xstyled/styled-components';
-
+import { ThemeProvider } from '@meskaria/ui'
 import GlobalStyles from './globalStyles';
-import theme from '../theme';
 
 import Routing from './routing';
 
 export const App = () => {
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider>
       <GlobalStyles />
       <Routing />
     </ThemeProvider>

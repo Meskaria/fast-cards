@@ -1,37 +1,38 @@
 import styled from '@xstyled/styled-components';
 import ScottWeb from '../../../assets/brian-lundquist-CxBLPzglHtw-unsplash.jpg';
+import { Form } from 'formik';
+import { ThemeOptions } from '@material-ui/core';
+import { PaletteOptions } from '@material-ui/core/styles/createPalette';
+import { SpacingOptions } from '@material-ui/core/styles/createSpacing';
 
-export const Page = styled.div`
+export const Page = styled.div<PaletteOptions>`
   width: 100vw;
   height: 100vh;
-  background-image: linear-gradient(to top, #fff1eb 0%, #ace0f9 100%);
   display: flex;
   justify-content: center;
   align-items: center;
+  background: ${({palette}) => palette.background.default};
 `;
 
-export const Card = styled.div`
+export const Card = styled.div<ThemeOptions>`
   width: 800px;
-  height: 570px;
-  background-color: white;
-  box-shadow: main;
+  min-height: 570px;
+  background-color: ${({theme: {palette}}) => palette.background.light};
+  box-shadow: ${({theme: {shadows}}) => shadows[1]};
   display: flex;
 `;
 
-export const FormContainer = styled.div`
-  height: 100%;
-  flex: 0 0 50%;
-  padding: 7;
-  text-align: center;
-  color: text.lighter;
-
-  & > .ant-typography {
-    margin-top: 7;
-  }
+export const FormContainer = styled.div<SpacingOptions>`
+   display: flex;
+   flex-direction: column;
+   justify-content: space-around;
+   padding: ${({spacing}) => spacing(9)}};
+   flex: 1;
 `;
+
 export const MarketingContainer = styled.div`
-  flex: 1;
-  height: 100%;
+  flex: 2;
+  min-height: 100%;
   background-position: center;
   background-size: cover;
   background-image: url(${ScottWeb});
@@ -53,7 +54,13 @@ export const MarketingContainer = styled.div`
     );
   }
 `;
-export const Header = styled.header`
+
+export const Header = styled.header<SpacingOptions>`
   text-align: center;
-  margin-bottom: 6;
+  margin-bottom: ${({spacing}) => spacing()};
+`;
+
+export const StyledForm = styled(Form)`
+  display: flex;
+  flex-direction: column;
 `;
