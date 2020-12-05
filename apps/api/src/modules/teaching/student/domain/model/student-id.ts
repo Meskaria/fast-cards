@@ -1,13 +1,13 @@
-import { UniqueEntityID } from 'apps/api/src/shared/domain/UniqueEntityID';
-import { Result } from 'apps/api/src/shared/core/Result';
-import { Entity } from 'apps/api/src/shared/domain/Entity';
+import { UniqueEntityID } from '@app/shared/domain/UniqueEntityID';
+import { Result } from '@app/shared/core/Result';
+import { Entity } from '@app/shared/domain/Entity';
 
 export class StudentId extends Entity<any> {
   get value(): UniqueEntityID {
     return this._id;
   }
 
-  private constructor(id?: UniqueEntityID) {
+  private constructor(id: UniqueEntityID) {
     super(null, id);
   }
 

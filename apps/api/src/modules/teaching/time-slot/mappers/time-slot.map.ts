@@ -1,9 +1,9 @@
-import { UniqueEntityID } from 'apps/api/src/shared/domain/UniqueEntityID';
+import { UniqueEntityID } from '@app/shared/domain/UniqueEntityID';
 import { Injectable } from '@nestjs/common';
 import { TimeSlot as TimeSlotEntity } from '@prisma/client';
-import { Mapper } from 'apps/api/src/shared/infra/Mapper';
-import { TimeSlot } from 'apps/api/src/modules/teaching/time-slot/domain/model/time-slot';
-import { TimeSlotDto } from 'apps/api/src/modules/teaching/time-slot/serializers/time-slot.serializer';
+import { Mapper } from '@app/shared/infra/Mapper';
+import { TimeSlot } from '@app/modules/teaching/time-slot/domain/model/time-slot';
+import { TimeSlotDto } from '@app/modules/teaching/time-slot/serializers/time-slot.serializer';
 
 @Injectable()
 export class TimeSlotMap implements Mapper<TimeSlot, TimeSlotEntity> {

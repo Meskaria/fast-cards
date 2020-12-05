@@ -24,20 +24,20 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 
-import { UserMap } from 'apps/api/src/modules/user/mappers/user.map';
-import { JWTToken } from 'apps/api/src/modules/user/domain/jwt';
+import { UserMap } from '@app/modules/user/mappers/user.map';
+import { JWTToken } from '@app/modules/user/domain/jwt';
 import { AuthGuard } from '@nestjs/passport';
-import { UserData } from 'apps/api/src/modules/user/services/auth/user-info.decorator';
-import { User } from 'apps/api/src/modules/user/domain/model/user';
+import { UserData } from '@app/modules/user/services/auth/user-info.decorator';
+import { User } from '@app/modules/user/domain/model/user';
 import {
   CreateUserDto,
   RefreshAccessTokenDto,
   LoginDto,
-} from 'apps/api/src/modules/user/dtos';
+} from '@app/modules/user/dtos';
 import {
   TokensSerializer,
   UserSerializer,
-} from 'apps/api/src/modules/user/serializers';
+} from '@app/modules/user/serializers';
 
 import {
   CreateUserErrors,
@@ -49,7 +49,7 @@ import {
   LogoutUseCase,
   RefreshAccessTokenErrors,
   RefreshAccessTokenUseCase,
-} from 'apps/api/src/modules/user/use-cases';
+} from '@app/modules/user/use-cases';
 
 @ApiTags('User')
 @Controller('user')

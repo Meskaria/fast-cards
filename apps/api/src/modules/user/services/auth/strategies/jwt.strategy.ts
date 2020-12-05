@@ -1,9 +1,9 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { GetUserByUserEmailUseCase } from 'apps/api/src/modules/user/use-cases/get-user-by-user-email/get-user-by-user-email.use-case';
-import { GetUserByUserEmailErrors } from 'apps/api/src/modules/user/use-cases/get-user-by-user-email/get-user-by-user-email.errors';
-import { AuthService } from 'apps/api/src/modules/user/services/auth/auth.service';
+import { GetUserByUserEmailUseCase } from '@app/modules/user/use-cases/get-user-by-user-email/get-user-by-user-email.use-case';
+import { GetUserByUserEmailErrors } from '@app/modules/user/use-cases/get-user-by-user-email/get-user-by-user-email.errors';
+import { AuthService } from '@app/modules/user/services/auth/auth.service';
 
 interface JWTPayload {
   email: string;

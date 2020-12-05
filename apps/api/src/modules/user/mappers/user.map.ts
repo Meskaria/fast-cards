@@ -1,16 +1,16 @@
-import { User, USER_ACCESS } from 'apps/api/src/modules/user/domain/model/user';
-import { UniqueEntityID } from 'apps/api/src/shared/domain/UniqueEntityID';
+import { User, USER_ACCESS } from '@app/modules/user/domain/model/user';
+import { UniqueEntityID } from '@app/shared/domain/UniqueEntityID';
 import { Injectable } from '@nestjs/common';
-import { UserSurname } from 'apps/api/src/modules/user/domain/model/user-surname';
-import { UserName } from 'apps/api/src/modules/user/domain/model/user-name';
-import { UserPassword } from 'apps/api/src/modules/user/domain/model/user-password';
-import { UserEmail } from 'apps/api/src/modules/user/domain/model/user-email';
+import { UserSurname } from '@app/modules/user/domain/model/user-surname';
+import { UserName } from '@app/modules/user/domain/model/user-name';
+import { UserPassword } from '@app/modules/user/domain/model/user-password';
+import { UserEmail } from '@app/modules/user/domain/model/user-email';
 import { User as UserEntity, UserGetPayload } from '@prisma/client';
-import { Mapper } from 'apps/api/src/shared/infra/Mapper';
-import { UserDto } from 'apps/api/src/modules/user/serializers/user.serializer';
+import { Mapper } from '@app/shared/infra/Mapper';
+import { UserDto } from '@app/modules/user/serializers/user.serializer';
 
 type UserWithStudentAndMentor = UserGetPayload<{
-  include?: { student: true; mentor: true };
+  include: { student: true; mentor: true };
 }>;
 
 @Injectable()
@@ -47,10 +47,10 @@ export class UserMap implements Mapper<User, UserEntity> {
         password: userPasswordOrError.getValue(),
         email: userEmailOrError.getValue(),
         access: raw.access as USER_ACCESS,
-        accessToken: raw.accessToken,
-        refreshToken: raw.refreshToken,
+        accessToken: raw.accessToken || undefined,
+        refreshToken: raw.refreshToken || undefined,
         isEmailVerified: raw.isEmailVerified,
-        lastLogin: raw.lastLogin,
+        lastLogin: raw.lastLogin || undefined,
         studentId: (raw as UserWithStudentAndMentor)?.student?.id,
         mentorId: (raw as UserWithStudentAndMentor)?.mentor?.id,
       },
@@ -61,13 +61,12 @@ export class UserMap implements Mapper<User, UserEntity> {
   public static async toPersistence(
     user: User
   ): Promise<Omit<UserEntity, 'createdAt' | 'updatedAt'>> {
-    let password: string = null;
-    if (!!user.password === true) {
-      if (user.password.isAlreadyHashed()) {
-        password = user.password.value;
-      } else {
-        password = await user.password.getHashedValue();
-      }
+    let password: string;
+
+    if (user.password.isAlreadyHashed()) {
+      password = user.password.value;
+    } else {
+      password = await user.password.getHashedValue();
     }
 
     return {
@@ -78,9 +77,9 @@ export class UserMap implements Mapper<User, UserEntity> {
       password: password,
       isDeleted: user.isDeleted,
       access: user.access,
-      accessToken: user.accessToken,
-      refreshToken: user.refreshToken,
-      lastLogin: user.lastLogin,
+      accessToken: user.accessToken || null,
+      refreshToken: user.refreshToken || null,
+      lastLogin: user.lastLogin || null,
       isEmailVerified: user.isEmailVerified,
     };
   }

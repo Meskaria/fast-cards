@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { UseCase } from 'apps/api/src/shared/core/UseCase';
-import { Either, left, Result, right } from 'apps/api/src/shared/core/Result';
-import { AppError } from 'apps/api/src/shared/core/AppError';
-import { UniqueEntityID } from 'apps/api/src/shared/domain/UniqueEntityID';
+import { UseCase } from '@app/shared/core/UseCase';
+import { Either, left, Result, right } from '@app/shared/core/Result';
+import { AppError } from '@app/shared/core/AppError';
+import { UniqueEntityID } from '@app/shared/domain/UniqueEntityID';
 import { EventPublisher } from '@nestjs/cqrs';
-import { CreateMentorDto } from 'apps/api/src/modules/teaching/mentor/use-cases/create-mentor/create-mentor.dto';
-import { MentorRepository } from 'apps/api/src/modules/teaching/mentor/repos/mentor.repository';
-import { Mentor } from 'apps/api/src/modules/teaching/mentor/domain/model/mentor';
-import { CreateMentorErrors } from 'apps/api/src/modules/teaching/mentor/use-cases/create-mentor/create-mentor.errors';
+import { CreateMentorDto } from '@app/modules/teaching/mentor/use-cases/create-mentor/create-mentor.dto';
+import { MentorRepository } from '@app/modules/teaching/mentor/repos/mentor.repository';
+import { Mentor } from '@app/modules/teaching/mentor/domain/model/mentor';
+import { CreateMentorErrors } from '@app/modules/teaching/mentor/use-cases/create-mentor/create-mentor.errors';
 
 export type Response = Either<
   CreateMentorErrors.MentorAlreadyExistsError | AppError.UnexpectedError,
@@ -46,7 +46,7 @@ export class CreateMentorUseCase
 
       if (mentorOrError.isFailure) {
         return left(
-          Result.fail<Mentor>(mentorOrError.error.toString())
+          Result.fail<Mentor>(mentorOrError.errorValue().toString())
         ) as Response;
       }
 

@@ -1,8 +1,8 @@
-import { UniqueEntityID } from 'apps/api/src/shared/domain/UniqueEntityID';
-import { Result } from 'apps/api/src/shared/core/Result';
-import { AggregateRoot } from 'apps/api/src/shared/domain/AggregateRoot';
-import { StudentId } from 'apps/api/src/modules/teaching/student/domain/model/student-id';
-import StudentCreatedEvent from 'apps/api/src/modules/teaching/student/events/implements/student-created.event';
+import { UniqueEntityID } from '@app/shared/domain/UniqueEntityID';
+import { Result } from '@app/shared/core/Result';
+import { AggregateRoot } from '@app/shared/domain/AggregateRoot';
+import { StudentId } from '@app/modules/teaching/student/domain/model/student-id';
+import StudentCreatedEvent from '@app/modules/teaching/student/events/implements/student-created.event';
 
 interface StudentProps {
   userId: string;

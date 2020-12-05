@@ -10,7 +10,7 @@ export interface TimeSlotDto {
   mentorId: string;
   start: string;
   end: string;
-  lessonId?: string;
+  lessonId: string | null;
 }
 
 export class TimeSlotSerializer implements TimeSlotDto {
@@ -26,8 +26,8 @@ export class TimeSlotSerializer implements TimeSlotDto {
   @ApiProperty()
   end: string;
 
-  @ApiPropertyOptional()
-  lessonId?: string;
+  @ApiPropertyOptional({nullable: true})
+  lessonId: string | null;
 
   constructor(TimeSlot: TimeSlotDto) {
     Object.assign(this, TimeSlot);
@@ -37,9 +37,9 @@ export class TimeSlotSerializer implements TimeSlotDto {
 export class TimeSlotCollectionSerializer {
   @ApiResponseProperty({ type: [TimeSlotSerializer] })
   @Type(() => TimeSlotSerializer)
-  data?: TimeSlotSerializer[];
+  data?: TimeSlotDto[];
 
-  constructor(timeSlots: TimeSlotSerializer[]) {
+  constructor(timeSlots: TimeSlotDto[]) {
     this.data = timeSlots;
   }
 }

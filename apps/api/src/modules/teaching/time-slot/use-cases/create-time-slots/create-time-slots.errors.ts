@@ -1,6 +1,6 @@
-import { UseCaseError } from 'apps/api/src/shared/core/UseCaseError';
-import { Result } from 'apps/api/src/shared/core/Result';
-import { TimeSlot } from 'apps/api/src/modules/teaching/time-slot/domain/model/time-slot';
+import { UseCaseError } from '@app/shared/core/UseCaseError';
+import { Result } from '@app/shared/core/Result';
+import { TimeSlot } from '@app/modules/teaching/time-slot/domain/model/time-slot';
 
 export namespace CreateTimeSlotsErrors {
   export class TimeSlotAlreadyExistsError extends Result<UseCaseError> {

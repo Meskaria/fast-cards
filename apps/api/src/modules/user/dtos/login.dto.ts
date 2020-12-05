@@ -1,4 +1,4 @@
-import { JWTToken, RefreshToken } from 'apps/api/src/modules/user/domain/jwt';
+import { JWTToken, RefreshToken } from '@app/modules/user/domain/jwt';
 import { IsEmail, IsNotEmpty, MinLength } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 

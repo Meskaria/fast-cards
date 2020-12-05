@@ -1,5 +1,5 @@
 import { IsEmail, IsEnum, IsNotEmpty, IsString } from 'class-validator';
-import { USER_ACCESS } from 'apps/api/src/modules/user/domain/model/user';
+import { USER_ACCESS } from '@app/modules/user/domain/model/user';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateUserDto {

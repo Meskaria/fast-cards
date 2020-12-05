@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import * as moment from 'moment';
-import { SlotDto } from 'apps/api/src/modules/teaching/time-slot/dtos/create-time-slot.dto';
+import moment from 'moment';
+import { SlotDto } from '@app/modules/teaching/time-slot/dtos/create-time-slot.dto';
 
 export interface Range {
   start: string;

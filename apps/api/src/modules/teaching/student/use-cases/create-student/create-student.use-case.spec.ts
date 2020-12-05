@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { CreateUserUseCase } from 'apps/api/src/modules/user/use-cases/create-user/create-user.use-case';
-import { USER_ACCESS } from 'apps/api/src/modules/user/domain/model/user';
-import { UserRepository } from 'apps/api/src/modules/user/repos/user.repository';
+import { CreateUserUseCase } from '@app/modules/user/use-cases/create-user/create-user.use-case';
+import { USER_ACCESS } from '@app/modules/user/domain/model/user';
+import { UserRepository } from '@app/modules/user/repos/user.repository';
 import * as faker from 'faker';
 
 describe('CreateUserUseCase', () => {

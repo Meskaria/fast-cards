@@ -1,16 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import { UseCase } from 'apps/api/src/shared/core/UseCase';
-import { CreateUserDto } from 'apps/api/src/modules/user/dtos/create-user.dto';
-import { Either, left, Result, right } from 'apps/api/src/shared/core/Result';
-import { UserEmail } from 'apps/api/src/modules/user/domain/model/user-email';
-import { AppError } from 'apps/api/src/shared/core/AppError';
-import { UserName } from 'apps/api/src/modules/user/domain/model/user-name';
-import { User } from 'apps/api/src/modules/user/domain/model/user';
-import { UserPassword } from 'apps/api/src/modules/user/domain/model/user-password';
-import { UserSurname } from 'apps/api/src/modules/user/domain/model/user-surname';
-import { CreateUserErrors } from 'apps/api/src/modules/user/use-cases/create-user/create-user.errors';
-import { UserRepository } from 'apps/api/src/modules/user/repos/user.repository';
-import { UniqueEntityID } from 'apps/api/src/shared/domain/UniqueEntityID';
+import { UseCase } from '@app/shared/core/UseCase';
+import { CreateUserDto } from '@app/modules/user/dtos/create-user.dto';
+import { Either, left, Result, right } from '@app/shared/core/Result';
+import { UserEmail } from '@app/modules/user/domain/model/user-email';
+import { AppError } from '@app/shared/core/AppError';
+import { UserName } from '@app/modules/user/domain/model/user-name';
+import { User } from '@app/modules/user/domain/model/user';
+import { UserPassword } from '@app/modules/user/domain/model/user-password';
+import { UserSurname } from '@app/modules/user/domain/model/user-surname';
+import { CreateUserErrors } from '@app/modules/user/use-cases/create-user/create-user.errors';
+import { UserRepository } from '@app/modules/user/repos/user.repository';
+import { UniqueEntityID } from '@app/shared/domain/UniqueEntityID';
 import { EventPublisher } from '@nestjs/cqrs';
 
 export type Response = Either<
@@ -26,9 +26,7 @@ export class CreateUserUseCase
     private publisher: EventPublisher
   ) {}
 
-  async execute(request?: CreateUserDto): Promise<Response> {
-    console.count('CREATE USER USE CASE');
-
+  async execute(request: CreateUserDto): Promise<Response> {
     const emailOrError = UserEmail.create(request.email);
     const passwordOrError = UserPassword.create({ value: request.password });
     const nameOrError = UserName.create({ name: request.name });
@@ -73,7 +71,7 @@ export class CreateUserUseCase
 
       if (userOrError.isFailure) {
         return left(
-          Result.fail<User>(userOrError.error.toString())
+          Result.fail<User>(userOrError.errorValue().toString())
         ) as Response;
       }
 

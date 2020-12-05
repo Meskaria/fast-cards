@@ -1,9 +1,9 @@
-import { UniqueEntityID } from 'apps/api/src/shared/domain/UniqueEntityID';
+import { UniqueEntityID } from '@app/shared/domain/UniqueEntityID';
 import { Injectable } from '@nestjs/common';
 import { Offer as OfferEntity } from '@prisma/client';
-import { Mapper } from 'apps/api/src/shared/infra/Mapper';
-import { Offer } from 'apps/api/src/modules/teaching/offer/domain/model/offer';
-import { OfferSerializerDto } from 'apps/api/src/modules/teaching/offer/serializers/offer.serializer';
+import { Mapper } from '@app/shared/infra/Mapper';
+import { Offer } from '@app/modules/teaching/offer/domain/model/offer';
+import { OfferSerializerDto } from '@app/modules/teaching/offer/serializers/offer.serializer';
 
 @Injectable()
 export class OfferMap implements Mapper<Offer, OfferEntity> {

@@ -1,11 +1,12 @@
-import { PrismaService } from 'apps/api/src/shared/infra/database/prisma.service';
+import { PrismaService } from '@app/shared/infra/database/prisma.service';
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'apps/api/src/shared/infra/Repository';
-import { Offer } from 'apps/api/src/modules/teaching/offer/domain/model/offer';
-import { OfferMap } from 'apps/api/src/modules/teaching/offer/mappers/offer.map';
+import { Repository } from '@app/shared/infra/Repository';
+import { Offer } from '@app/modules/teaching/offer/domain/model/offer';
+import { OfferMap } from '@app/modules/teaching/offer/mappers/offer.map';
+import { Result } from '@app/shared/core/Result';
 
 export interface IOfferRepo {
-  getOfferByOfferId(offerId: string): Promise<Offer>;
+  getOfferByOfferId(offerId: string): Promise<Result<Offer>>;
   save(offer: Offer): Promise<Offer>;
   getAllOffersByMentorId(mentorId: string): Promise<Offer[]>;
 }
@@ -27,14 +28,18 @@ export class OfferRepository extends Repository implements IOfferRepo {
     return offers.map((offer) => OfferMap.fromPersistence(offer));
   }
 
-  async getOfferByOfferId(offerId: string): Promise<Offer> {
+  async getOfferByOfferId(offerId: string): Promise<Result<Offer>> {
     const offer = await this.prisma.offer.findOne({
       where: {
         id: offerId,
       },
     });
 
-    return OfferMap.fromPersistence(offer);
+    if(!offer){
+      return Result.fail('Not found')
+    }
+
+    return Result.ok(OfferMap.fromPersistence(offer));
   }
 
   async save(offer: Offer): Promise<Offer> {

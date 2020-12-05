@@ -10,19 +10,19 @@ import {
   Delete,
   BadRequestException,
   Get,
-  Param,
+  Param, ForbiddenException,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { CreateTimeSlotsUseCase } from 'apps/api/src/modules/teaching/time-slot/use-cases/create-time-slots/create-time-slots.use-case';
-import { CreateTimeSlotDto } from 'apps/api/src/modules/teaching/time-slot/dtos/create-time-slot.dto';
-import { TimeSlotMap } from 'apps/api/src/modules/teaching/time-slot/mappers/time-slot.map';
-import { TimeSlotCollectionSerializer } from 'apps/api/src/modules/teaching/time-slot/serializers/time-slot.serializer';
-import { UserData } from 'apps/api/src/modules/user/services/auth/user-info.decorator';
-import { DeleteTimeSlotsUseCase } from 'apps/api/src/modules/teaching/time-slot/use-cases/delete-time-slots/delete-time-slots.use-case';
-import { CreateTimeSlotsErrors } from 'apps/api/src/modules/teaching/time-slot/use-cases/create-time-slots/create-time-slots.errors';
-import { DeleteTimeSlotsErrors } from 'apps/api/src/modules/teaching/time-slot/use-cases/delete-time-slots/delete-time-slots.errors';
-import { GetTimeSlotsByRangeUseCase } from 'apps/api/src/modules/teaching/time-slot/use-cases/get-time-slots-by-range/get-time-slots-by-range.use-case';
-import { GetTimeSlotsUseCase } from 'apps/api/src/modules/teaching/time-slot/use-cases/get-time-slots/get-time-slots.use-case';
+import { CreateTimeSlotsUseCase } from '@app/modules/teaching/time-slot/use-cases/create-time-slots/create-time-slots.use-case';
+import { CreateTimeSlotDto } from '@app/modules/teaching/time-slot/dtos/create-time-slot.dto';
+import { TimeSlotMap } from '@app/modules/teaching/time-slot/mappers/time-slot.map';
+import { TimeSlotCollectionSerializer } from '@app/modules/teaching/time-slot/serializers/time-slot.serializer';
+import { UserData } from '@app/modules/user/services/auth/user-info.decorator';
+import { DeleteTimeSlotsUseCase } from '@app/modules/teaching/time-slot/use-cases/delete-time-slots/delete-time-slots.use-case';
+import { CreateTimeSlotsErrors } from '@app/modules/teaching/time-slot/use-cases/create-time-slots/create-time-slots.errors';
+import { DeleteTimeSlotsErrors } from '@app/modules/teaching/time-slot/use-cases/delete-time-slots/delete-time-slots.errors';
+import { GetTimeSlotsByRangeUseCase } from '@app/modules/teaching/time-slot/use-cases/get-time-slots-by-range/get-time-slots-by-range.use-case';
+import { GetTimeSlotsUseCase } from '@app/modules/teaching/time-slot/use-cases/get-time-slots/get-time-slots.use-case';
 import {
   ApiBadRequestResponse,
   ApiBearerAuth,
@@ -33,8 +33,9 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { DeleteTimeSlotDto } from 'apps/api/src/modules/teaching/time-slot/dtos/delete-time-slot.dto';
-import { GetTimeSlotsByMentorIdDto } from 'apps/api/src/modules/teaching/time-slot/dtos/get-time-slots-by-mentor-id.dto';
+import { DeleteTimeSlotDto } from '@app/modules/teaching/time-slot/dtos/delete-time-slot.dto';
+import { GetTimeSlotsByMentorIdDto } from '@app/modules/teaching/time-slot/dtos/get-time-slots-by-mentor-id.dto';
+import { User } from '@app/modules/user/domain/model/user';
 
 @ApiBearerAuth()
 @ApiTags('TimeSlots')
@@ -58,7 +59,10 @@ export class TimeSlotController {
   })
   @ApiConflictResponse({ description: 'Time slots already exist' })
   @ApiResponse({ type: TimeSlotCollectionSerializer })
-  public async create(@Body() body: CreateTimeSlotDto, @UserData() user) {
+  public async create(@Body() body: CreateTimeSlotDto, @UserData() user: User) {
+    if(!user.mentorId)
+      throw new ForbiddenException()
+
     const result = await this.createTimeSlotsUseCase.execute({
       ...body,
       mentorId: user.mentorId,
@@ -82,7 +86,10 @@ export class TimeSlotController {
 
   @Delete()
   @ApiOperation({ summary: 'Delete time slots', operationId: 'delete' })
-  public async delete(@Body() body: DeleteTimeSlotDto, @UserData() user) {
+  public async delete(@Body() body: DeleteTimeSlotDto, @UserData() user: User) {
+    if(!user.mentorId)
+      throw new ForbiddenException()
+
     const result = await this.deleteTimeSlotsUseCase.execute({
       ...body,
       mentorId: user.mentorId,

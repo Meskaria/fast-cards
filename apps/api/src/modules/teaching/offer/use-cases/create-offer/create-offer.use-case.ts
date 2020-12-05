@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { UseCase } from 'apps/api/src/shared/core/UseCase';
-import { Either, left, Result, right } from 'apps/api/src/shared/core/Result';
-import { AppError } from 'apps/api/src/shared/core/AppError';
-import { UniqueEntityID } from 'apps/api/src/shared/domain/UniqueEntityID';
+import { UseCase } from '@app/shared/core/UseCase';
+import { Either, left, Result, right } from '@app/shared/core/Result';
+import { AppError } from '@app/shared/core/AppError';
+import { UniqueEntityID } from '@app/shared/domain/UniqueEntityID';
 import { EventPublisher } from '@nestjs/cqrs';
-import { OfferRepository } from 'apps/api/src/modules/teaching/offer/repos/offer.repository';
-import { Offer } from 'apps/api/src/modules/teaching/offer/domain/model/offer';
-import { CreateOfferErrors } from 'apps/api/src/modules/teaching/offer/use-cases/create-offer/create-offer.errors';
-import { CreateOfferWithMentorIdDto } from 'apps/api/src/modules/teaching/offer/use-cases/create-offer/create-offer.dto';
+import { OfferRepository } from '@app/modules/teaching/offer/repos/offer.repository';
+import { Offer } from '@app/modules/teaching/offer/domain/model/offer';
+import { CreateOfferErrors } from '@app/modules/teaching/offer/use-cases/create-offer/create-offer.errors';
+import { CreateOfferWithMentorIdDto } from '@app/modules/teaching/offer/use-cases/create-offer/create-offer.dto';
 
 export type Response = Either<
   CreateOfferErrors.OfferAlreadyExistsError | AppError.UnexpectedError,
@@ -32,7 +32,7 @@ export class CreateOfferUseCase
 
       if (offerOrError.isFailure) {
         return left(
-          Result.fail<Offer>(offerOrError.error.toString())
+          Result.fail<Offer>(offerOrError.errorValue().toString())
         ) as Response;
       }
 

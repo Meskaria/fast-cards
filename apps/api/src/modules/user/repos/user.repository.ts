@@ -1,9 +1,9 @@
-import { User } from 'apps/api/src/modules/user/domain/model/user';
-import { UserEmail } from 'apps/api/src/modules/user/domain/model/user-email';
-import { PrismaService } from 'apps/api/src/shared/infra/database/prisma.service';
+import { User } from '@app/modules/user/domain/model/user';
+import { UserEmail } from '@app/modules/user/domain/model/user-email';
+import { PrismaService } from '@app/shared/infra/database/prisma.service';
 import { Injectable } from '@nestjs/common';
-import { UserMap } from 'apps/api/src/modules/user/mappers/user.map';
-import { Repository } from 'apps/api/src/shared/infra/Repository';
+import { UserMap } from '@app/modules/user/mappers/user.map';
+import { Repository } from '@app/shared/infra/Repository';
 
 export interface IUserRepo {
   exists(userEmail: UserEmail): Promise<boolean>;
@@ -18,7 +18,7 @@ export class UserRepository extends Repository implements IUserRepo {
     super();
   }
 
-  async exists(userEmail): Promise<boolean> {
+  async exists(userEmail: UserEmail): Promise<boolean> {
     const user = await this.prisma.user.findOne({
       where: {
         email: userEmail.value,

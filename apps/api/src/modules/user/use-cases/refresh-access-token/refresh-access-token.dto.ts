@@ -1,4 +1,4 @@
-import { RefreshToken } from 'apps/api/src/modules/user/domain/jwt';
+import { RefreshToken } from '@app/modules/user/domain/jwt';
 
 export interface RefreshAccessTokenDto {
   refreshToken: RefreshToken;

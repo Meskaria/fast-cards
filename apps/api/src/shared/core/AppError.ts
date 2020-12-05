@@ -1,5 +1,5 @@
-import { Result } from 'apps/api/src/shared/core/Result';
-import { UseCaseError } from 'apps/api/src/shared/core/UseCaseError';
+import { Result } from '@app/shared/core/Result';
+import { UseCaseError } from '@app/shared/core/UseCaseError';
 
 export namespace AppError {
   export class UnexpectedError extends Result<UseCaseError> {

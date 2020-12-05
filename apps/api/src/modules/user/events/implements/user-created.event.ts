@@ -1,5 +1,5 @@
 import { IEvent } from '@nestjs/cqrs';
-import { USER_ACCESS } from 'apps/api/src/modules/user/domain/model/user';
+import { USER_ACCESS } from '@app/modules/user/domain/model/user';
 
 export default class UserCreatedEvent implements IEvent {
   constructor(

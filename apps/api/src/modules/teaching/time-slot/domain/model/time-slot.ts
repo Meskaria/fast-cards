@@ -1,16 +1,15 @@
-import { UniqueEntityID } from 'apps/api/src/shared/domain/UniqueEntityID';
-import { Result } from 'apps/api/src/shared/core/Result';
-import { AggregateRoot } from 'apps/api/src/shared/domain/AggregateRoot';
-import { TimeSlotId } from 'apps/api/src/modules/teaching/time-slot/domain/model/time-slot-id';
-import TimeSlotCreatedEvent from 'apps/api/src/modules/teaching/time-slot/events/implements/time-slot-created.event';
-import UserDeletedEvent from 'apps/api/src/modules/user/events/implements/user-deleted.event';
-import TimeSlotDeletedEvent from 'apps/api/src/modules/teaching/time-slot/events/implements/time-slot-deleted.event';
+import { UniqueEntityID } from '@app/shared/domain/UniqueEntityID';
+import { Result } from '@app/shared/core/Result';
+import { AggregateRoot } from '@app/shared/domain/AggregateRoot';
+import { TimeSlotId } from '@app/modules/teaching/time-slot/domain/model/time-slot-id';
+import TimeSlotCreatedEvent from '@app/modules/teaching/time-slot/events/implements/time-slot-created.event';
+import TimeSlotDeletedEvent from '@app/modules/teaching/time-slot/events/implements/time-slot-deleted.event';
 
 interface TimeSlotProps {
   mentorId: string;
   since: string;
   till: string;
-  scheduledLessonId: string;
+  scheduledLessonId: string | null;
 }
 
 export class TimeSlot extends AggregateRoot<TimeSlotProps> {
@@ -30,7 +29,7 @@ export class TimeSlot extends AggregateRoot<TimeSlotProps> {
     return this.props.till;
   }
 
-  get scheduledLessonId(): string {
+  get scheduledLessonId(): string | null {
     return this.props.scheduledLessonId;
   }
 

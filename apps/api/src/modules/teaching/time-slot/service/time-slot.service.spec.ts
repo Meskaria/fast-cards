@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { TimeSlotService } from 'apps/api/src/modules/teaching/time-slot/service/time-slot.service';
-import { SlotDto } from 'apps/api/src/modules/teaching/time-slot/dtos/create-time-slot.dto';
+import { TimeSlotService } from '@app/modules/teaching/time-slot/service/time-slot.service';
+import { SlotDto } from '@app/modules/teaching/time-slot/dtos/create-time-slot.dto';
 
 describe('TimeSlotService', () => {
   let service: TimeSlotService;

@@ -1,5 +1,5 @@
 import { AggregateRoot as AggregateRootNest, IEvent } from '@nestjs/cqrs';
-import { UniqueEntityID } from 'apps/api/src/shared/domain/UniqueEntityID';
+import { UniqueEntityID } from '@app/shared/domain/UniqueEntityID';
 
 export abstract class AggregateRoot<T> extends AggregateRootNest {
   protected readonly _id: UniqueEntityID;

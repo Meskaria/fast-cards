@@ -1,8 +1,8 @@
-import { PrismaService } from 'apps/api/src/shared/infra/database/prisma.service';
+import { PrismaService } from '@app/shared/infra/database/prisma.service';
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'apps/api/src/shared/infra/Repository';
-import { Student } from 'apps/api/src/modules/teaching/student/domain/model/student';
-import { StudentMap } from 'apps/api/src/modules/teaching/student/mappers/student.map';
+import { Repository } from '@app/shared/infra/Repository';
+import { Student } from '@app/modules/teaching/student/domain/model/student';
+import { StudentMap } from '@app/modules/teaching/student/mappers/student.map';
 
 export interface IStudentRepo {
   exists(userId: string): Promise<boolean>;

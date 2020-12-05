@@ -1,8 +1,8 @@
-import { PrismaService } from 'apps/api/src/shared/infra/database/prisma.service';
+import { PrismaService } from '@app/shared/infra/database/prisma.service';
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'apps/api/src/shared/infra/Repository';
-import { Mentor } from 'apps/api/src/modules/teaching/mentor/domain/model/mentor';
-import { MentorMap } from 'apps/api/src/modules/teaching/mentor/mappers/mentor.map';
+import { Repository } from '@app/shared/infra/Repository';
+import { Mentor } from '@app/modules/teaching/mentor/domain/model/mentor';
+import { MentorMap } from '@app/modules/teaching/mentor/mappers/mentor.map';
 
 export interface IMentorRepo {
   exists(userId: string): Promise<boolean>;

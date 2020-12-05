@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { UseCase } from 'apps/api/src/shared/core/UseCase';
-import { Either, left, Result, right } from 'apps/api/src/shared/core/Result';
-import { AppError } from 'apps/api/src/shared/core/AppError';
-import { UniqueEntityID } from 'apps/api/src/shared/domain/UniqueEntityID';
+import { UseCase } from '@app/shared/core/UseCase';
+import { Either, left, Result, right } from '@app/shared/core/Result';
+import { AppError } from '@app/shared/core/AppError';
+import { UniqueEntityID } from '@app/shared/domain/UniqueEntityID';
 import { EventPublisher } from '@nestjs/cqrs';
-import { CreateStudentDto } from 'apps/api/src/modules/teaching/student/use-cases/create-student/create-student.dto';
-import { StudentRepository } from 'apps/api/src/modules/teaching/student/repos/student.repository';
-import { Student } from 'apps/api/src/modules/teaching/student/domain/model/student';
-import { CreateStudentErrors } from 'apps/api/src/modules/teaching/student/use-cases/create-student/create-student.errors';
+import { CreateStudentDto } from '@app/modules/teaching/student/use-cases/create-student/create-student.dto';
+import { StudentRepository } from '@app/modules/teaching/student/repos/student.repository';
+import { Student } from '@app/modules/teaching/student/domain/model/student';
+import { CreateStudentErrors } from '@app/modules/teaching/student/use-cases/create-student/create-student.errors';
 
 export type Response = Either<
   CreateStudentErrors.StudentAlreadyExistsError | AppError.UnexpectedError,
@@ -46,7 +46,7 @@ export class CreateStudentUseCase
 
       if (studentOrError.isFailure) {
         return left(
-          Result.fail<Student>(studentOrError.error.toString())
+          Result.fail<Student>(studentOrError.errorValue().toString())
         ) as Response;
       }
 

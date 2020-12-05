@@ -1,8 +1,8 @@
 import { EventsHandler, IEventHandler } from '@nestjs/cqrs';
-import UserCreatedEvent from 'apps/api/src/modules/user/events/implements/user-created.event';
+import UserCreatedEvent from '@app/modules/user/events/implements/user-created.event';
 import { Injectable } from '@nestjs/common';
-import { CreateStudentUseCase } from 'apps/api/src/modules/teaching/student/use-cases/create-student/create-student.use-case';
-import { USER_ACCESS } from 'apps/api/src/modules/user/domain/model/user';
+import { CreateStudentUseCase } from '@app/modules/teaching/student/use-cases/create-student/create-student.use-case';
+import { USER_ACCESS } from '@app/modules/user/domain/model/user';
 
 @Injectable()
 @EventsHandler(UserCreatedEvent)

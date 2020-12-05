@@ -5,7 +5,7 @@ import IORedis, { Redis } from 'ioredis';
 import {
   REDIS_PUBLISHER_CLIENT,
   REDIS_SUBSCRIBER_CLIENT,
-} from 'apps/api/src/modules/redis/redis.constants';
+} from '@app/modules/redis/redis.constants';
 
 export const redisProviders: Provider[] = [
   {

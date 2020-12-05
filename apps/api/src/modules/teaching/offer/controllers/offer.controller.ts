@@ -11,7 +11,7 @@ import {
   Delete,
   NotFoundException,
   Param,
-  HttpStatus,
+  HttpStatus, ForbiddenException,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -24,8 +24,8 @@ import {
 } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 
-import { UserData } from 'apps/api/src/modules/user/services/auth/user-info.decorator';
-import { User } from 'apps/api/src/modules/user/domain/model/user';
+import { UserData } from '@app/modules/user/services/auth/user-info.decorator';
+import { User } from '@app/modules/user/domain/model/user';
 import {
   CreateOfferUseCase,
   CreateOfferErrors,
@@ -33,14 +33,14 @@ import {
   GetAllOfferErrors,
   DeleteOfferUseCase,
   DeleteOfferErrors,
-} from 'apps/api/src/modules/teaching/offer/use-cases';
+} from '@app/modules/teaching/offer/use-cases';
 import {
   CreateOfferDto,
   GetAllOfferDto,
   DeleteOfferDto,
-} from 'apps/api/src/modules/teaching/offer/dtos';
-import { OfferMap } from 'apps/api/src/modules/teaching/offer/mappers/offer.map';
-import { OfferSerializer } from 'apps/api/src/modules/teaching/offer/serializers/offer.serializer';
+} from '@app/modules/teaching/offer/dtos';
+import { OfferMap } from '@app/modules/teaching/offer/mappers/offer.map';
+import { OfferSerializer } from '@app/modules/teaching/offer/serializers/offer.serializer';
 
 @ApiTags('Offer')
 @ApiBearerAuth()
@@ -92,6 +92,9 @@ export class OfferController {
     @Body() body: CreateOfferDto,
     @UserData() { mentorId }: User
   ) {
+    if(!mentorId)
+      throw new ForbiddenException()
+
     const result = await this.createOfferUseCase.execute({ ...body, mentorId });
     if (result.isLeft()) {
       const error = result.value;

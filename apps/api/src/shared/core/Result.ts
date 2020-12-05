@@ -1,10 +1,10 @@
 export class Result<T> {
   public isSuccess: boolean;
   public isFailure: boolean;
-  public error: T | string;
-  private readonly _value: T;
+  public error: T | string | null;
+  private readonly _value: T | undefined;
 
-  public constructor(isSuccess: boolean, error?: T | string, value?: T) {
+  public constructor(isSuccess: boolean, error: T | string | null, value?: T) {
     if (isSuccess && error) {
       throw new Error(
         'InvalidOperation: A result cannot be successful and contain an error'
@@ -32,7 +32,7 @@ export class Result<T> {
       );
     }
 
-    return this._value;
+    return this._value as T;
   }
 
   public errorValue(): T {
@@ -48,7 +48,7 @@ export class Result<T> {
   }
 
   public static combine(results: Result<any>[]): Result<any> {
-    for (let result of results) {
+    for (const result of results) {
       if (result.isFailure) return result;
     }
     return Result.ok();

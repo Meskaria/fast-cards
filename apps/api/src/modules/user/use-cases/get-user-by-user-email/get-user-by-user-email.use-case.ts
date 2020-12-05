@@ -1,11 +1,11 @@
-import { GetUserByUserEmailDto } from 'apps/api/src/modules/user/use-cases/get-user-by-user-email/get-user-by-user-email.dto';
-import { GetUserByUserEmailErrors } from 'apps/api/src/modules/user/use-cases/get-user-by-user-email/get-user-by-user-email.errors';
-import { left, Result, Either, right } from 'apps/api/src/shared/core/Result';
-import { UseCase } from 'apps/api/src/shared/core/UseCase';
-import { AppError } from 'apps/api/src/shared/core/AppError';
-import { User } from 'apps/api/src/modules/user/domain/model/user';
-import { UserRepository } from 'apps/api/src/modules/user/repos/user.repository';
-import { UserEmail } from 'apps/api/src/modules/user/domain/model/user-email';
+import { GetUserByUserEmailDto } from '@app/modules/user/use-cases/get-user-by-user-email/get-user-by-user-email.dto';
+import { GetUserByUserEmailErrors } from '@app/modules/user/use-cases/get-user-by-user-email/get-user-by-user-email.errors';
+import { left, Result, Either, right } from '@app/shared/core/Result';
+import { UseCase } from '@app/shared/core/UseCase';
+import { AppError } from '@app/shared/core/AppError';
+import { User } from '@app/modules/user/domain/model/user';
+import { UserRepository } from '@app/modules/user/repos/user.repository';
+import { UserEmail } from '@app/modules/user/domain/model/user-email';
 import { Injectable } from '@nestjs/common';
 
 type Response = Either<
@@ -24,13 +24,13 @@ export class GetUserByUserEmailUseCase
 
       if (userEmailOrError.isFailure) {
         return left(
-          Result.fail<any>(userEmailOrError.error.toString())
+          Result.fail<any>(userEmailOrError.errorValue().toString())
         ) as Response;
       }
 
       const userEmail: UserEmail = userEmailOrError.getValue();
       const user = await this.userRepository.getUserByEmail(userEmail);
-      const userFound = !!user === true;
+      const userFound = !!user;
 
       if (!userFound) {
         return left(

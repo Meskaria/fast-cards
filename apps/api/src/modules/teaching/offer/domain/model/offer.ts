@@ -1,10 +1,10 @@
-import { UniqueEntityID } from 'apps/api/src/shared/domain/UniqueEntityID';
-import { Result } from 'apps/api/src/shared/core/Result';
-import { AggregateRoot } from 'apps/api/src/shared/domain/AggregateRoot';
-import { OfferId } from 'apps/api/src/modules/teaching/offer/domain/model/offer-id';
-import OfferCreatedEvent from 'apps/api/src/modules/teaching/offer/events/implements/offer-created.event';
-import OfferDeletedEvent from 'apps/api/src/modules/teaching/offer/events/implements/offer-deleted.event';
-import { Guard } from 'apps/api/src/shared/core/Guard';
+import { UniqueEntityID } from '@app/shared/domain/UniqueEntityID';
+import { Result } from '@app/shared/core/Result';
+import { AggregateRoot } from '@app/shared/domain/AggregateRoot';
+import { OfferId } from '@app/modules/teaching/offer/domain/model/offer-id';
+import OfferCreatedEvent from '@app/modules/teaching/offer/events/implements/offer-created.event';
+import OfferDeletedEvent from '@app/modules/teaching/offer/events/implements/offer-deleted.event';
+import { Guard } from '@app/shared/core/Guard';
 
 interface OfferProps {
   mentorId: string;
@@ -31,7 +31,7 @@ export class Offer extends AggregateRoot<OfferProps> {
   }
 
   get isDeleted(): boolean {
-    return this.props.isDeleted;
+    return !!this.props.isDeleted;
   }
 
   constructor(props: OfferProps, id: UniqueEntityID) {
@@ -59,8 +59,8 @@ export class Offer extends AggregateRoot<OfferProps> {
       priceGuardResult,
     ]);
 
-    if (!combinedGuardResults.succeeded) {
-      return Result.fail<Offer>(combinedGuardResults.message);
+    if (combinedGuardResults.isFailure) {
+      return Result.fail<Offer>(combinedGuardResults.errorValue());
     }
     const offer = new Offer(props, id);
 

@@ -1,7 +1,7 @@
 import * as bcrypt from 'bcrypt';
-import { ValueObject } from 'apps/api/src/shared/domain/ValueObject';
-import { Guard } from 'apps/api/src/shared/core/Guard';
-import { Result } from 'apps/api/src/shared/core/Result';
+import { ValueObject } from '@app/shared/domain/ValueObject';
+import { Guard } from '@app/shared/core/Guard';
+import { Result } from '@app/shared/core/Result';
 
 export interface IUserPasswordProps {
   value: string;
@@ -58,7 +58,7 @@ export class UserPassword extends ValueObject<IUserPasswordProps> {
   }
 
   public isAlreadyHashed(): boolean {
-    return this.props.hashed;
+    return !!this.props.hashed;
   }
 
   private hashPassword(password: string): Promise<string> {
@@ -83,8 +83,8 @@ export class UserPassword extends ValueObject<IUserPasswordProps> {
   public static create(props: IUserPasswordProps): Result<UserPassword> {
     const propsResult = Guard.againstNullOrUndefined(props.value, 'password');
 
-    if (!propsResult.succeeded) {
-      return Result.fail<UserPassword>(propsResult.message);
+    if (propsResult.isFailure) {
+      return Result.fail<UserPassword>(propsResult.errorValue());
     } else {
       if (!props.hashed) {
         if (!this.isAppropriateLength(props.value)) {
@@ -97,7 +97,7 @@ export class UserPassword extends ValueObject<IUserPasswordProps> {
       return Result.ok<UserPassword>(
         new UserPassword({
           value: props.value,
-          hashed: !!props.hashed === true,
+          hashed: !!props.hashed,
         })
       );
     }

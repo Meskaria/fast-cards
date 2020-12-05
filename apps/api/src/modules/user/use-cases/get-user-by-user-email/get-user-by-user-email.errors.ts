@@ -1,5 +1,5 @@
-import { UseCaseError } from 'apps/api/src/shared/core/UseCaseError';
-import { Result } from 'apps/api/src/shared/core/Result';
+import { UseCaseError } from '@app/shared/core/UseCaseError';
+import { Result } from '@app/shared/core/Result';
 
 export namespace GetUserByUserEmailErrors {
   export class UserNotFoundError extends Result<UseCaseError> {

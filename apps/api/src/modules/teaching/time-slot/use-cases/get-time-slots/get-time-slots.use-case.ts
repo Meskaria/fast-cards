@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { UseCase } from 'apps/api/src/shared/core/UseCase';
-import { Either, left, Result, right } from 'apps/api/src/shared/core/Result';
-import { AppError } from 'apps/api/src/shared/core/AppError';
-import { TimeSlotRepository } from 'apps/api/src/modules/teaching/time-slot/repos/time-slot.repository';
-import { TimeSlot } from 'apps/api/src/modules/teaching/time-slot/domain/model/time-slot';
+import { UseCase } from '@app/shared/core/UseCase';
+import { Either, left, Result, right } from '@app/shared/core/Result';
+import { AppError } from '@app/shared/core/AppError';
+import { TimeSlotRepository } from '@app/modules/teaching/time-slot/repos/time-slot.repository';
+import { TimeSlot } from '@app/modules/teaching/time-slot/domain/model/time-slot';
 
 export type Response = Either<AppError.UnexpectedError, Result<TimeSlot[]>>;
 

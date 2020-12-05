@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { UseCase } from 'apps/api/src/shared/core/UseCase';
-import { DeleteUserDto } from 'apps/api/src/modules/user/use-cases/delete-user/delete-user.dto';
-import { Either, left, Result, right } from 'apps/api/src/shared/core/Result';
-import { AppError } from 'apps/api/src/shared/core/AppError';
-import { DeleteUserErrors } from 'apps/api/src/modules/user/use-cases/delete-user/delete-user.errors';
-import { UserRepository } from 'apps/api/src/modules/user/repos/user.repository';
-import { AuthService } from 'apps/api/src/modules/user/services/auth/auth.service';
+import { UseCase } from '@app/shared/core/UseCase';
+import { DeleteUserDto } from '@app/modules/user/use-cases/delete-user/delete-user.dto';
+import { Either, left, Result, right } from '@app/shared/core/Result';
+import { AppError } from '@app/shared/core/AppError';
+import { DeleteUserErrors } from '@app/modules/user/use-cases/delete-user/delete-user.errors';
+import { UserRepository } from '@app/modules/user/repos/user.repository';
+import { AuthService } from '@app/modules/user/services/auth/auth.service';
 import { EventPublisher } from '@nestjs/cqrs';
 
 export type Response = Either<

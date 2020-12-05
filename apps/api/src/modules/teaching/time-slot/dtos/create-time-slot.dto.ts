@@ -1,7 +1,7 @@
 import { IsDate, IsNotEmpty, ValidateNested } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsDateAssignableToSlot } from 'apps/api/src/modules/teaching/time-slot/validator/is-date-assignable-to-slot';
+import { IsDateAssignableToSlot } from '@app/modules/teaching/time-slot/validator/is-date-assignable-to-slot';
 
 export class SlotDto {
   @ApiProperty()

@@ -5,7 +5,7 @@ import { TerminusModule } from '@nestjs/terminus';
 import { PrismaModule } from './shared/infra/database/prisma.module';
 import { APP_PIPE } from '@nestjs/core';
 import { ConfigModule } from '@nestjs/config';
-import { RedisModule } from 'apps/api/src/modules/redis/redis.module';
+import { RedisModule } from '@app/modules/redis/redis.module';
 import { TeachingModule } from './modules/teaching/teaching.module';
 
 @Module({

@@ -1,10 +1,10 @@
-import { PrismaService } from 'apps/api/src/shared/infra/database/prisma.service';
+import { PrismaService } from '@app/shared/infra/database/prisma.service';
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'apps/api/src/shared/infra/Repository';
-import { TimeSlot } from 'apps/api/src/modules/teaching/time-slot/domain/model/time-slot';
-import { TimeSlotMap } from 'apps/api/src/modules/teaching/time-slot/mappers/time-slot.map';
-import { Result } from 'apps/api/src/shared/core/Result';
-import { Range } from 'apps/api/src/modules/teaching/time-slot/service/time-slot.service';
+import { Repository } from '@app/shared/infra/Repository';
+import { TimeSlot } from '@app/modules/teaching/time-slot/domain/model/time-slot';
+import { TimeSlotMap } from '@app/modules/teaching/time-slot/mappers/time-slot.map';
+import { Result } from '@app/shared/core/Result';
+import { Range } from '@app/modules/teaching/time-slot/service/time-slot.service';
 
 export interface ITimeSlotRepo {
   exists({ start, end }: Range, mentorId: string): Promise<boolean>;

@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { UseCase } from 'apps/api/src/shared/core/UseCase';
-import { Either, left, Result, right } from 'apps/api/src/shared/core/Result';
-import { AppError } from 'apps/api/src/shared/core/AppError';
-import { CreateTimeSlotDto } from 'apps/api/src/modules/teaching/time-slot/dtos/create-time-slot.dto';
-import { TimeSlotRepository } from 'apps/api/src/modules/teaching/time-slot/repos/time-slot.repository';
-import { TimeSlot } from 'apps/api/src/modules/teaching/time-slot/domain/model/time-slot';
-import { DeleteTimeSlotsErrors } from 'apps/api/src/modules/teaching/time-slot/use-cases/delete-time-slots/delete-time-slots.errors';
-import { TimeSlotService } from 'apps/api/src/modules/teaching/time-slot/service/time-slot.service';
+import { UseCase } from '@app/shared/core/UseCase';
+import { Either, left, Result, right } from '@app/shared/core/Result';
+import { AppError } from '@app/shared/core/AppError';
+import { CreateTimeSlotDto } from '@app/modules/teaching/time-slot/dtos/create-time-slot.dto';
+import { TimeSlotRepository } from '@app/modules/teaching/time-slot/repos/time-slot.repository';
+import { TimeSlot } from '@app/modules/teaching/time-slot/domain/model/time-slot';
+import { DeleteTimeSlotsErrors } from '@app/modules/teaching/time-slot/use-cases/delete-time-slots/delete-time-slots.errors';
+import { TimeSlotService } from '@app/modules/teaching/time-slot/service/time-slot.service';
 
 export type Response = Either<
   DeleteTimeSlotsErrors.TimeSlotsDoesNotExistsError | AppError.UnexpectedError,

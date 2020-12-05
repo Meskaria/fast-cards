@@ -1,5 +1,5 @@
 import { Exclude } from 'class-transformer';
-import { USER_ACCESS } from 'apps/api/src/modules/user/domain/model/user';
+import { USER_ACCESS } from '@app/modules/user/domain/model/user';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export interface UserDto {
@@ -10,11 +10,11 @@ export interface UserDto {
   isDeleted?: boolean;
   email: string;
   password: string;
-  refreshToken?: string;
-  accessToken?: string;
-  lastLogin?: string;
-  studentId?: string;
-  mentorId?: string;
+  refreshToken?: string | null;
+  accessToken?: string | null;
+  lastLogin?: string | null ;
+  studentId?: string | null;
+  mentorId?: string | null;
 }
 export class UserSerializer implements UserDto {
   @ApiProperty()
@@ -35,20 +35,20 @@ export class UserSerializer implements UserDto {
   @ApiProperty()
   email: string;
 
-  @ApiPropertyOptional()
-  studentId?: string;
+  @ApiPropertyOptional({nullable: true})
+  studentId: string | null;
 
-  @ApiPropertyOptional()
-  mentorId?: string;
-
-  @Exclude()
-  lastLogin?: string;
+  @ApiPropertyOptional({nullable: true})
+  mentorId: string | null;
 
   @Exclude()
-  refreshToken?: string;
+  lastLogin: string | null;
 
   @Exclude()
-  accessToken?: string;
+  refreshToken: string | null;
+
+  @Exclude()
+  accessToken: string | null;
 
   @Exclude()
   password: string;

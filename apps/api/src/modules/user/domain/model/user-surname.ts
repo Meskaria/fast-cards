@@ -1,6 +1,6 @@
-import { Result } from 'apps/api/src/shared/core/Result';
-import { ValueObject } from 'apps/api/src/shared/domain/ValueObject';
-import { Guard } from 'apps/api/src/shared/core/Guard';
+import { Result } from '@app/shared/core/Result';
+import { ValueObject } from '@app/shared/domain/ValueObject';
+import { Guard } from '@app/shared/core/Guard';
 
 interface UserSurnameProps {
   surname: string;
@@ -30,18 +30,18 @@ export class UserSurname extends ValueObject<UserSurnameProps> {
       props.surname,
       'userSurname'
     );
-    if (!userSurnameResult.succeeded) {
-      return Result.fail<UserSurname>(userSurnameResult.message);
+    if (userSurnameResult.isFailure) {
+      return Result.fail<UserSurname>(userSurnameResult.errorValue());
     }
 
     const minLengthResult = Guard.againstAtLeast(this.minLength, props.surname);
-    if (!minLengthResult.succeeded) {
-      return Result.fail<UserSurname>(minLengthResult.message);
+    if (minLengthResult.isFailure) {
+      return Result.fail<UserSurname>(minLengthResult.errorValue());
     }
 
     const maxLengthResult = Guard.againstAtMost(this.maxLength, props.surname);
-    if (!maxLengthResult.succeeded) {
-      return Result.fail<UserSurname>(minLengthResult.message);
+    if (maxLengthResult.isFailure) {
+      return Result.fail<UserSurname>(minLengthResult.errorValue());
     }
 
     return Result.ok<UserSurname>(new UserSurname(props));

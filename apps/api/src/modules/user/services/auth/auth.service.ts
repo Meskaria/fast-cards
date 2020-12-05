@@ -4,10 +4,10 @@ import {
   JWTClaims,
   JWTToken,
   RefreshToken,
-} from 'apps/api/src/modules/user/domain/jwt';
-import { User } from 'apps/api/src/modules/user/domain/model/user';
+} from '@app/modules/user/domain/jwt';
+import { User } from '@app/modules/user/domain/model/user';
 import { Injectable } from '@nestjs/common';
-import { RedisService } from 'apps/api/src/modules/redis/redis.service';
+import { RedisService } from '@app/modules/redis/redis.service';
 import { ConfigService } from '@nestjs/config';
 
 /**
@@ -23,7 +23,7 @@ export class AuthService {
     private readonly redisService: RedisService
   ) {}
 
-  public jwtHashName: string = 'activeJwtClients';
+  public jwtHashName = 'activeJwtClients';
 
   public async refreshTokenExists(
     refreshToken: RefreshToken
@@ -51,8 +51,8 @@ export class AuthService {
     if (user.isLoggedIn()) {
       await this.addToken(
         user.email.value,
-        user.refreshToken,
-        user.accessToken
+        user.refreshToken as string,
+        user.accessToken as string,
       );
     }
   }
@@ -78,7 +78,7 @@ export class AuthService {
       isEmailVerified: props.isEmailVerified,
     };
 
-    return jwt.sign(claims, this.configService.get('JWT_SECRET'), {
+    return jwt.sign(claims, this.configService.get('JWT_SECRET') as string, {
       expiresIn: this.configService.get('JWT_TOKEN_EXPIRY_TIME'),
     });
   }

@@ -1,12 +1,12 @@
-import { UseCase } from 'apps/api/src/shared/core/UseCase';
-import { Either, Result, left, right } from 'apps/api/src/shared/core/Result';
-import { AppError } from 'apps/api/src/shared/core/AppError';
-import { JWTToken } from 'apps/api/src/modules/user/domain/jwt';
-import { RefreshAccessTokenErrors } from 'apps/api/src/modules/user/use-cases/refresh-access-token/refresh-access-token.errors';
-import { User } from 'apps/api/src/modules/user/domain/model/user';
-import { RefreshAccessTokenDto } from 'apps/api/src/modules/user/use-cases/refresh-access-token/refresh-access-token.dto';
-import { UserRepository } from 'apps/api/src/modules/user/repos/user.repository';
-import { AuthService } from 'apps/api/src/modules/user/services/auth/auth.service';
+import { UseCase } from '@app/shared/core/UseCase';
+import { Either, Result, left, right } from '@app/shared/core/Result';
+import { AppError } from '@app/shared/core/AppError';
+import { JWTToken } from '@app/modules/user/domain/jwt';
+import { RefreshAccessTokenErrors } from '@app/modules/user/use-cases/refresh-access-token/refresh-access-token.errors';
+import { User } from '@app/modules/user/domain/model/user';
+import { RefreshAccessTokenDto } from '@app/modules/user/use-cases/refresh-access-token/refresh-access-token.dto';
+import { UserRepository } from '@app/modules/user/repos/user.repository';
+import { AuthService } from '@app/modules/user/services/auth/auth.service';
 import { Injectable } from '@nestjs/common';
 
 type Response = Either<

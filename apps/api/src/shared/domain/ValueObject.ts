@@ -16,8 +16,8 @@ export abstract class ValueObject<T extends ValueObjectProps> {
     };
   }
 
-  abstract get value();
-  public abstract toAnemic();
+  abstract get value(): any;
+  public abstract toAnemic(): Record<string, any>;
 
   public equals(vo?: ValueObject<T>): boolean {
     if (vo === null || vo === undefined) {

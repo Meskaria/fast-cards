@@ -1,8 +1,8 @@
-import { UniqueEntityID } from 'apps/api/src/shared/domain/UniqueEntityID';
-import { Result } from 'apps/api/src/shared/core/Result';
-import { AggregateRoot } from 'apps/api/src/shared/domain/AggregateRoot';
-import { MentorId } from 'apps/api/src/modules/teaching/mentor/domain/model/mentor-id';
-import MentorCreatedEvent from 'apps/api/src/modules/teaching/mentor/events/implements/mentor-created.event';
+import { UniqueEntityID } from '@app/shared/domain/UniqueEntityID';
+import { Result } from '@app/shared/core/Result';
+import { AggregateRoot } from '@app/shared/domain/AggregateRoot';
+import { MentorId } from '@app/modules/teaching/mentor/domain/model/mentor-id';
+import MentorCreatedEvent from '@app/modules/teaching/mentor/events/implements/mentor-created.event';
 
 interface MentorProps {
   userId: string;

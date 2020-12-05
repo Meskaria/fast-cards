@@ -9,7 +9,7 @@ import {
   REDIS_EXPIRE_TIME_IN_SECONDS,
   REDIS_PUBLISHER_CLIENT,
   REDIS_SUBSCRIBER_CLIENT,
-} from 'apps/api/src/modules/redis/redis.constants';
+} from '@app/modules/redis/redis.constants';
 
 export interface IRedisSubscribeMessage {
   readonly message: string;
@@ -32,7 +32,7 @@ export class RedisService {
       )
     ).pipe(
       filter(({ channel }) => channel === eventName),
-      map(({ message }) => JSON.parse(message))
+      map(({ message }: {message: any}) => JSON.parse(message))
     );
   }
 
@@ -70,7 +70,7 @@ export class RedisService {
 
   public getAllKeys(wildcard: string): Promise<string[]> {
     return new Promise((resolve, reject) => {
-      this.pubClient.keys(wildcard, async (error: Error, results: string[]) => {
+      this.pubClient.keys(wildcard, async (error, results) => {
         if (error) {
           return reject(error);
         } else {
@@ -82,7 +82,7 @@ export class RedisService {
 
   public getAllKeyValue(wildcard: string): Promise<any[]> {
     return new Promise((resolve, reject) => {
-      this.pubClient.keys(wildcard, async (error: Error, results: string[]) => {
+      this.pubClient.keys(wildcard, async (error, results) => {
         if (error) {
           return reject(error);
         } else {
@@ -110,7 +110,7 @@ export class RedisService {
   public async get(key: KeyType) {
     const res = await this.pubClient.get(key);
 
-    return await JSON.parse(res);
+    return await JSON.parse(res as string);
   }
 
   public async del(key: KeyType) {

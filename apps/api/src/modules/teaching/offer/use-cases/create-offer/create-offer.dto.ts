@@ -1,5 +1,5 @@
 import { IsUUID } from 'class-validator';
-import { CreateOfferDto } from 'apps/api/src/modules/teaching/offer/dtos';
+import { CreateOfferDto } from '@app/modules/teaching/offer/dtos';
 
 export class CreateOfferWithMentorIdDto extends CreateOfferDto {
   @IsUUID()

@@ -1,18 +1,18 @@
 import {
   LoginDto,
   LoginDTOResponse,
-} from 'apps/api/src/modules/user/dtos/login.dto';
-import { LoginUseCaseErrors } from 'apps/api/src/modules/user/use-cases/login/login.errors';
-import { AppError } from 'apps/api/src/shared/core/AppError';
-import { Either, Result, left, right } from 'apps/api/src/shared/core/Result';
-import { UseCase } from 'apps/api/src/shared/core/UseCase';
-import { User } from 'apps/api/src/modules/user/domain/model/user';
-import { UserPassword } from 'apps/api/src/modules/user/domain/model/user-password';
-import { JWTToken, RefreshToken } from 'apps/api/src/modules/user/domain/jwt';
+} from '@app/modules/user/dtos/login.dto';
+import { LoginUseCaseErrors } from '@app/modules/user/use-cases/login/login.errors';
+import { AppError } from '@app/shared/core/AppError';
+import { Either, Result, left, right } from '@app/shared/core/Result';
+import { UseCase } from '@app/shared/core/UseCase';
+import { User } from '@app/modules/user/domain/model/user';
+import { UserPassword } from '@app/modules/user/domain/model/user-password';
+import { JWTToken, RefreshToken } from '@app/modules/user/domain/jwt';
 import { Injectable } from '@nestjs/common';
-import { UserEmail } from 'apps/api/src/modules/user/domain/model/user-email';
-import { AuthService } from 'apps/api/src/modules/user/services/auth/auth.service';
-import { UserRepository } from 'apps/api/src/modules/user/repos/user.repository';
+import { UserEmail } from '@app/modules/user/domain/model/user-email';
+import { AuthService } from '@app/modules/user/services/auth/auth.service';
+import { UserRepository } from '@app/modules/user/repos/user.repository';
 
 type Response = Either<
   | LoginUseCaseErrors.PasswordDoesntMatchError
