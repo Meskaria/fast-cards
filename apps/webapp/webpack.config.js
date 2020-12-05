@@ -1,4 +1,3 @@
-const nrwlConfig = require('@nrwl/react/plugins/webpack.js');
 const addLessConfig = (rules) => {
   return {
     ...rules[1],
@@ -73,7 +72,6 @@ const addLessConfig = (rules) => {
 };
 
 module.exports = (config) => {
-  nrwlConfig(config);
   return {
     ...config,
     module: {

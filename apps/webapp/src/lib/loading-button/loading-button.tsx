@@ -9,26 +9,24 @@ interface Props {
 
 const StyledLoadingButton = styled(LoadingButton)`
   &.MuiButton-root {
-     margin-top: 16px;
+    margin-top: 16px;
   }
   .MuiLoadingButton-pendingIndicator {
-      margin-right: 8px;
-      position: static;
+    margin-right: 8px;
+    position: static;
   }
 `;
 
-
-export const ButtonWithLoader: React.FC<Props>  = ({label, pending})=> {
+export const ButtonWithLoader: React.FC<Props> = ({ label, pending }) => {
   return (
     <StyledLoadingButton
       pending={pending}
       pendingPosition="start"
-      startIcon={<span/>}
+      startIcon={<span />}
       variant="contained"
       disableElevation
     >
-     {label}
+      {label}
     </StyledLoadingButton>
   );
 };
-

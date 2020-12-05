@@ -1,7 +1,6 @@
 import React from 'react';
-import { ThemeProvider } from '@meskaria/ui'
 import GlobalStyles from './globalStyles';
-
+import { ThemeProvider } from '../lib/theming/theme-provider';
 import Routing from './routing';
 
 export const App = () => {

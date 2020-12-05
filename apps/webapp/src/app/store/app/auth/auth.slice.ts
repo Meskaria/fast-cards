@@ -18,7 +18,7 @@ export interface AuthEntity {
 
 export interface AuthState extends EntityState<AuthEntity> {
   loadingStatus: 'not loaded' | 'loading' | 'loaded' | 'error';
-  error: string;
+  error?: string | null;
 }
 
 export const authAdapter = createEntityAdapter<AuthEntity>();
@@ -125,7 +125,7 @@ export const authActions = authSlice.actions;
  */
 const { selectAll, selectEntities } = authAdapter.getSelectors();
 
-export const getAuthState = (rootState: unknown): AuthState =>
+export const getAuthState = (rootState: any): AuthState =>
   rootState[AUTH_FEATURE_KEY];
 
 export const selectAllAuth = createSelector(getAuthState, selectAll);
